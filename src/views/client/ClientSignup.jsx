@@ -4,10 +4,23 @@ import { Password } from "primereact/password";
 import { registerUser } from "../../utils/Validation";
 import Logo from "../../component/logo/Logo";
 import { Link, useNavigate } from "react-router-dom";
+import { registerUserAtom } from "../../atom/registrationAtom";
+import { useRecoilState } from "recoil";
 
 export default function ClientSignup() {
+  const [ reg, setReg ] = useRecoilState(registerUserAtom)
+
   const location = useNavigate()
   const onSubmit = async (values) => {
+      const { user, ...others } = reg
+      const payload = {
+        ...others, 
+        user: {
+          ...user,
+          ...values,
+        }
+      }
+      setReg(payload)
       location('/otp')
   };
   const {

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+// import '@stripe/stripe-js '
 import AOS from "aos";
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; //theme
 import 'primereact/resources/primereact.min.css'; //core css

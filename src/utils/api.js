@@ -9,6 +9,8 @@ const getPricing = async () => await api.structure('tariff').getData('getTarif')
 
 const getProvinces = async () => await api.structure('provinces').getData('getProvince');
 
+const getWorkspace = async (payload) => await api.structure('workspace').getData('ownerWorkspaseListing', payload);
+
 const createWorkspaceWithPayment = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceWithPayment', payload)
 
 export {
@@ -16,5 +18,6 @@ export {
     logout,
     getPricing,
     getProvinces,
-    createWorkspaceWithPayment
+    createWorkspaceWithPayment,
+    getWorkspace
 }

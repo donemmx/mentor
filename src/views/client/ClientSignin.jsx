@@ -16,11 +16,11 @@ export default function ClientSignin() {
     const { email, password } = values;
     login(email, password)
       .then((res) => {
-        setAuth(res);
-        navigate("/dashboard");
-        toast.success("Signin Successful");
-      })
-      .catch((err) => console.log(err));
+          setAuth(res);
+          navigate("/list-workspace");
+          toast.success("Signin Successful");
+        }
+      ).catch((err)=> console.log(err))
   };
 
   const {
