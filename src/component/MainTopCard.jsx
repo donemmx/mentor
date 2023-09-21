@@ -8,6 +8,7 @@ import { logout } from "../utils/api";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import { authState } from "../atom/authAtom";
+import { user } from "../atom/userAtom";
 
 export default function MainTopCard({
   links,
@@ -19,12 +20,14 @@ export default function MainTopCard({
   invites,
 }) {
   const [auth, setAuth] = useRecoilState(authState);
+  const [userData, setUserData] = useRecoilState(user);
 
   const navigate = useNavigate();
   const signout = () => {
     logout().then((res) => {
       navigate("/signin");
       setAuth("");
+      setUserData('')
       toast.success("user logged out successfully");
     });
   };

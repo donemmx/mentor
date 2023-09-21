@@ -4,6 +4,8 @@ import TopCard from "../../component/TopCard";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { toast } from "react-toastify";
+import { workspaceStore } from "../../atom/workspaceAtom";
+import { useRecoilValue } from "recoil";
 
 export default function ClientUsers() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -57,6 +59,8 @@ export default function ClientUsers() {
     setVisible(!visible)
     toast.success('Invite Sent Successfully')
   }
+  const workspaceData = useRecoilValue(workspaceStore)
+
   return (
     <div>
       <TopCard

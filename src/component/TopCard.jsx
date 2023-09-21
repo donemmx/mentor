@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { user } from "../atom/userAtom";
+import { authState } from "../atom/authAtom";
+import { workspaceStore } from "../atom/workspaceAtom";
 
 export default function TopCard({
   links,
@@ -11,12 +15,21 @@ export default function TopCard({
   type,
 }) {
   const location = useNavigate();
+  const [auth, setAuth] = useRecoilState(authState);
+  const [userData, setUserData] = useRecoilState(user);
+  const workspaceData = useRecoilValue(workspaceStore)
+
   const logOut = () => {
     toast.success("user logged out successfully");
+    setUserData("")
+    setAuth("");
     location(`/${base}`);
+
   };
   return (
-    <div className="bg-[#0A1010] h-[45vh] w-full">
+    <div className="h-[45vh] w-full" style={{
+      backgroundColor: `#${workspaceData?.color}`
+    }}>
       <div className="p-5 w-[90%] mx-auto">
         <div className="nav flex text-sm items-center justify-between text-white">
           <Link to={homeLink} className="flex items-center gap-2">
