@@ -1,4 +1,4 @@
-import {  Outlet } from "react-router-dom";
+import {  Navigate, Outlet } from "react-router-dom";
 import { user } from "../atom/userAtom";
 import { useRecoilValue } from "recoil";
 
@@ -13,7 +13,7 @@ export default function MenteeLayout() {
         </div>
       ) : (
         <>
-         
+          <Navigate to="/mentee-signin" />
         </>
       )}
     </div>
