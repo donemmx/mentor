@@ -10,6 +10,7 @@ export default function ClientSidebar() {
   return (
    <MainTopCard
    links={mylinks}
+   logo={workspaceData?.logo}
    workspaceColor= {workspaceData?.color ? `#${workspaceData?.color}`: '#0A1010' }
    type={'client'}
    homeLink={'/dashboard'}
