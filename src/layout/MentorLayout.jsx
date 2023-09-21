@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { user } from "../atom/userAtom";
+import { authState } from "../atom/authAtom";
 
 export default function MentorLayout() {
-  let userData = useRecoilValue(user);
+  let auth = useRecoilValue(authState);
   
   return (
     <div className="">
-    {userData && userData?.role[0] === 'mentor' ? (
+    {auth && auth?.role === 'mentor' ? (
       <div>
         <Outlet />
       </div>

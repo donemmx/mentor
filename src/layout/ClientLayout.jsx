@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useRecoilValue } from 'recoil';
-import { user } from '../atom/userAtom';
+import { authState } from '../atom/authAtom';
 
 export default function ClientLayout() {
-  let userData = useRecoilValue(user);
+  let auth = useRecoilValue(authState);
 
   return (
     <div className="">
-    {userData && userData?.role[0] === 'owner' ? (
+    {auth && auth?.role === 'owner' ? (
       <div>
         <Outlet />
       </div>
