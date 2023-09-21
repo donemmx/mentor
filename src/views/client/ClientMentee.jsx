@@ -48,8 +48,8 @@ export default function ClientMentee() {
         style={{ width: "50vw" }}
         breakpoints={{ "960px": "75vw", "641px": "100vw" }}
       >
-           <div className="user  flex flex-col justify-center items-center w-[65%] lg:w-[20%] mx-auto mt-[15vh]">
-          <h4 className=" font-bold pt-3">Mentor's </h4>
+           <div className="user  flex flex-col justify-center items-center w-[65%] lg:w-[20%] mx-auto mt-[5vh]">
+          <h4 className=" font-bold pt-3">Mentee's </h4>
           <p className="text-sm text-center text-[#666666]">Invite Link</p>
           <CopyToClipboard
             text={workspaceData?.inviteLink}

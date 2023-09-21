@@ -35,6 +35,9 @@ export default function ClientHeader() {
       </div>
       {auth && auth?.role ? (
         <div className=" flex items-center gap-6 text-sm ">
+          <Link to='/list-workspace'>
+            Workspace
+          </Link>
           <button
             onClick={signout}
             className="p-2 px-4  border bg-black text-white rounded"
