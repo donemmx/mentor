@@ -28,7 +28,7 @@ export default function TopCard({
   };
   return (
     <div className="h-[45vh] w-full" style={{
-      backgroundColor: `#${workspaceData?.color}`
+      backgroundColor: workspaceData?.color ? `#${workspaceData?.color}`: '#0A1010'
     }}>
       <div className="p-5 w-[90%] mx-auto">
         <div className="nav flex text-sm items-center justify-between text-white">
