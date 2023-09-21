@@ -6,10 +6,14 @@ import ClientHeader from "./ClientHeader";
 import line from "../../assets/bg/lines.svg";
 import defaultLogo from '../../assets/bg/welcome-bg.png'
 import { user } from "../../atom/userAtom";
+import { workspaceStore } from "../../atom/workspaceAtom";
+import { useNavigate } from "react-router-dom";
 export default function ListWorkspace() {
   const auth = useRecoilValue(authState);
   const [workspace, setWorkspace] = useState([]);
+  const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
   const [userData, setUserData] = useRecoilState(user);
+  const navigate = useNavigate()
   const listMyWorkspace = () => {
     const payload = {
       sessionID: auth?.sessionID,
@@ -22,6 +26,12 @@ export default function ListWorkspace() {
       setUserData(res.payload[0])
     })
   };
+
+  const selectWorkspace = (data) => {
+    setWorkspaceData(data)
+    navigate('/dashboard')
+  }
+    
   useEffect(() => {
     listMyWorkspace();
   }, []);
@@ -36,7 +46,7 @@ export default function ListWorkspace() {
                 <div className="steps">
                   <div className="font-light">My workspace</div>
                   <div className="pb-10 text-[1.2rem] font-bold text-[var(--secondary)]">
-                    Hello {auth?.username}
+                    Hello {`${userData?.firstName}  ${userData?.lastName}`}
                   </div>
                 </div>
                 <h3
@@ -50,8 +60,9 @@ export default function ListWorkspace() {
                 <div className=" w-full">
                   {workspace?.map((res, i) => (
                     <div
-                      className="bg-white w-full h-[14vh] my-4 rounded-lg  cursor-pointer text-black flex items-center gap-4 "
+                      className="bg-white w-full h-[14vh] my-4 rounded-lg  cursor-pointer transition-all ease-in-out text-black flex items-center gap-4  hover:bg-black hover:border-[2px] hover:text-white "
                       key={i}
+                      onClick={() => selectWorkspace(res)}
                     >
                       <div className="h-[80px] w-[50%] mx-2 rounded-lg">
                         <img src={res?.logo ? res?.logo: defaultLogo} alt="" className="w-full h-full object-cover rounded-lg" />

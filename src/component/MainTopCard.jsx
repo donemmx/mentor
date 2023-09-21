@@ -15,6 +15,7 @@ export default function MainTopCard({
   subtitle,
   homeLink,
   type,
+  workspaceColor,
   invites,
 }) {
   const [auth, setAuth] = useRecoilState(authState);
@@ -28,7 +29,9 @@ export default function MainTopCard({
     });
   };
   return (
-    <div className="bg-[#0A1010] h-[75vh] w-full">
+    <div className=" h-[75vh] w-full" style={{
+      backgroundColor: workspaceColor
+    }}>
       <div className="p-5 w-[90%] mx-auto">
         <div className="nav flex text-sm items-center justify-between text-white">
           <Link to={homeLink} className="flex items-center gap-2">
@@ -70,7 +73,11 @@ export default function MainTopCard({
               <p>Overview</p>
               <div className="flex items-center gap-[8vw] mt-[7vh]">
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center justify-center rounded w-[100px] h-[100px] p-5 bg-[#1B1B1B]">
+                  <div className="flex items-center justify-center rounded w-[100px] h-[100px] p-5 " style={{
+                    backgroundColor: workspaceColor,
+                    filter: `brightness(.9)`
+
+                  }}>
                     <img src={time} alt="" className="p-3" />
                   </div>
                   <div className="">
@@ -79,7 +86,11 @@ export default function MainTopCard({
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center justify-center rounded w-[100px] h-[100px] p-5 bg-[#1B1B1B]">
+                <div className="flex items-center justify-center rounded w-[100px] h-[100px] p-5 " style={{
+                    backgroundColor: workspaceColor,
+                    filter: `brightness(.9)`
+
+                  }}>
                     <img src={mentor} alt="" className="p-3" />
                   </div>
                   <div className="">
@@ -88,7 +99,10 @@ export default function MainTopCard({
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center justify-center rounded w-[100px] h-[100px] p-5 bg-[#1B1B1B]">
+                <div className="flex items-center justify-center rounded w-[100px] h-[100px] p-5 " style={{
+                    backgroundColor: workspaceColor,
+                    filter: `brightness(.9)`
+                  }}>
                     <img src={mentee} alt="" className="p-3" />
                   </div>
                   <div className="">
