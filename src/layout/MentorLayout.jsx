@@ -1,11 +1,21 @@
 import { Outlet } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { user } from "../atom/userAtom";
 
 export default function MentorLayout() {
+  let userData = useRecoilValue(user);
+  
   return (
-    <div>
-      <div className="absolute left-[5.5vw] lg:left-[13vw] top-[25vh] lg:top-[15vh] w-[90%] lg:w-[80%]">
+    <div className="">
+    {userData?.role[0] === 'mentor' ? (
+      <div>
         <Outlet />
       </div>
-    </div>
+    ) : (
+      <>
+       
+      </>
+    )}
+  </div>
   );
 }

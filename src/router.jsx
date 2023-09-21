@@ -108,54 +108,7 @@ const router = createBrowserRouter([
         path: "/mentee-signup",
         element: <MenteeSignup />,
       },
-      {
-        path: "/mentor-dashboard",
-        element: <MentorDashboard />,
-      },
-      {
-        path: "/mentee-dashboard",
-        element: <MenteeDashboard />,
-      },
-      {
-        path: "/mentor-profile",
-        element: <MentorProfile />,
-      },
-      {
-        path: "/mentee-profile",
-        element: <MenteeProfile />,
-      },
-      {
-        path: "/mentor-matches",
-        element: <MentorMaches />,
-      },
-      {
-        path: "/mentee-matches",
-        element: <MenteeMatches />,
-      },
-      {
-        path: "/mentor-message",
-        element: <MentorMessages />,
-      },
-      {
-        path: "/mentee-message",
-        element: <MenteeMessages />,
-      },
-      {
-        path: "/mentors",
-        element: <ClientUsers />,
-      },
-      {
-        path: "/mentees",
-        element: <ClientMentee />,
-      },
-      {
-        path: "/workspace",
-        element: <ClientSetup />,
-      },
-      {
-        path: "/account",
-        element: <ClientAccount />,
-      },
+    
       {
         path: "/otp",
         element: <ClientOtp />,
@@ -180,6 +133,89 @@ const router = createBrowserRouter([
         path: "/landing",
         element: <ClientLanding />,
       },
+     
+    ],
+  },
+
+  {
+    path: "/",
+    element: <MenteeLayout />,
+    children: [
+      {
+        path: "/mentee-dashboard",
+        element: <MenteeDashboard />,
+      },
+      {
+        path: "/mentee-profile",
+        element: <MenteeProfile />,
+      },
+      {
+        path: "/mentor-matches",
+        element: <MentorMaches />,
+      },
+      {
+        path: "/mentee-message",
+        element: <MenteeMessages />,
+      },
+      {
+        path: "/mentee-dashboard",
+        element: <MenteeDashboard />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <MentorLayout />,
+    children: [
+      {
+        path: "/mentor-dashboard",
+        element: <MentorDashboard />,
+      },
+      {
+        path: "/mentor-profile",
+        element: <MentorProfile />,
+      },
+      {
+        path: "/mentee-matches",
+        element: <MenteeMatches />,
+      },
+      {
+        path: "/mentor-message",
+        element: <MentorMessages />,
+      },
+      {
+        path: "/mentor-dashboard",
+        element: <MentorDashboard />,
+      },
+     
+    ],
+  },
+  {
+    path: "/",
+    element: <ClientLayout />,
+    children: [
+      {
+        path: "/workspace-landing",
+        element: <ClientLanding />,
+      },
+    
+    
+      {
+        path: "/mentors",
+        element: <ClientUsers />,
+      },
+      {
+        path: "/mentees",
+        element: <ClientMentee />,
+      },
+      {
+        path: "/workspace",
+        element: <ClientSetup />,
+      },
+      {
+        path: "/account",
+        element: <ClientAccount />,
+      },
       {
         path: "/dashboard",
         element: <ClientDashboard />,
@@ -188,28 +224,6 @@ const router = createBrowserRouter([
         path: "/list-workspace",
         element: <ListWorkspace />,
       },
-    ],
-  },
-
-  {
-    path: "/",
-    element: <MenteeLayout />,
-    children: [
-    
-    ],
-  },
-  {
-    path: "/",
-    element: <MentorLayout />,
-    children: [
-    
-    ],
-  },
-  {
-    path: "/",
-    element: <ClientLayout />,
-    children: [
-    
     ],
   },
 ]);
