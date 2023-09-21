@@ -67,9 +67,9 @@ export default function MainTopCard({
           <div className="absolute top-[-80px] right-0 z-0  h-[50vh]">
             <img className=" h-full w-full object-cover" src={line} alt="" />
           </div>
-          <div className="h-[300px] w-[300px] absolute top-[0%] right-0">
+         {logo && logo.length > 0 ? <div className="h-[300px] w-[300px] absolute top-[0%] right-0">
             <img src={logo} alt="" className="w-full h-full object-contain" />
-          </div>
+          </div> : ''}
           <div className="text-[1.4rem] pb-2 font-black ">
             {type.toUpperCase()} DASHBOARD
           </div>
