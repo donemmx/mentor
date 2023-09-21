@@ -7,7 +7,7 @@ export default function ClientLayout() {
 
   return (
     <div className="">
-    {userData?.role[0] === 'owner' ? (
+    {userData && userData?.role[0] === 'owner' ? (
       <div>
         <Outlet />
       </div>

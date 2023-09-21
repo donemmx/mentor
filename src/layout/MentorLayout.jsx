@@ -7,7 +7,7 @@ export default function MentorLayout() {
   
   return (
     <div className="">
-    {userData?.role[0] === 'mentor' ? (
+    {userData && userData?.role[0] === 'mentor' ? (
       <div>
         <Outlet />
       </div>

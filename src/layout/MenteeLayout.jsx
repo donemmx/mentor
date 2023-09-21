@@ -7,7 +7,7 @@ export default function MenteeLayout() {
   
   return (
     <div className="">
-      {userData?.role[0] === 'mentee' ? (
+      {userData && userData?.role[0] === 'mentee' ? (
         <div>
           <Outlet />
         </div>
