@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { getWorkspace } from "../../utils/api";
-import { useRecoilValue } from "recoil";
+import { getProfile, getWorkspace } from "../../utils/api";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../../atom/authAtom";
 import ClientHeader from "./ClientHeader";
 import line from "../../assets/bg/lines.svg";
-
+import defaultLogo from '../../assets/bg/welcome-bg.png'
+import { user } from "../../atom/userAtom";
 export default function ListWorkspace() {
   const auth = useRecoilValue(authState);
   const [workspace, setWorkspace] = useState([]);
+  const [userData, setUserData] = useRecoilState(user);
   const listMyWorkspace = () => {
     const payload = {
       sessionID: auth?.sessionID,
     };
     getWorkspace(payload).then((res) => {
       setWorkspace(res.payload);
-      console.log(res.payload);
+    
     });
+    getProfile(payload).then((res)=> {
+      setUserData(res.payload[0])
+    })
   };
   useEffect(() => {
     listMyWorkspace();
@@ -44,10 +49,18 @@ export default function ListWorkspace() {
 
                 <div className=" w-full">
                   {workspace?.map((res, i) => (
-                    <div className="bg-gray-50 w-full h-[12vh] my-4 cursor-pointer text-black flex items-center justify-center" key={i}>
-                        <div className="p-3 flex items-center justify-center font-black text-xl">
-                            {res.name}
-                        </div>
+                    <div
+                      className="bg-white w-full h-[14vh] my-4 rounded-lg  cursor-pointer text-black flex items-center gap-4 "
+                      key={i}
+                    >
+                      <div className="h-[80px] w-[50%] mx-2 rounded-lg">
+                        <img src={res?.logo ? res?.logo: defaultLogo} alt="" className="w-full h-full object-cover rounded-lg" />
+                      </div>
+                      <div className="p-3 flex flex-col justify-center ">
+                       
+                        <p className="font-black text-lg"> {res.name}</p>
+                        <p className=" text-xs">Want to know where this information comes from</p>
+                      </div>
                     </div>
                   ))}
                 </div>

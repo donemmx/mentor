@@ -4,10 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import line from "../../assets/bg/lines.svg";
 import { MultiSelect } from "primereact/multiselect";
-
+import { createWorkspaceWithPayment } from "../../utils/api";
+import { toast } from "react-toastify";
+import { useRecoilState } from "recoil";
+import { registerUserAtom } from "../../atom/registrationAtom";
+import { ColorPicker } from 'primereact/colorpicker';
+        
 export default function CreateWorkspaceTwo() {
   const navigate = useNavigate();
-  const [match, setMatches] = useState();
+  const [match, setMatches] = useState([]);
+  const [color, setColor] = useState();
   const matches = [
     "Area of Specilization",
     "Province",
@@ -15,12 +21,49 @@ export default function CreateWorkspaceTwo() {
   ];
 
   const [file, setFile] = useState(null);
+  const [reg, setReg] = useRecoilState(registerUserAtom);
+
   const [fileDataURL, setFileDataURL] = useState(null);
   const getImage = (e) => {
     const fileData = e.target.files[0];
     setFile(fileData);
     console.log(fileData);
   };
+
+  
+  const register = ()=>{
+      const userPayload = {
+        name: reg.workspace.workspace,
+        maxMentors: reg.workspace.maxMentors,
+        maxMentees: reg.workspace.maxMentees,
+        workspaceLogo: fileDataURL, 
+        color: color,
+        lastName: reg.user.lastName,
+        firstame: reg.user.firstName,
+        newMail: reg.user.email,
+        mail: reg.user.email,
+        _password: reg.user.confirmPassword,
+        _phone: reg.user.phone,
+        _country: reg.user.country,
+        _provinceId: reg.user.province,
+        _postalcode: reg.user.postalcode,
+        _action: "createWithPayment",
+      };
+      createWorkspaceWithPayment(userPayload).then((res) => {
+        toast.success("successful");
+        const payload = {
+          ...reg,
+          workspace: {
+            ...res.workspace,
+            id: res.result[0].workspaceId,
+            userId: res.result[0].id,
+          },
+        };
+        setReg(payload);
+        navigate("/create-workspace-2");
+      });
+    }
+  
 
   useEffect(() => {
     let fileReader,
@@ -92,7 +135,18 @@ export default function CreateWorkspaceTwo() {
                   />
                 </div>
               )}
-              <form className="space-y-2 pt-8 w-[60%]">
+
+              
+              <div className="space-y-2 pt-8 w-[60%]">
+              <span
+                  data-aos="fade-down"
+                  data-aos-duration="1000"
+                  className=" flex items-center gap-2 mb-5"
+                >
+              <ColorPicker value={color} onChange={(e) => setColor(e.value)} />
+              <label htmlFor="username"> Select a Color </label>
+              </span>
+
                 <span
                   data-aos="fade-down"
                   data-aos-duration="1000"
@@ -113,11 +167,12 @@ export default function CreateWorkspaceTwo() {
                   data-aos="fade-down"
                   data-aos-duration="800"
                   className="primary__btn"
-                  onClick={() => navigate("/dashboard")}
+                  disabled={!color || !file || matches.length === 0}
+                  onClick={register}
                 >
                   Proceed
                 </button>
-              </form>
+              </div>
             </div>
             <div className="absolute top-0 right-0 z-0  h-[70vh]">
               <img className=" h-full w-full object-cover" src={line} alt="" />

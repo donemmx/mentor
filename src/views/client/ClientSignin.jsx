@@ -17,6 +17,7 @@ export default function ClientSignin() {
     login(email, password)
       .then((res) => {
           setAuth(res);
+         
           navigate("/list-workspace");
           toast.success("Signin Successful");
         }

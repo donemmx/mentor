@@ -60,9 +60,9 @@ export default function PricingCard({
       user: user,
     };
     setReg(payload);
-    redirectToCheckout().then((res) => {
+    // redirectToCheckout().then((res) => {
       navigate("/onboard-1");
-    });
+    // });
   };
   return (
     <div className=" w-[300px] h-full">

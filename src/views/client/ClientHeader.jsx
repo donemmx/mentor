@@ -3,13 +3,16 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../../atom/authAtom";
 import { logout } from "../../utils/api";
 import { toast } from "react-toastify";
+import { user } from "../../atom/userAtom";
 
 export default function ClientHeader() {
   const [auth, setAuth] = useRecoilState(authState);
+  const [userData, setUserData] = useRecoilState(user);
   const navigate  = useNavigate()
   const signout = () => {
     logout().then((res)=> {
       setAuth('')
+      setUserData('')
       toast.success('user logged out successfully')
     })
   }

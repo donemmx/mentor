@@ -7,49 +7,31 @@ import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { useFormik } from "formik";
 import { workspace1 } from "../../utils/Validation";
-import { createWorkspaceWithPayment } from "../../utils/api";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 export default function CreateWorkspaceOne() {
   const navigate = useNavigate();
-  const matches = ["One to One", "One to Many"];
+  const [numbers, setNumbers] = useState([]);
 
   const [reg, setReg] = useRecoilState(registerUserAtom);
 
   const onSubmit = async (values) => {
     if (values.workspace) {
-      const userPayload = {
-        name: values.workspace,
-        lastName: reg.user.lastName,
-        firstame: reg.user.firstName,
-        newMail: reg.user.email,
-        mail: reg.user.email,
-        _password: reg.user.confirmPassword,
-        _phone: reg.user.phone,
-        _country: reg.user.country,
-        _provinceId: reg.user.province,
-        _postalcode: reg.user.postalcode,
-        _action: "createWithPayment",
-      };
-      createWorkspaceWithPayment(userPayload).then((res) => {
-        toast.success('successful');
         const payload = {
           ...reg,
           workspace: {
             ...values,
-            id: res.result[0].workspaceId,
-            userId: res.result[0].id,
           },
         };
         setReg(payload);
         navigate("/create-workspace-2");
-      });
     }
   };
 
   const initialValues = {
     workspace: "",
-    interaction: "",
+    maxMentors: "",
+    maxMentees: "",
   };
 
   const {
@@ -67,6 +49,14 @@ export default function CreateWorkspaceOne() {
     validationSchema: workspace1,
     onSubmit,
   });
+
+  useEffect(() => {
+    var my_array = [];
+    for (let i = 1; i <= 100; i++) {
+      my_array.push(i);
+    }
+    setNumbers(my_array);
+  }, []);
 
   return (
     <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
@@ -120,16 +110,34 @@ export default function CreateWorkspaceOne() {
                 >
                   <Dropdown
                     id="username"
-                    name="interaction"
-                    value={values.interaction}
-                    options={matches}
+                    name="maxMentors"
+                    value={values.maxMentors}
+                    options={numbers}
                     onChange={handleChange}
                   />
-                  <label htmlFor="username">Interaction</label>
+                  <label htmlFor="username">Max Mentors</label>
                 </span>
 
-                {errors.interaction && touched.interaction && (
-                  <p className="error">{errors.interaction}</p>
+                {errors.maxMentors && touched.maxMentors && (
+                  <p className="error">{errors.maxMentors}</p>
+                )}
+                <span
+                  data-aos="fade-down"
+                  data-aos-duration="1000"
+                  className="p-float-label"
+                >
+                  <Dropdown
+                    id="username"
+                    name="maxMentees"
+                    value={values.maxMentees}
+                    options={numbers}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="username">Max Mentees</label>
+                </span>
+
+                {errors.maxMentees && touched.maxMentees && (
+                  <p className="error">{errors.maxMentees}</p>
                 )}
 
                 <button
