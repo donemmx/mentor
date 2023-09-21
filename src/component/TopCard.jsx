@@ -17,12 +17,13 @@ export default function TopCard({
   const location = useNavigate();
   const [auth, setAuth] = useRecoilState(authState);
   const [userData, setUserData] = useRecoilState(user);
-  const workspaceData = useRecoilValue(workspaceStore)
+  const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
 
   const logOut = () => {
     toast.success("user logged out successfully");
     setUserData("")
     setAuth("");
+    setWorkspaceData("");
     location(`/${base}`);
 
   };

@@ -42,6 +42,7 @@ export default function ClientSignup() {
     validationSchema: registerUser,
     onSubmit,
   });
+
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
       <div className="grid md:grid-cols-2 h-full w-full ">

@@ -4,18 +4,29 @@ import { authState } from "../../atom/authAtom";
 import { logout } from "../../utils/api";
 import { toast } from "react-toastify";
 import { user } from "../../atom/userAtom";
+import { registerUserAtom } from "../../atom/registrationAtom";
+import { workspaceStore } from "../../atom/workspaceAtom";
 
 export default function ClientHeader() {
   const [auth, setAuth] = useRecoilState(authState);
   const [userData, setUserData] = useRecoilState(user);
-  const navigate  = useNavigate()
+  const [reg, setReg] = useRecoilState(registerUserAtom);
+  const [workspace, setWorkspace] = useRecoilState(workspaceStore);
+
+  const navigate = useNavigate();
   const signout = () => {
-    logout().then((res)=> {
-      setAuth('')
-      setUserData('')
-      toast.success('user logged out successfully')
-    })
-  }
+    logout().then((res) => {
+      setAuth("");
+      setUserData("");
+      setWorkspace("");
+      toast.success("user logged out successfully");
+      navigate("/signin");
+    });
+  };
+
+  const resetRegistration = () => {
+    setReg("");
+  };
   return (
     <div className="flex h-[80px] relative z-10 items-center justify-between gap-2">
       <div className="logo top-6 font-black  text-[16px]">
@@ -24,7 +35,8 @@ export default function ClientHeader() {
       </div>
       {auth && auth?.role ? (
         <div className=" flex items-center gap-6 text-sm ">
-          <button onClick={signout}
+          <button
+            onClick={signout}
             className="p-2 px-4  border bg-black text-white rounded"
           >
             Logout
@@ -32,11 +44,18 @@ export default function ClientHeader() {
         </div>
       ) : (
         <div className=" flex items-center gap-6 text-sm ">
-          <Link to="/pricing-stage-1">Pricing</Link>
-          <Link to="/signin" className="p-2 px-4 border rounded">
+          <Link onClick={resetRegistration} to="/pricing-stage-1">
+            Pricing
+          </Link>
+          <Link
+            onClick={resetRegistration}
+            to="/signin"
+            className="p-2 px-4 border rounded"
+          >
             Sign in
           </Link>
           <Link
+            onClick={resetRegistration}
             to="/register"
             className="p-2 px-4  border bg-black text-white rounded"
           >
