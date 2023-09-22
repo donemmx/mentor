@@ -8,23 +8,25 @@ import { toast } from "react-toastify";
 import { login } from "../../utils/api";
 import { useRecoilState } from "recoil";
 import { authState } from "../../atom/authAtom";
+import { workspaceStore } from "../../atom/workspaceAtom";
 
 export default function MentorSignin() {
   const navigate = useNavigate();
-  const params = useParams()
+  const params = useParams();
   const [auth, setAuth] = useRecoilState(authState);
+  const [workspace, setWorkspace] = useRecoilState(workspaceStore);
 
   const onSubmit = async (values) => {
     const { email, password } = values;
     login(email, password)
       .then((res) => {
-          setAuth(res);
-          navigate("/mentor-dashboard");
-          toast.success("Signin Successful");
-        }
-      ).catch((err)=> console.log(err))
+        setAuth(res);
+        setWorkspace(params.id);
+        navigate("/mentor-dashboard");
+        toast.success("Signin Successful");
+      })
+      .catch((err) => console.log(err));
   };
-
 
   const {
     values,
@@ -53,7 +55,7 @@ export default function MentorSignin() {
             <Logo />
             <div className="w-[95%] md:w-[90%] lg:w-[60%] mx-auto">
               <h3 className=" font-black text-[20px] lg:text-[30px] leading-[1.1]">
-               Hello Mentor 👋, <br/> Welcome back
+                Hello Mentor 👋, <br /> Welcome back
               </h3>
               <p className="pt-2">Fill in details to continue. </p>
               <form onSubmit={handleSubmit} className="space-y-2  pt-10">
@@ -98,15 +100,17 @@ export default function MentorSignin() {
               </form>
               <p className=" pt-5 text-sm">
                 Don`t have an account?{" "}
-                <Link to={`/mentor-signup/${params.id}`} className=" cursor-pointer font-bold text-blue-700" >
+                <Link
+                  to={`/mentor-signup/${params.id}`}
+                  className=" cursor-pointer font-bold text-blue-700"
+                >
                   Sign up
                 </Link>
               </p>
             </div>
           </div>
         </div>
-        <div className="bg-black hidden  md:flex justify-center items-center w-full ">
-        </div>
+        <div className="bg-black hidden  md:flex justify-center items-center w-full "></div>
       </div>
     </div>
   );

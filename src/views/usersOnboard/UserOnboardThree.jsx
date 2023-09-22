@@ -47,7 +47,11 @@ export default function UserOnboardThree() {
         toast.success("successful");
         const { email, password } = reg?.user;
         login(email, password).then((res)=> {
-          setAuth(res)
+          const payload = {
+            workspaceId: params.id,
+            res,
+          }
+          setAuth(payload)
           navigate(`/${reg.user.role}-dashboard`);
         })
       })

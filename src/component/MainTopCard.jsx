@@ -6,9 +6,11 @@ import time from "../assets/icons/account/time.svg";
 import line from "../assets/bg/lines.svg";
 import { logout } from "../utils/api";
 import { toast } from "react-toastify";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../atom/authAtom";
 import { user } from "../atom/userAtom";
+import { registerUserAtom } from "../atom/registrationAtom";
+import { workspaceStore } from "../atom/workspaceAtom";
 
 export default function MainTopCard({
   links,
@@ -22,19 +24,27 @@ export default function MainTopCard({
 }) {
   const [auth, setAuth] = useRecoilState(authState);
   const [userData, setUserData] = useRecoilState(user);
+  const workspaceData = useRecoilValue(workspaceStore)
+  const [reg, setReg] = useRecoilState(registerUserAtom);
 
   const navigate = useNavigate();
   const signout = () => {
     logout().then((res) => {
-      navigate("/signin");
+      if(auth.role === 'owner'){
+        navigate(`/signin`);
+      }
+      else if(auth?.role !== 'owner'){
+        navigate(`/${type}-signin/${workspaceData?.workspace}`);
+      }
       setAuth("");
       setUserData('')
+      setReg('')
       toast.success("user logged out successfully");
     });
   };
   return (
     <div className=" h-[75vh] w-full" style={{
-      backgroundColor: workspaceColor
+      backgroundColor:  workspaceData?.color ? workspaceData?.color : 'black'
     }}>
       <div className="p-5 w-[90%] mx-auto">
         <div className="nav flex text-sm items-center justify-between text-white">
@@ -44,7 +54,7 @@ export default function MainTopCard({
           </Link>
           <div className=" flex items-center gap-10">
             {links.map((res) =>
-              type !== "client" ? (
+              auth?.role !== "owner" ? (
                 <Link to={`/${type}-${res}`} key={res}>
                   {res}
                 </Link>
@@ -75,7 +85,7 @@ export default function MainTopCard({
           </div>
           <div className="text-[2rem] font-black ">{title}</div>
           <small>{subtitle}</small>
-          {type == "client" ? (
+          {auth?.role === "owner" ? (
             <div className="mt-10">
               <p>Overview</p>
               <div className="flex items-center gap-[8vw] mt-[7vh]">

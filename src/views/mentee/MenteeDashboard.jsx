@@ -1,27 +1,41 @@
+import { useEffect, useState } from 'react';
 import RecentRequest from '../../component/RecentRequest'
 import Table from '../../component/Table'
 import MenteeSidebar from './MenteeSidebar'
+import { authState } from '../../atom/authAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { user } from '../../atom/userAtom';
+import { getProfile, getUserWorkspace } from '../../utils/api';
+import { workspaceStore } from '../../atom/workspaceAtom';
 
 export default function MenteeDashboard() {
-   
-  const users = [
-    {
-      name: "Emmanuel Idusuyi",
-      email: "Emmanuelidus@gmail.com",
-      category: "Mentor",
-    },
-    {
-      name: "John Kate",
-      email: "kate21@gmail.com",
-      category: "Mentor",
-    },
-    {
-      name: "Folmi Akaja",
-      email: "Fuka2@gmail.com",
-      category: "Mentor",
-    },
-  ];
-  
+  const [users, setUsers] = useState([]);
+
+  const auth = useRecoilValue(authState);
+  const [userData, setUserData] = useRecoilState(user);
+  const [workspace, setWorkspace] = useRecoilState(workspaceStore);
+
+  const getWorkspace = () => {
+    const payload = {
+      sessionID: auth?.sessionID,
+    };
+    getProfile(payload).then((res) => {
+      setUserData(res.payload[0]);
+    });
+  };
+
+  useEffect(() => {
+    getWorkspace();
+    const payload = {
+      id: workspace
+    };
+    getUserWorkspace(payload).then((res) => {
+      const data ={
+        ...res.payload[0], workspace, 
+      }
+      setWorkspace(data)
+    });
+  }, []);
   return (
     <div>
       <MenteeSidebar />
