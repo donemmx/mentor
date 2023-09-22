@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Table from "../../component/Table";
 import TopCard from "../../component/TopCard";
 import { Dialog } from "primereact/dialog";
