@@ -1,17 +1,20 @@
+<<<<<<< HEAD
 import Notification from "../../component/Notification";
+=======
+import { useEffect, useState } from "react";
+>>>>>>> 75dccac3d88ad20d2b23614798449fd1777079d6
 import Table from "../../component/Table";
 import ClientSidebar from "./ClientSidebar";
 
 export default function ClientDashboard() {
-  const users = [
-    
-  ];
+  const [users, setUsers] = useState([]);
+
   return (
     <div>
       <ClientSidebar />
       <div className="w-[90%] mx-auto flex gap-10">
         <div className=" mt-5 space-y-7 border broder-gray-100 p-6 w-fit rounded">
-        <div className="">Recent Notifications</div>
+          <div className="">Recent Notifications</div>
           {/* <Notification />
           <Notification />
           <Notification />
@@ -20,8 +23,8 @@ export default function ClientDashboard() {
           <Notification /> */}
         </div>
         <div className="mt-5 p-6">
-            <div className="mb-5">Recently Registered</div>
-          <Table users={users}/>
+          <div className="mb-5">Recently Registered</div>
+          <Table users={users} />
         </div>
       </div>
     </div>
