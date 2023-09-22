@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TopCard from "../../component/TopCard";
 import Table from "../../component/Table";
 import { toast } from "react-toastify";
@@ -10,32 +10,31 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
-  const menteeUsers = [
-   
-  ];
-
   const [visible, setVisible] = useState(false);
-  const workspaceData = useRecoilValue(workspaceStore)
 
+  const [menteeUsers, setMenteeUsers] = useState([]);
+  const workspaceData = useRecoilValue(workspaceStore);
+  let inviteLink = `${window.location.origin}/mentee-signin/${workspaceData?.id}`;
   const sendInvite = () => {
-    setVisible(!visible)
-    toast.success('Invite Sent Successfully')
-  }
+    setVisible(!visible);
+    toast.success("Invite Sent Successfully");
+  };
 
   return (
     <div>
       <TopCard
         links={mylinks}
         homeLink={"/dashboard"}
-        base={'signin'}
+        base={"signin"}
         title={"List all mentees"}
         subtitle={"Track and manage your mentees"}
       />
       <div className="w-[80%] mx-auto mt-5 p-6">
         <div className="buttons flex items-cente justify-end gap-6 py-5">
           <button
-           onClick={() => setVisible(!visible)}
-          className="h-[40px] w-[118px] bg-[#F56B3F] rounded text-white text-xs">
+            onClick={() => setVisible(!visible)}
+            className="h-[40px] w-[118px] bg-[#F56B3F] rounded text-white text-xs"
+          >
             Invite user
           </button>
         </div>
@@ -48,11 +47,11 @@ export default function ClientMentee() {
         style={{ width: "50vw" }}
         breakpoints={{ "960px": "75vw", "641px": "100vw" }}
       >
-           <div className="user  flex flex-col justify-center items-center w-[65%] lg:w-[20%] mx-auto mt-[5vh]">
+        <div className="user  flex flex-col justify-center items-center w-[65%] lg:w-[20%] mx-auto mt-[5vh]">
           <h4 className=" font-bold pt-3">Mentee's </h4>
           <p className="text-sm text-center text-[#666666]">Invite Link</p>
           <CopyToClipboard
-            text={workspaceData?.inviteLink}
+            text={inviteLink}
             onCopy={() => toast.success("Copied")}
           >
             <div className="p-4 border rounded-full bg-white shadow-lg mt-4 cursor-pointer hover:border-green-400">
@@ -76,11 +75,13 @@ export default function ClientMentee() {
           <p className="text-xs mt-4">Click to copy</p>
         </div>
         <div className="w-[50%] mx-auto py-5">
-        <span className="p-float-label">
-          <InputText id="username" name="email" />
-          <label htmlFor="username">Email</label>
-        </span>
-        <button className="primary__btn  mt-5" onClick={sendInvite}>Send Invite</button>
+          <span className="p-float-label">
+            <InputText id="username" name="email" />
+            <label htmlFor="username">Email</label>
+          </span>
+          <button className="primary__btn  mt-5" onClick={sendInvite}>
+            Send Invite
+          </button>
         </div>
       </Dialog>
     </div>

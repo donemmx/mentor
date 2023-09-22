@@ -8,20 +8,20 @@ import { workspaceStore } from "../../atom/workspaceAtom";
 import { useRecoilValue } from "recoil";
 import CopyToClipboard from "react-copy-to-clipboard";
 
-export default function ClientUsers() {
+export default function ClientMentor() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
+  const workspaceData = useRecoilValue(workspaceStore)
 
   const [visible, setVisible] = useState(false);
-  const mentorUsers = [
-  
-  ];
+  const [mentorUsers, setMentorUsers] = useState([]);
+
+  let inviteLink = `${window.location.origin}/mentor-signin/${workspaceData?.id}`;
 
 
   const sendInvite = () => {
     setVisible(!visible)
     toast.success('Invite Sent Successfully')
   }
-  const workspaceData = useRecoilValue(workspaceStore)
 
   return (
     <div>
@@ -54,7 +54,7 @@ export default function ClientUsers() {
           <h4 className=" font-bold pt-3">Mentor's </h4>
           <p className="text-sm text-center text-[#666666]">Invite Link</p>
           <CopyToClipboard
-            text={workspaceData?.inviteLink}
+            text={inviteLink}
             onCopy={() => toast.success("Copied")}
           >
             <div className="p-4 border rounded-full bg-white shadow-lg mt-4 cursor-pointer hover:border-green-400">
