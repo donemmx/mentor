@@ -100,7 +100,7 @@ export default function ClientSignup() {
                 disabled={!isValid || isSubmitting}
               >
                 {isSubmitting ? (
-                  <i className="pi pi-spin pi-spinner !text-[20px]"></i>
+                  <i className="pi pi-spin pi-spinner text-white !text-[20px]"></i>
                 ) : (
                   ""
                 )}

@@ -38,6 +38,7 @@ import MentorMessages from "./views/mentor/MentorMessages";
 import MenteeMessages from "./views/mentee/MenteeMessages";
 import CreateWorkspaceTwo from "./views/client/CreateWorkspaceTwo";
 import ListWorkspace from "./views/client/ListWorkspace";
+import Welcome from "./views/client/Welcome";
 
 const router = createBrowserRouter([
   {
@@ -219,6 +220,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <ClientDashboard />,
+      },
+      {
+        path: "/welcome",
+        element: <Welcome />,
       },
       {
         path: "/list-workspace",

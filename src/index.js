@@ -10,7 +10,7 @@ import App from "./App";
 import router from "./router";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <>
     <RecoilRoot>
       <ToastContainer
         position="bottom-center"
@@ -22,5 +22,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <App />
       <RouterProvider router={router} />
     </RecoilRoot>
-  </React.StrictMode>
+  </>
 );
