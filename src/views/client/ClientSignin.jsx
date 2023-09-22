@@ -20,8 +20,17 @@ export default function ClientSignin() {
           navigate("/list-workspace");
           toast.success("Signin Successful");
         }
-      ).catch((err)=> console.log(err))
-  };
+      ).catch((e) => {
+        if(!e.response){
+          toast.error('please check ')
+
+          //check you API endpoint, you must enable CORS header in settings
+        }
+        if(e.response && e.response.status === 403){
+          toast.error('please check ')
+          //todo: api endpoint required authorisation
+        }})
+  }
 
   const {
     values,

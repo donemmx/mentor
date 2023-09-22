@@ -19,6 +19,12 @@ const createWorkspaceUser = async (payload) => await api.structure('_workcpaseAc
 
 const getProfile = async (payload) => await api.structure('WebUser').getData('profile', payload);
 
+const requestWorkspace = async (payload) => await api.structure('requestWorkspace').getData('myRequstToWorkspace', payload);
+
+const manageRequstByWorkspace = async (payload) => await api.structure('requestWorkspace').getData('manageRequstByWorkspace', payload);
+
+const newRequestToWorkspace = async (payload) => await api.structure('_workcpaseAction').getData('newRequestToWorkspace', payload);
+
 export {
     login,
     logout,
@@ -28,5 +34,8 @@ export {
     getWorkspace,
     getProfile,
     getUserWorkspace,
-    createWorkspaceUser
+    createWorkspaceUser,
+    requestWorkspace,
+    newRequestToWorkspace,
+    manageRequstByWorkspace
 }
