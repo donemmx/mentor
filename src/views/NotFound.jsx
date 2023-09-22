@@ -15,7 +15,7 @@ export default function NotFound() {
           <div className="text-center">
             <h3 className="font-bold text-xl">Look like you're lost</h3>
 
-            <p className='mb-4'>the page you are looking for not avaible!</p>
+            <p className='mb-4'>The page you are looking for does not exist!</p>
             <button className=" p-3 px-4 rounded bg-black text-white" onClick={back}>Go Back</button>
           </div>
         </div>
