@@ -13,7 +13,7 @@ export default function MentorLayout() {
       </div>
     ) : (
       <>
-        <Navigate to="/mentor-signin" />
+        <Outlet />
       </>
     )}
   </div>

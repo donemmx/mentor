@@ -13,7 +13,7 @@ export default function MenteeLayout() {
         </div>
       ) : (
         <>
-          <Navigate to="/mentee-signin" />
+          <Outlet />
         </>
       )}
     </div>

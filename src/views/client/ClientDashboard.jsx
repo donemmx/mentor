@@ -1,10 +1,24 @@
 import { useEffect, useState } from "react";
 import Table from "../../component/Table";
 import ClientSidebar from "./ClientSidebar";
+import { manageRequstByWorkspace, requestWorkspace } from "../../utils/api";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../atom/authAtom";
+import { workspaceStore } from "../../atom/workspaceAtom";
 
 export default function ClientDashboard() {
   const [users, setUsers] = useState([]);
+ const auth = useRecoilValue(authState)
+ const workspace = useRecoilValue(workspaceStore)
+  useEffect(()=> {
+    const payload = {
+      sessionID: auth?.sessionID,
+    }
 
+    manageRequstByWorkspace(payload).then((res)=> {
+      console.log(res);
+    }).catch((err)=> console.log(err))
+  }, [])
   return (
     <div>
       <ClientSidebar />

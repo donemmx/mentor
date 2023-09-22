@@ -44,7 +44,7 @@ export default function MainTopCard({
   };
   return (
     <div className=" h-[75vh] w-full" style={{
-      backgroundColor:  workspaceData?.color ? workspaceData?.color : 'black'
+      backgroundColor:  workspaceData?.color ? `#${workspaceData?.color}` : 'black'
     }}>
       <div className="p-5 w-[90%] mx-auto">
         <div className="nav flex text-sm items-center justify-between text-white">
