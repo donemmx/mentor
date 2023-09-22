@@ -1,25 +1,40 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Link } from "react-router-dom";
-import bgHero from '../../assets/hero.webp'
-import mentorship from '../../assets/bg/mentorship.png'
-import welcome from '../../assets/bg/welcome-bg.png'
+import { Link, useParams } from "react-router-dom";
+import bgHero from "../../assets/hero.webp";
+import mentorship from "../../assets/bg/mentorship.png";
+import welcome from "../../assets/bg/welcome-bg.png";
+import { useRecoilValue } from "recoil";
+import { workspaceStore } from "../../atom/workspaceAtom";
 export default function ClientLanding() {
+  const workspace = useRecoilValue(workspaceStore);
+  const params = useParams()
+
   return (
     <div>
       <div className="">
         <div className="heading flex items-center justify-between p-4 w-[90%] h-[70px] mx-auto ">
           <div className="logo top-6 font-black text-[16px]">
-            <span className=" bg-black text-white px-3 py-2 rounded mr-2">
-              Logo
-            </span>
+            {workspace?.logo ? (
+              <div className=" h-[40px]">
+                <img
+                  src={workspace?.logo}
+                  alt=""
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            ) : (
+              <span className=" bg-black text-white px-3 py-2 rounded mr-2">
+                Logo
+              </span>
+            )}
           </div>
           <div className="flex gap-5 items-center">
-            <Link className="" to="/general-signin">
+            <Link className="" to={`/general-signin/${params?.id}`}>
               Sign In
             </Link>
             <Link
               className="p-1.5 px-4 bg-purple-600 text-white rounded"
-              to="/general-signup"
+               to={`/general-signup/${params?.id}`}
             >
               Register
             </Link>
@@ -31,7 +46,7 @@ export default function ClientLanding() {
           <div className="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div className="mr-auto place-self-center lg:col-span-7">
               <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white">
-              Empowering Growth <br/> Through Mentorship
+                Empowering Growth <br /> Through Mentorship
               </h1>
               <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
                 Embark on your journey of growth and development by joining us.
@@ -41,7 +56,11 @@ export default function ClientLanding() {
               </p>
             </div>
             <div className="hidden lg:mt-0 lg:col-span-5 lg:flex h-[60vh]">
-              <img src={bgHero} alt="hero image" className="w-full h-full object-contain" />
+              <img
+                src={bgHero}
+                alt="hero image"
+                className="w-full h-full object-contain"
+              />
             </div>
           </div>
         </section>
@@ -341,7 +360,8 @@ export default function ClientLanding() {
                 src={welcome}
                 alt="feature image 2"
               />
-              <div className="text-gray-500 sm:text-lg dark:text-gray-400">s
+              <div className="text-gray-500 sm:text-lg dark:text-gray-400">
+                s
                 <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
                   Our Mentorship Approach
                 </h2>

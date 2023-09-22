@@ -66,11 +66,11 @@ const router = createBrowserRouter([
         element: <ClientSignup />,
       },
       {
-        path: "/general-signup",
+        path: "/general-signup/:id",
         element: <GeneralSignup />,
       },
       {
-        path: "/general-signin",
+        path: "/general-signin/:id",
         element: <GeneralSignin />,
       },
       {

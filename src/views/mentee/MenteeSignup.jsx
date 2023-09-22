@@ -8,24 +8,23 @@ import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { useEffect } from "react";
 import { getUserWorkspace } from "../../utils/api";
+import { workspaceStore } from "../../atom/workspaceAtom";
 
 export default function MenteeSignup() {
-  const [ reg, setReg ] = useRecoilState(registerUserAtom)
-
-  const location = useNavigate()
-  const params = useParams()
+  const [reg, setReg] = useRecoilState(registerUserAtom);
+  const [workspace, setWorkspace] = useRecoilState(workspaceStore);
+  const location = useNavigate();
+  const params = useParams();
   const onSubmit = async (values) => {
     const payload = {
       user: {
         ...values,
-        role: 'mentee'
-      }
-    }
-    setReg(payload)
-    location(`/user-onboard/${params.id}`)
-   
-
-  }
+        role: "mentee",
+      },
+    };
+    setReg(payload);
+    location(`/user-onboard/${params.id}`);
+  };
   const {
     values,
     errors,
@@ -46,27 +45,26 @@ export default function MenteeSignup() {
     onSubmit,
   });
 
-
-  useEffect(()=> {
+  useEffect(() => {
     const payload = {
-      id: params.id
-    }
-    getUserWorkspace(payload).then((res)=> {
-      console.log(res);
-    })
-  }, [])
+      id: params.id,
+    };
+    getUserWorkspace(payload).then((res) => {
+      setWorkspace(res.payload[0])
+    });
+  }, []);
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
       <div className="grid md:grid-cols-2 h-full w-full ">
         <div className=" p-5 flex items-center justify-center">
           <div className="w-full flex flex-col justify-center">
-            <Logo />
+            <Logo image={workspace?.logo} id={params.id} />
             <div className="w-[95%] md:w-[90%] lg:w-[60%] mx-auto">
               <h3 className=" font-black text-[20px] lg:text-[30px] leading-[1.1]">
                 Let`s create your mentee account
               </h3>
               <p className="pt-2">Fill in details to continue. </p>
-              <form  onSubmit={handleSubmit} className="space-y-2  pt-10">
+              <form onSubmit={handleSubmit} className="space-y-2  pt-10">
                 <span className="p-float-label">
                   <InputText
                     id="username"
@@ -107,21 +105,24 @@ export default function MenteeSignup() {
                 {errors.confirmPassword && touched.confirmPassword && (
                   <p className="error">{errors.confirmPassword}</p>
                 )}
-              <button
-                className="primary__btn mt-5"
-                disabled={!isValid || isSubmitting}
-              >
-                {isSubmitting ? (
-                  <i className="pi pi-spin pi-spinner !text-[20px]"></i>
-                ) : (
-                  ""
-                )}
-                Register
-              </button>
+                <button
+                  className="primary__btn mt-5"
+                  disabled={!isValid || isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <i className="pi pi-spin pi-spinner !text-[20px]"></i>
+                  ) : (
+                    ""
+                  )}
+                  Register
+                </button>
               </form>
               <p className=" pt-5 text-sm">
                 Already have an account?{" "}
-                <Link to='/mentor-signin' className=" cursor-pointer font-bold text-blue-700">
+                <Link
+                  to="/mentor-signin"
+                  className=" cursor-pointer font-bold text-blue-700"
+                >
                   Sign in
                 </Link>
               </p>
