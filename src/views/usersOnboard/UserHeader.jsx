@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { user } from "../../atom/userAtom";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { workspaceStore } from "../../atom/workspaceAtom";
+import Logo from "../../component/logo/Logo";
 
 export default function UserHeader() {
   const [auth, setAuth] = useRecoilState(authState);
@@ -29,10 +30,23 @@ export default function UserHeader() {
   };
   return (
     <div className="flex h-[80px] relative z-10 items-center justify-between gap-2">
-      <div className="logo top-6 font-black  text-[16px]">
-        <span className=" bg-black text-white px-3 py-2 rounded mr-2">M</span>
-        Mentor Systems
-      </div>
+      <Link
+      to={`/workspace-landing/${params?.id}`}
+      className="logo  top-6 font-black text-[16px]"
+    >
+      {workspace && workspace?.logo ? (
+        <div className="flex items-center gap-4">
+            <div className="  h-[40px]">
+              <img src={workspace?.logo} alt="" className="h-full w-full object-contain" />
+            </div>
+              <p>{workspace?.name}</p>
+        </div>
+      ) : (
+        <span className=" bg-black text-white px-3 py-2 rounded mr-2">
+          Logo
+        </span>
+      )}
+    </Link>
       {auth && auth?.role ? (
         <div className=" flex items-center gap-6 text-sm ">
           <Link to="/list-workspace">Workspace</Link>
@@ -45,22 +59,12 @@ export default function UserHeader() {
         </div>
       ) : (
         <div className=" flex items-center gap-6 text-sm ">
-          <Link onClick={resetRegistration} to="/pricing-stage-1">
-            Pricing
-          </Link>
           <Link
             onClick={resetRegistration}
-            to="/signin"
-            className="p-2 px-4 border rounded"
+            to={`/workspace-landing/${params.id}`}
+            className="p-2 px-4  text-white rounded"
           >
-            Sign in
-          </Link>
-          <Link
-            onClick={resetRegistration}
-            to="/register"
-            className="p-2 px-4  border bg-black text-white rounded"
-          >
-            Sign up
+          <i className="pi pi-home"></i>  Home
           </Link>
         </div>
       )}

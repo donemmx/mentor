@@ -15,13 +15,12 @@ export default function ClientLanding() {
         <div className="heading flex items-center justify-between p-4 w-[90%] h-[70px] mx-auto ">
           <div className="logo top-6 font-black text-[16px]">
             {workspace?.logo ? (
-              <div className=" h-[40px]">
-                <img
-                  src={workspace?.logo}
-                  alt=""
-                  className="h-full w-full object-contain"
-                />
+              <div className="flex items-center gap-4">
+              <div className="  h-[40px]">
+                <img src={workspace?.logo} alt="" className="h-full w-full object-contain" />
               </div>
+                <p>{workspace?.name}</p>
+          </div>
             ) : (
               <span className=" bg-black text-white px-3 py-2 rounded mr-2">
                 Logo

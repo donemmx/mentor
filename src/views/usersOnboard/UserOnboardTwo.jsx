@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
@@ -9,9 +9,11 @@ import { getProvinces } from "../../utils/api";
 import { stage2 } from "../../utils/Validation";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
+import UserHeader from "./UserHeader";
 
 export default function UserOnboardTwo() {
     const [ province, setProvince ] = useState([])
+    const params = useParams()
     const [ reg, setReg ] = useRecoilState(registerUserAtom)
     const navigate = useNavigate();
   
@@ -26,7 +28,7 @@ export default function UserOnboardTwo() {
       }  
       setReg(payload)
       
-      navigate("/onboard-4");
+      navigate(`/user-onboard-3/${params.id}`);
     };
   
   
@@ -62,7 +64,7 @@ export default function UserOnboardTwo() {
     return (
       <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
         <div className="grid h-full w-[90%] mx-auto ">
-          <ClientHeader />
+         <UserHeader/>
           <div className=" flex">
             <div className="">
               <div className=" mx-auto">
@@ -73,7 +75,7 @@ export default function UserOnboardTwo() {
                   <div className=" line h-1 w-10 bg-gray-500"></div>
                 </div>
                 <div className="steps" data-aos="fade">
-                  <div className="font-light">User Onboarding</div>
+                <div className="font-light">{reg?.user?.role} Onboarding</div>
                   <div className="pb-10 text-[1.2rem] font-bold text-[var(--secondary)]">
                     Step 2
                   </div>

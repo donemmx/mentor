@@ -6,6 +6,7 @@ import line from "../../assets/bg/lines.svg";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { stage1 } from "../../utils/Validation";
+import UserHeader from "./UserHeader";
 
 export default function UserOnboardOne() {
     const navigate = useNavigate();
@@ -48,7 +49,7 @@ export default function UserOnboardOne() {
   return (
     <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
     <div className="grid h-full w-[90%] mx-auto ">
-      <ClientHeader />
+      <UserHeader/>
       <div className=" flex">
         <div className="">
           <div className=" mx-auto">
@@ -59,7 +60,7 @@ export default function UserOnboardOne() {
               <div className=" line h-1 w-10 bg-gray-500"></div>
             </div>
             <div className="steps" data-aos="fade">
-              <div className="font-light">User Onboarding</div>
+              <div className="font-light">{reg?.user?.role} Onboarding</div>
               <div className="pb-10 text-[1.2rem] font-bold text-[var(--secondary)]">
                 Step 1
               </div>

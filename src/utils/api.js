@@ -15,6 +15,8 @@ const getUserWorkspace = async (payload) => await api.structure('workspace').get
 
 const createWorkspaceWithPayment = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceWithPayment', payload)
 
+const createWorkspaceUser = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceUser', payload)
+
 const getProfile = async (payload) => await api.structure('WebUser').getData('profile', payload);
 
 export {
@@ -25,5 +27,6 @@ export {
     createWorkspaceWithPayment,
     getWorkspace,
     getProfile,
-    getUserWorkspace
+    getUserWorkspace,
+    createWorkspaceUser
 }
