@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import line from "../../assets/bg/lines.svg";
 import { MultiSelect } from "primereact/multiselect";
-import { createWorkspaceWithPayment } from "../../utils/api";
+import { createWorkspaceWithPayment, login } from "../../utils/api";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { ColorPicker } from 'primereact/colorpicker';
+import { authState } from "../../atom/authAtom";
         
 export default function CreateWorkspaceTwo() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function CreateWorkspaceTwo() {
 
   const [file, setFile] = useState(null);
   const [reg, setReg] = useRecoilState(registerUserAtom);
+  const [auth, setAuth] = useRecoilState(authState);
 
   const [fileDataURL, setFileDataURL] = useState(null);
   const getImage = (e) => {
@@ -29,6 +31,7 @@ export default function CreateWorkspaceTwo() {
     setFile(fileData);
     console.log(fileData);
   };
+
 
   
   const register = ()=>{
@@ -60,7 +63,11 @@ export default function CreateWorkspaceTwo() {
           },
         };
         setReg(payload);
-        navigate("/create-workspace-2");
+        const { email, password } = reg?.user;
+        login(email, password).then((res)=> {
+          setAuth(res)
+          navigate("/welcome");
+        })
       });
     }
   

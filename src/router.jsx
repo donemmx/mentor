@@ -16,7 +16,7 @@ import GeneralSignup from "./views/GeneralSignup";
 import GeneralSignin from "./views/GeneralSignin";
 import ClientLanding from "./views/client/ClientLanding";
 import ClientOtp from "./views/client/ClientOtp";
-import ClientUsers from "./views/client/ClientUsers";
+import ClientUsers from "./views/client/ClientMentor";
 import ClientMentee from "./views/client/ClientMentee";
 import ClientAccount from "./views/client/ClientAccount";
 import ClientSetup from "./views/client/ClientSetup";
@@ -38,6 +38,11 @@ import MentorMessages from "./views/mentor/MentorMessages";
 import MenteeMessages from "./views/mentee/MenteeMessages";
 import CreateWorkspaceTwo from "./views/client/CreateWorkspaceTwo";
 import ListWorkspace from "./views/client/ListWorkspace";
+import NotFound from "./views/NotFound";
+import Welcome from "./views/client/Welcome";
+import UserOnboardOne from "./views/usersOnboard/UserOnboardOne";
+import UserOnboardTwo from "./views/usersOnboard/UserOnboardTwo";
+import UserOnboardThree from "./views/usersOnboard/UserOnboardThree";
 import ClientWorkspace from "./views/workspace/ClientWorkspace";
 
 const router = createBrowserRouter([
@@ -50,7 +55,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/workspace-landing",
+        path: "/workspace-landing/:id",
         element: <ClientLanding />,
       },
       {
@@ -62,11 +67,11 @@ const router = createBrowserRouter([
         element: <ClientSignup />,
       },
       {
-        path: "/general-signup",
+        path: "/general-signup/:id",
         element: <GeneralSignup />,
       },
       {
-        path: "/general-signin",
+        path: "/general-signin/:id",
         element: <GeneralSignin />,
       },
       {
@@ -94,68 +99,32 @@ const router = createBrowserRouter([
         element: <ClientSignin />,
       },
       {
-        path: "/mentor-signin",
+        path: "/mentor-signin/:id",
         element: <MentorSignin />,
       },
       {
-        path: "/mentee-signin",
+        path: "/mentee-signin/:id",
         element: <MenteeSignin />,
       },
       {
-        path: "/mentor-signup",
+        path: "/mentor-signup/:id",
         element: <MentorSignup />,
       },
       {
-        path: "/mentee-signup",
+        path: "/mentee-signup/:id",
         element: <MenteeSignup />,
       },
       {
-        path: "/mentor-dashboard",
-        element: <MentorDashboard />,
+        path: "/user-onboard/:id",
+        element: <UserOnboardOne />,
       },
       {
-        path: "/mentee-dashboard",
-        element: <MenteeDashboard />,
+        path: "/user-onboard-2/:id",
+        element: <UserOnboardTwo />,
       },
       {
-        path: "/mentor-profile",
-        element: <MentorProfile />,
-      },
-      {
-        path: "/mentee-profile",
-        element: <MenteeProfile />,
-      },
-      {
-        path: "/mentor-matches",
-        element: <MentorMaches />,
-      },
-      {
-        path: "/mentee-matches",
-        element: <MenteeMatches />,
-      },
-      {
-        path: "/mentor-message",
-        element: <MentorMessages />,
-      },
-      {
-        path: "/mentee-message",
-        element: <MenteeMessages />,
-      },
-      {
-        path: "/mentors",
-        element: <ClientUsers />,
-      },
-      {
-        path: "/mentees",
-        element: <ClientMentee />,
-      },
-      {
-        path: "/workspace",
-        element: <ClientSetup />,
-      },
-      {
-        path: "/account",
-        element: <ClientAccount />,
+        path: "/user-onboard-3/:id",
+        element: <UserOnboardThree />,
       },
       {
         path: "/otp",
@@ -181,14 +150,7 @@ const router = createBrowserRouter([
         path: "/landing",
         element: <ClientLanding />,
       },
-      {
-        path: "/dashboard",
-        element: <ClientDashboard />,
-      },
-      {
-        path: "/list-workspace",
-        element: <ListWorkspace />,
-      },
+     
       {
         path: "/client-workspace-detail",
         element: <ClientWorkspace />,
@@ -200,23 +162,100 @@ const router = createBrowserRouter([
     path: "/",
     element: <MenteeLayout />,
     children: [
-    
+      {
+        path: "/mentee-dashboard",
+        element: <MenteeDashboard />,
+      },
+      {
+        path: "/mentee-profile",
+        element: <MenteeProfile />,
+      },
+      {
+        path: "/mentee-matches",
+        element: <MenteeMatches />,
+      },
+     
+      {
+        path: "/mentee-message",
+        element: <MenteeMessages />,
+      },
+      {
+        path: "/mentee-dashboard",
+        element: <MenteeDashboard />,
+      },
     ],
   },
   {
     path: "/",
     element: <MentorLayout />,
     children: [
-    
+      {
+        path: "/mentor-dashboard",
+        element: <MentorDashboard />,
+      },
+      {
+        path: "/mentor-profile",
+        element: <MentorProfile />,
+      },
+      {
+        path: "/mentor-matches",
+        element: <MentorMaches />,
+      },
+      {
+        path: "/mentor-message",
+        element: <MentorMessages />,
+      },
+      {
+        path: "/mentor-dashboard",
+        element: <MentorDashboard />,
+      },
+     
     ],
   },
   {
     path: "/",
     element: <ClientLayout />,
     children: [
+      {
+        path: "/workspace-landing",
+        element: <ClientLanding />,
+      },
     
+    
+      {
+        path: "/mentors",
+        element: <ClientUsers />,
+      },
+      {
+        path: "/mentees",
+        element: <ClientMentee />,
+      },
+      {
+        path: "/workspace",
+        element: <ClientSetup />,
+      },
+      {
+        path: "/account",
+        element: <ClientAccount />,
+      },
+      {
+        path: "/dashboard",
+        element: <ClientDashboard />,
+      },
+      {
+        path: "/welcome",
+        element: <Welcome />,
+      },
+      {
+        path: "/list-workspace",
+        element: <ListWorkspace />,
+      },
     ],
   },
+  {
+    path: '*',
+    element: <NotFound/>
+  }
 ]);
 
 export default router;

@@ -3,14 +3,16 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { registerUser } from "../../utils/Validation";
 import Logo from "../../component/logo/Logo";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { useRecoilState } from "recoil";
 
 export default function ClientSignup() {
   const [ reg, setReg ] = useRecoilState(registerUserAtom)
 
-  const location = useNavigate()
+  const navigate = useNavigate()
+  const params = useParams()
+
   const onSubmit = async (values) => {
       const { user, ...others } = reg
       const payload = {
@@ -21,7 +23,7 @@ export default function ClientSignup() {
         }
       }
       setReg(payload)
-      location('/otp')
+      navigate(`/user-onboard/${params.id}`);
   };
   const {
     values,
@@ -100,7 +102,7 @@ export default function ClientSignup() {
                 disabled={!isValid || isSubmitting}
               >
                 {isSubmitting ? (
-                  <i className="pi pi-spin pi-spinner !text-[20px]"></i>
+                  <i className="pi pi-spin pi-spinner text-white !text-[20px]"></i>
                 ) : (
                   ""
                 )}

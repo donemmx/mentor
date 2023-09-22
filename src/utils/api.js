@@ -11,7 +11,11 @@ const getProvinces = async () => await api.structure('provinces').getData('getPr
 
 const getWorkspace = async (payload) => await api.structure('workspace').getData('ownerWorkspaseListing', payload);
 
+const getUserWorkspace = async (payload) => await api.structure('workspace').getData('getUserWorkspaceById', payload);
+
 const createWorkspaceWithPayment = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceWithPayment', payload)
+
+const createWorkspaceUser = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceUser', payload)
 
 const getProfile = async (payload) => await api.structure('WebUser').getData('profile', payload);
 
@@ -22,5 +26,7 @@ export {
     getProvinces,
     createWorkspaceWithPayment,
     getWorkspace,
-    getProfile
+    getProfile,
+    getUserWorkspace,
+    createWorkspaceUser
 }

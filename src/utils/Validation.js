@@ -23,6 +23,11 @@ const stage2 = yup.object().shape({
     phone: yup.string().required("Required"),
 })
 
+const userOnboard3 = yup.object().shape({
+    yearsOfExperience: yup.string().required("Required"),
+    gender: yup.string().required("Required"),
+})
+
 
 const workspace1 = yup.object().shape({
     workspace: yup.string().required("Required"),
@@ -37,4 +42,5 @@ export {
     stage1,
     stage2,
     workspace1,
+    userOnboard3
 }

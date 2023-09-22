@@ -1,11 +1,21 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { authState } from "../atom/authAtom";
 
 export default function MentorLayout() {
+  let auth = useRecoilValue(authState);
+  
   return (
-    <div>
-      <div className="absolute left-[5.5vw] lg:left-[13vw] top-[25vh] lg:top-[15vh] w-[90%] lg:w-[80%]">
+    <div className="">
+    {auth && auth?.role === 'mentor' ? (
+      <div>
         <Outlet />
       </div>
-    </div>
+    ) : (
+      <>
+        <Navigate to="/mentor-signin" />
+      </>
+    )}
+  </div>
   );
 }

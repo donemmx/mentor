@@ -3,17 +3,30 @@ import { loginuser } from "../../utils/Validation";
 import Logo from "../../component/logo/Logo";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { login } from "../../utils/api";
+import { useRecoilState } from "recoil";
+import { authState } from "../../atom/authAtom";
+import { workspaceStore } from "../../atom/workspaceAtom";
 
 export default function MenteeSignin() {
   const navigate = useNavigate();
-  const onSubmit = async (values) => {
-    console.log(values);
-    navigate("/mentee-dashboard");
-    toast.success('Signin Successful')
-  };
+  const [auth, setAuth] = useRecoilState(authState);
+  const [workspace, setWorkspace] = useRecoilState(workspaceStore);
+  const params = useParams();
 
+  const onSubmit = async (values) => {
+    const { email, password } = values;
+    login(email, password)
+      .then((res) => {
+        setAuth(res);
+        setWorkspace(params.id)
+        navigate("/mentee-dashboard");
+        toast.success("Signin Successful");
+      })
+      .catch((err) => console.log(err));
+  };
 
   const {
     values,
@@ -42,7 +55,7 @@ export default function MenteeSignin() {
             <Logo />
             <div className="w-[95%] md:w-[90%] lg:w-[60%] mx-auto">
               <h3 className=" font-black text-[20px] lg:text-[30px] leading-[1.1]">
-               Hello Mentee 👋, <br/> Welcome back
+                Hello Mentee 👋, <br /> Welcome back
               </h3>
               <p className="pt-2">Fill in details to continue. </p>
               <form onSubmit={handleSubmit} className="space-y-2  pt-10">
@@ -87,15 +100,17 @@ export default function MenteeSignin() {
               </form>
               <p className=" pt-5 text-sm">
                 Don`t have an account?{" "}
-                <Link to='/mentee-signup' className=" cursor-pointer font-bold text-blue-700" >
+                <Link
+                  to={`/mentee-signup/${params.id}`}
+                  className=" cursor-pointer font-bold text-blue-700"
+                >
                   Sign up
                 </Link>
               </p>
             </div>
           </div>
         </div>
-        <div className="bg-black hidden  md:flex justify-center items-center w-full ">
-        </div>
+        <div className="bg-black hidden  md:flex justify-center items-center w-full "></div>
       </div>
     </div>
   );

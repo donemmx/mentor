@@ -3,14 +3,26 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { registerUser } from "../../utils/Validation";
 import Logo from "../../component/logo/Logo";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { registerUserAtom } from "../../atom/registrationAtom";
 
 
 export default function MentorSignup() {
+  const [ reg, setReg ] = useRecoilState(registerUserAtom)
+
   const location = useNavigate()
+  const params = useParams()
   const onSubmit = async (values) => {
-      location('/otp')
-  };
+    const payload = {
+      user: {
+        ...values,
+        role: 'mentor'
+      }
+    }
+    setReg(payload)
+    location(`/user-onboard/${params.id}`)
+};
   const {
     values,
     errors,
@@ -96,7 +108,7 @@ export default function MentorSignup() {
               </form>
               <p className=" pt-5 text-sm">
                 Already have an account?{" "}
-                <Link to='/mentor-signin' className=" cursor-pointer font-bold text-blue-700">
+                <Link to={`/mentor-signin/${params.id}`} className=" cursor-pointer font-bold text-blue-700">
                   Sign in
                 </Link>
               </p>
