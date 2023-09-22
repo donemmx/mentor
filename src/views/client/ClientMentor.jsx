@@ -15,7 +15,7 @@ export default function ClientMentor() {
   const [visible, setVisible] = useState(false);
   const [mentorUsers, setMentorUsers] = useState([]);
 
-  let inviteLink = `${window.location.origin}/mentor-signin/${workspaceData?.id}`;
+  let inviteLink = `${window.location.origin}/mentor-signup/${workspaceData?.id}`;
 
 
   const sendInvite = () => {

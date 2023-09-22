@@ -21,6 +21,7 @@ export default function ListWorkspace() {
     getWorkspace(payload).then((res) => {
       setWorkspace(res.payload);
       if (res.payload.length === 1) {
+        setWorkspaceData(res.payload[0]);
         navigate("/dashboard");
       }
     });

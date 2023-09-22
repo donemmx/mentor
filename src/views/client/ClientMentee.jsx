@@ -14,7 +14,7 @@ export default function ClientMentee() {
 
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
-  let inviteLink = `${window.location.origin}/mentee-signin/${workspaceData?.id}`;
+  let inviteLink = `${window.location.origin}/mentee-signup/${workspaceData?.id}`;
   const sendInvite = () => {
     setVisible(!visible);
     toast.success("Invite Sent Successfully");
