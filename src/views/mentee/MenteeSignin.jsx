@@ -5,13 +5,23 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { login } from "../../utils/api";
+import { useRecoilState } from "recoil";
+import { authState } from "../../atom/authAtom";
 
 export default function MenteeSignin() {
   const navigate = useNavigate();
+  const [auth, setAuth] = useRecoilState(authState);
+
   const onSubmit = async (values) => {
-    console.log(values);
-    navigate("/mentee-dashboard");
-    toast.success('Signin Successful')
+    const { email, password } = values;
+    login(email, password)
+      .then((res) => {
+          setAuth(res);
+          navigate("/mentee-dashboard");
+          toast.success("Signin Successful");
+        }
+      ).catch((err)=> console.log(err))
   };
 
 

@@ -108,7 +108,7 @@ export default function MentorSignup() {
               </form>
               <p className=" pt-5 text-sm">
                 Already have an account?{" "}
-                <Link to='/mentor-signin' className=" cursor-pointer font-bold text-blue-700">
+                <Link to={`/mentor-signin/${params.id}`} className=" cursor-pointer font-bold text-blue-700">
                   Sign in
                 </Link>
               </p>

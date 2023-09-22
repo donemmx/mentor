@@ -3,15 +3,26 @@ import { loginuser } from "../../utils/Validation";
 import Logo from "../../component/logo/Logo";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { login } from "../../utils/api";
+import { useRecoilState } from "recoil";
+import { authState } from "../../atom/authAtom";
 
 export default function MentorSignin() {
   const navigate = useNavigate();
+  const params = useParams()
+  const [auth, setAuth] = useRecoilState(authState);
+
   const onSubmit = async (values) => {
-    console.log(values);
-    navigate("/mentor-dashboard");
-    toast.success('Signin Successful')
+    const { email, password } = values;
+    login(email, password)
+      .then((res) => {
+          setAuth(res);
+          navigate("/mentor-dashboard");
+          toast.success("Signin Successful");
+        }
+      ).catch((err)=> console.log(err))
   };
 
 
@@ -87,7 +98,7 @@ export default function MentorSignin() {
               </form>
               <p className=" pt-5 text-sm">
                 Don`t have an account?{" "}
-                <Link to='/mentor-signup' className=" cursor-pointer font-bold text-blue-700" >
+                <Link to={`/mentor-signup/${params.id}`} className=" cursor-pointer font-bold text-blue-700" >
                   Sign up
                 </Link>
               </p>
