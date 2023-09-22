@@ -40,6 +40,9 @@ import CreateWorkspaceTwo from "./views/client/CreateWorkspaceTwo";
 import ListWorkspace from "./views/client/ListWorkspace";
 import NotFound from "./views/NotFound";
 import Welcome from "./views/client/Welcome";
+import UserOnboardOne from "./views/usersOnboard/UserOnboardOne";
+import UserOnboardTwo from "./views/usersOnboard/UserOnboardTwo";
+import UserOnboardThree from "./views/usersOnboard/UserOnboardThree";
 
 const router = createBrowserRouter([
   {
@@ -109,6 +112,18 @@ const router = createBrowserRouter([
       {
         path: "/mentee-signup/:id",
         element: <MenteeSignup />,
+      },
+      {
+        path: "/user-onboard/:id",
+        element: <UserOnboardOne />,
+      },
+      {
+        path: "/user-onboard-2/:id",
+        element: <UserOnboardTwo />,
+      },
+      {
+        path: "/user-onboard-3/:id",
+        element: <UserOnboardThree />,
       },
       {
         path: "/otp",

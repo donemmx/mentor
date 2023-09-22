@@ -23,7 +23,7 @@ export default function DefaultLayout() {
           <Navigate to="/list-workspace" />
         </>
       ) : (
-        ""
+        <Outlet />
       )}
     </div>
   );

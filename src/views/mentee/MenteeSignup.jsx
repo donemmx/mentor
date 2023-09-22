@@ -3,13 +3,29 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { registerUser } from "../../utils/Validation";
 import Logo from "../../component/logo/Logo";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { registerUserAtom } from "../../atom/registrationAtom";
+import { useEffect } from "react";
+import { getUserWorkspace } from "../../utils/api";
 
 export default function MenteeSignup() {
+  const [ reg, setReg ] = useRecoilState(registerUserAtom)
+
   const location = useNavigate()
+  const params = useParams()
   const onSubmit = async (values) => {
-      location('/otp')
-  };
+    const payload = {
+      user: {
+        ...values,
+        role: 'mentee'
+      }
+    }
+    setReg(payload)
+    location(`/user-onboard/${params.id}`)
+   
+
+  }
   const {
     values,
     errors,
@@ -29,6 +45,16 @@ export default function MenteeSignup() {
     validationSchema: registerUser,
     onSubmit,
   });
+
+
+  useEffect(()=> {
+    const payload = {
+      id: params.id
+    }
+    getUserWorkspace(payload).then((res)=> {
+      console.log(res);
+    })
+  }, [])
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
       <div className="grid md:grid-cols-2 h-full w-full ">
