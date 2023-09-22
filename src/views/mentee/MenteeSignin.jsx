@@ -3,7 +3,7 @@ import { loginuser } from "../../utils/Validation";
 import Logo from "../../component/logo/Logo";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login } from "../../utils/api";
 import { useRecoilState } from "recoil";
@@ -12,6 +12,7 @@ import { authState } from "../../atom/authAtom";
 export default function MenteeSignin() {
   const navigate = useNavigate();
   const [auth, setAuth] = useRecoilState(authState);
+  const params = useParams()
 
   const onSubmit = async (values) => {
     const { email, password } = values;
@@ -97,7 +98,7 @@ export default function MenteeSignin() {
               </form>
               <p className=" pt-5 text-sm">
                 Don`t have an account?{" "}
-                <Link to='/mentee-signup' className=" cursor-pointer font-bold text-blue-700" >
+                <Link to={`/mentee-signup/${params.id}`} className=" cursor-pointer font-bold text-blue-700" >
                   Sign up
                 </Link>
               </p>

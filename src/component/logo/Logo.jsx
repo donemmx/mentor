@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 
 export default function Logo({image, id}) {
   const workspace = useRecoilValue(workspaceStore)
+  const params = useParams()
   return (
     <Link
-      to={`/workspace-landing/${workspace?.id}`}
+      to={`/workspace-landing/${params?.id}`}
       className="logo  absolute top-6 font-black text-[16px]"
     >
       {workspace && workspace?.logo ? (
