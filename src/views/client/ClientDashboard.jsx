@@ -1,4 +1,4 @@
-  import Notification from "../../component/Notification";
+import Notification from "../../component/Notification";
 import Table from "../../component/Table";
 import ClientSidebar from "./ClientSidebar";
 

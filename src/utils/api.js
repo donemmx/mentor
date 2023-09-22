@@ -1,9 +1,9 @@
 import Directual from 'directual-api';
 const api = new Directual({apiHost: '/'});
 
-const login = async (username, password) =>  await api.auth.login(username, password)
+const login = async (username, password) =>  await api.auth.login(username, password);
 
-const logout = async (payload) =>  await api.auth.logout(payload)
+const logout = async (payload) =>  await api.auth.logout(payload);
 
 const getPricing = async () => await api.structure('tariff').getData('getTarif');
 
