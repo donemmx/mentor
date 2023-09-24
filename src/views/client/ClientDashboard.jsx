@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import Notification from "../../component/Notification";
-=======
 import { useEffect, useState } from "react";
->>>>>>> 75dccac3d88ad20d2b23614798449fd1777079d6
 import Table from "../../component/Table";
 import ClientSidebar from "./ClientSidebar";
 import { manageRequstByWorkspace, requestWorkspace } from "../../utils/api";
