@@ -6,7 +6,7 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { useState } from "react";
 
-export default function ClientAccount() {
+export default function ClientAccountTwo() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
 
   const isLoggedin = useRecoilValue(user);
@@ -22,7 +22,7 @@ export default function ClientAccount() {
   };
 
   return (
-    <div>
+    <div className="bg-gray-100">
       <TopCard
         links={mylinks}
         homeLink={"/dashboard"}
@@ -31,7 +31,7 @@ export default function ClientAccount() {
         subtitle={"Manage your account"}
       />
       <div className="w-[90%] mx-auto mt-5 p-6">
-        <div className="profile__body pt-[2vh]  h-[100%]  flex flex-col m-auto ">
+        <div className="profile__body pt-[2vh]  h-[100%]  lex-col m-auto ">
           <div className="name flex items-center gap-2">
             <Avatar
               label='EI'
@@ -40,8 +40,10 @@ export default function ClientAccount() {
             />
             <p>{isLoggedin?.data?.email}</p>
           </div>
+
+          <div className="flex flex-wrap gap-5 bg-[red] justify-between py-5"> 
           {open ? (
-            <div className="formBody w-full md:w-[70%] grid grid-cols-1 md:grid-cols-2 mt-5 mb-5 gap-5">
+            <div className="formBody w-full md:w-[70%] bg-[green] grid grid-cols-1 md:grid-cols-2 mt-5 mb-5 gap-5">
               <span className="p-float-label">
                 <InputText
                   id="fullName"
@@ -75,10 +77,49 @@ export default function ClientAccount() {
                 <label htmlFor="email">Confirm Password</label>
               </span>
               <button className="primary__btn w-fit ml-0" onClick={editProfile}>
-               update Profile
+              update Profile
             </button>
             </div>
           ) : (
+            <div className="formBody w-full md:w-[40%] grid grid-cols-1 md:grid-cols-2 gap-5 bg-[#ffffff] p-3 rounded-lg ">
+              <h3 className="bg-gray-300 py-3 px-1 rounded">Profile Data</h3>
+              <div className="formgroup">
+                <label className="font-bold">Full Name</label>
+                <div className=" border-gray-300">
+                  {/* {isLoggedin?.data?.fullName} */}
+                  Emmanuel
+                </div>
+              </div>
+              <div className="formgroup">
+                <label className="font-bold">Email</label>
+                <div className=" border-gray-300">
+                  {/* {isLoggedin?.data?.email} */}
+                  Emmanuelidus@gmail.com
+                </div>
+              </div>
+              <div className="formgroup">
+                <label className="font-bold">Phone Number</label>
+                <div className=" border-gray-300">
+                  {/* {isLoggedin?.data?.phoneNumber} */}
+                  08101725687
+                </div>
+              </div>
+
+              <div className="formgroup">
+                <label className="font-bold">Password</label>
+                <div className=" border-gray-300">
+                  *********
+                </div>
+              </div>
+              {/* <button className="primary__btn w-fit ml-0" onClick={editProfile}>
+              {open ? "Cancel" : "Edit Profile"}
+            </button> */}
+            </div>
+          )}
+            <h3 className="bg-gray-300 py-3 px-1">Edit Profile Infomation</h3>
+            <div className="w-full md:w-[55%] border rounded-lg py-5 h-full">
+              <div>
+                
             <div className="formBody w-full md:w-[70%] grid grid-cols-1 md:grid-cols-2 mt-5 mb-5 gap-5">
               <div className="formgroup">
                 <label className="font-bold">Full Name</label>
@@ -112,8 +153,9 @@ export default function ClientAccount() {
               {open ? "Cancel" : "Edit Profile"}
             </button>
             </div>
-          )}
-        
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

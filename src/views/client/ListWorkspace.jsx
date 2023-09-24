@@ -4,15 +4,17 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../../atom/authAtom";
 import ClientHeader from "./ClientHeader";
 import line from "../../assets/bg/lines.svg";
-import defaultLogo from "../../assets/bg/welcome-bg.png";
 import { user } from "../../atom/userAtom";
-import { workspaceStore } from "../../atom/workspaceAtom";
 import { useNavigate } from "react-router-dom";
+import WorkspaceListCard from '../../component/workspaceCard/WorkspaceListCard'
+import { workspaceStore } from "../../atom/workspaceAtom";
+
 export default function ListWorkspace() {
   const auth = useRecoilValue(authState);
   const [workspace, setWorkspace] = useState([]);
-  const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
   const [userData, setUserData] = useRecoilState(user);
+  const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
+
   const navigate = useNavigate();
   const listMyWorkspace = () => {
     const payload = {
@@ -30,10 +32,7 @@ export default function ListWorkspace() {
     });
   };
 
-  const selectWorkspace = (data) => {
-    setWorkspaceData(data);
-    navigate("/dashboard");
-  };
+
 
   useEffect(() => {
     listMyWorkspace();
@@ -62,25 +61,7 @@ export default function ListWorkspace() {
 
                 <div className=" w-full">
                   {workspace?.map((res, i) => (
-                    <div
-                      className="bg-white w-full h-[14vh] my-4 rounded-lg  cursor-pointer transition-all ease-in-out text-black flex items-center gap-4  hover:bg-black hover:border-[2px] hover:text-white "
-                      key={i}
-                      onClick={() => selectWorkspace(res)}
-                    >
-                      <div className="h-[80px] w-[50%] mx-2 rounded-lg">
-                        <img
-                          src={res?.logo ? res?.logo : defaultLogo}
-                          alt=""
-                          className="w-full h-full object-cover rounded-lg"
-                        />
-                      </div>
-                      <div className="p-3 flex flex-col justify-center ">
-                        <p className="font-black text-lg"> {res.name}</p>
-                        <p className=" text-xs">
-                          Want to know where this information comes from
-                        </p>
-                      </div>
-                    </div>
+                    <WorkspaceListCard data={res}/>
                   ))}
                 </div>
               </div>
