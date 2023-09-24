@@ -1,19 +1,15 @@
-import { Link } from "react-router-dom";
-import ClientHeader from "../client/ClientHeader";
 import { getProfile, getWorkspace } from "../../utils/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { user } from "../../atom/userAtom";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { authState } from "../../atom/authAtom";
 import { useEffect } from "react";
-import { ColorPicker } from "primereact/colorpicker";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { classNames } from "primereact/utils";
-import defaultLogo from "../../assets/bg/welcome-bg.png";
 import TopCard from "../../component/TopCard";
 import ThemeCard from "../../component/themeCard/ThemeCard";
-import WorkspaceListCard from "../../component/workspaceListCard/WorkspaceListCard";
+import WorkspaceListCard from "../../component/workspaceCard/WorkspaceListCard";
+import defaultLogo from "../../assets/bg/welcome-bg.png";
 
 
 export default function ClientWorkspace() {
@@ -78,13 +74,17 @@ export default function ClientWorkspace() {
                 />
                 <div className="w-[95%] lg:w-[90%] mx-auto grid lg:grid-cols-[3fr,9fr] gap-4 my-10 ">
                     <div className="left">
-                        <div className="card p-10 border-[1px] border-gray-50 bg-gray-100 text-black h-[300px] w-[300px] rounded-lg ">
-                            <div className="h-full flex flex-col justify-between ">
+                        <div className="card p-10 border-[1px] relative border-gray-50 bg-gray-100 text-black h-[300px] w-[300px] rounded-lg ">
+                            <div className="h-full flex flex-col justify-between  ">
                                 <div className="">
+                                <div className=" absolute top-4 right-2 h-[50px] w-[50px] flex items-start">
+                                        <img src={workspaceData?.logo ? workspaceData?.logo : defaultLogo} alt="" className="w-full h-full object-contain" />
+                                    </div>
                                     <div className="title text-xl font-bold flex items-center gap-2 ">
                                         <i className="pi pi-cog pi-spin "></i>
-                                        My Workspace 1
+                                       {workspaceData?.name}
                                     </div>
+                                  
                                     <div className="text-xs py-2 ">
                                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, sapiente?
                                     </div>
@@ -120,13 +120,13 @@ export default function ClientWorkspace() {
                                 
                                 ''
                                 }
-                                <div className="grid grid-cols-2 ">
+                                <div className=" ">
                                     {active === "switch" ? 
                                     <div className="">
                                         <h2 className="font-black text-xl">Select Your Workspace</h2>
                                         <div className="w-full">
                                         
-                                            <div className="grid grid-cols-2 ">
+                                            <div className="w-full grid grid-cols-2 gap-4 ">
                                             {workspace?.map((res, i) => (
                                                 <WorkspaceListCard data={res}  />
                                             ))}
