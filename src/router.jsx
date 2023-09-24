@@ -19,6 +19,7 @@ import ClientOtp from "./views/client/ClientOtp";
 import ClientUsers from "./views/client/ClientMentor";
 import ClientMentee from "./views/client/ClientMentee";
 import ClientAccount from "./views/client/ClientAccount";
+import ClientAccountTwo from "./views/workspace/ClientAccountTwo";
 import ClientSetup from "./views/client/ClientSetup";
 import PricingStageOne from "./views/PricingStageOne";
 import PricingStageTwo from "./views/PricingStageTwo";
@@ -151,10 +152,6 @@ const router = createBrowserRouter([
         element: <ClientLanding />,
       },
      
-      {
-        path: "/client-workspace-detail",
-        element: <ClientWorkspace />,
-      },
     ],
   },
 
@@ -232,11 +229,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/workspace",
-        element: <ClientSetup />,
+        element: <ClientWorkspace />,
       },
       {
         path: "/account",
         element: <ClientAccount />,
+      },
+      {
+        path: "/accountTwo",
+        element: <ClientAccountTwo />,
       },
       {
         path: "/dashboard",
