@@ -44,8 +44,7 @@ export default function ClientMentee() {
         header="Invite user"
         visible={visible}
         onHide={() => setVisible(false)}
-        style={{ width: "50vw" }}
-        breakpoints={{ "960px": "75vw", "641px": "100vw" }}
+        className="w-[90%] lg:w-[35vw]"
       >
         <div className="user  flex flex-col justify-center items-center w-[65%] lg:w-[20%] mx-auto mt-[5vh]">
           <h4 className=" font-bold pt-3">Mentee's </h4>
@@ -74,7 +73,7 @@ export default function ClientMentee() {
           </CopyToClipboard>
           <p className="text-xs mt-4">Click to copy</p>
         </div>
-        <div className="w-[50%] mx-auto py-5">
+        <div className="w-[80%] mx-auto py-5">
           <span className="p-float-label">
             <InputText id="username" name="email" />
             <label htmlFor="username">Email</label>
