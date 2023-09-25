@@ -7,17 +7,19 @@ import ClientHeader from "../client/ClientHeader";
 import line from "../../assets/bg/lines.svg";
 import { createWorkspaceUser, getProvinces, login } from "../../utils/api";
 import { stage2, userOnboard3 } from "../../utils/Validation";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import UserHeader from "./UserHeader";
 import { toast } from "react-toastify";
 import { authState } from "../../atom/authAtom";
+import { workspaceStore } from "../../atom/workspaceAtom";
 
 export default function UserOnboardThree() {
   const params = useParams();
   const [reg, setReg] = useRecoilState(registerUserAtom);
   const [auth, setAuth] = useRecoilState(authState);
-
+  
+  const workspaceInfo = useRecoilValue(workspaceStore)
   const navigate = useNavigate();
   const genders = ["male", "female"];
   const onSubmit = async (values) => {
@@ -42,6 +44,8 @@ export default function UserOnboardThree() {
         _phone: reg.user.phone,
         _provinceId: reg.user.province,
         _postalcode: reg.user.postalcode,
+        _url: workspaceInfo.inviteLink
+        
       };
       createWorkspaceUser(userPayload).then((res)=> {
         toast.success("successful");
