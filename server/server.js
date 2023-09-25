@@ -11,7 +11,7 @@ app.get('/*', function (req, res) {
 proxy(app)
 
 const server = app.listen(SERVER_PORT, () => {
-    console.log(`start webserver: http://mentor-indol.vercel.app:${SERVER_PORT} \nAPP ID: ${process.env.APP_ID} `);
+    console.log(`start webserver: http://localhost:${SERVER_PORT} \nAPP ID: ${process.env.APP_ID} `);
 });
 
 module.exports = app;
