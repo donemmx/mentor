@@ -44,7 +44,7 @@ export default function UserOnboardThree() {
         _phone: reg.user.phone,
         _provinceId: reg.user.province,
         _postalcode: reg.user.postalcode,
-        _url: workspaceInfo.inviteLink
+        _url: params.id
         
       };
       createWorkspaceUser(userPayload).then((res)=> {
