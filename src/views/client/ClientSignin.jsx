@@ -84,6 +84,7 @@ export default function ClientSignin() {
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    toggleMask
                   />
                   <label htmlFor="username">Password</label>
                 </span>
