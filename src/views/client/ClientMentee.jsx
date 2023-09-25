@@ -78,7 +78,7 @@ export default function ClientMentee() {
             <InputText id="username" name="email" />
             <label htmlFor="username">Email</label>
           </span>
-          <button className="primary__btn  mt-5" onClick={sendInvite}>
+          <button className="primary__btn text-sm mt-5" onClick={sendInvite}>
             Send Invite
           </button>
         </div>
