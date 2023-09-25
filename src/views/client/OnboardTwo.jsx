@@ -105,7 +105,7 @@ export default function OnboardTwo() {
                     className=" !text-black"
                     filter
                   />
-                  <label htmlFor="username">Provinces</label>
+                  <label htmlFor="username">Province</label>
                 </span>
                 {errors.province && touched.province && (
                   <p className="error">{errors.province}</p>

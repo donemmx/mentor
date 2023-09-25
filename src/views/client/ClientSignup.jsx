@@ -23,7 +23,7 @@ export default function ClientSignup() {
         }
       }
       setReg(payload)
-      navigate(`/user-onboard/${params.id}`);
+      navigate(`/onboard-1`);
   };
   const {
     values,
