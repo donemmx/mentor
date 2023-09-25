@@ -61,11 +61,12 @@ export default function ClientMentor() {
           </button>
         </div>
         <DataTable value={mentorUsers} tableStyle={{ minWidth: "50rem" }} className="!text-sm">
-          <Column field="userId.email" header="Email"></Column>
-          <Column field="userId.firstName" header="First Name"></Column>
-          <Column field="userId.lastName" header="Last Name"></Column>
-          <Column field="userId.phone" header="Phone"></Column>
-          <Column field="userId.gender" header="Gender"></Column>
+        <Column className=" text-sm"  ></Column>
+          <Column className=" text-sm" field="userId.email" header="Email"></Column>
+          <Column className=" text-sm"field="userId.firstName" header="First Name"></Column>
+          <Column className=" text-sm" field="userId.lastName" header="Last Name"></Column>
+          <Column className=" text-sm" field="userId.phone" header="Phone"></Column>
+          <Column className=" text-sm" field="userId.gender" header="Gender"></Column>
         </DataTable>
       </div>
       <Dialog
