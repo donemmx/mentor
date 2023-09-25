@@ -38,6 +38,17 @@ export default function ClientMentor() {
     });
   };
 
+  const view = (item) =>{
+    console.log(item);
+  }
+  
+    const actionBodyTemplate = (rowItem) => {
+      return <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" onClick={() => view(rowItem.userId)}>
+        view
+      </button>;
+  };
+  
+
   useEffect(() => {
     listMyMentorsUser();
   }, []);
@@ -67,6 +78,7 @@ export default function ClientMentor() {
           <Column className=" text-sm" field="userId.lastName" header="Last Name"></Column>
           <Column className=" text-sm" field="userId.phone" header="Phone"></Column>
           <Column className=" text-sm" field="userId.gender" header="Gender"></Column>
+          <Column body={actionBodyTemplate}></Column>
         </DataTable>
       </div>
       <Dialog
