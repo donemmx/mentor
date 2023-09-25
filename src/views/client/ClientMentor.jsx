@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "../../component/Table";
 import TopCard from "../../component/TopCard";
 import { Dialog } from "primereact/dialog";
@@ -7,10 +7,15 @@ import { toast } from "react-toastify";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { useRecoilValue } from "recoil";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { DataTable } from "primereact/datatable";
+import Column from "antd/es/table/Column";
+import { getMentorsByWorkspaceId } from "../../utils/api";
+import { authState } from "../../atom/authAtom";
 
 export default function ClientMentor() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const workspaceData = useRecoilValue(workspaceStore)
+  const auth = useRecoilValue(authState);
 
   const [visible, setVisible] = useState(false);
   const [mentorUsers, setMentorUsers] = useState([]);
@@ -22,6 +27,20 @@ export default function ClientMentor() {
     setVisible(!visible)
     toast.success('Invite Sent Successfully')
   }
+
+  const listMyMentorsUser = () => {
+    const payload = {
+      sessionID: auth?.sessionID,
+      id: workspaceData.id,
+    };
+    getMentorsByWorkspaceId(payload).then((res) => {
+      setMentorUsers(res.payload);
+    });
+  };
+
+  useEffect(() => {
+    listMyMentorsUser();
+  }, []);
 
   return (
     <div>
@@ -41,7 +60,13 @@ export default function ClientMentor() {
             Invite user
           </button>
         </div>
-        <Table users={mentorUsers} />
+        <DataTable value={mentorUsers} tableStyle={{ minWidth: "50rem" }} className="!text-sm">
+          <Column field="userId.email" header="Email"></Column>
+          <Column field="userId.firstName" header="First Name"></Column>
+          <Column field="userId.lastName" header="Last Name"></Column>
+          <Column field="userId.phone" header="Phone"></Column>
+          <Column field="userId.gender" header="Gender"></Column>
+        </DataTable>
       </div>
       <Dialog
         header="Invite user"

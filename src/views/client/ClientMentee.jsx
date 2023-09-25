@@ -7,6 +7,10 @@ import { Dialog } from "primereact/dialog";
 import { useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { authState } from "../../atom/authAtom";
+import { getMenteesByWorkspaceId } from "../../utils/api";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -21,24 +25,21 @@ export default function ClientMentee() {
     toast.success("Invite Sent Successfully");
   };
 
-  console.log(workspaceData.id, 'the workspace\n\n')
+  console.log(workspaceData.id, "the workspace\n\n");
 
   const listMyMenteesUser = () => {
     const payload = {
       sessionID: auth?.sessionID,
-      id:workspaceData.id,
-    }; 
-    getUsersMentorByWorkspace(payload).then((res)=> {
-      setMenteeUsers(res.payload[0])
-    })
-    console.log(menteeUsers);
+      id: workspaceData.id,
+    };
+    getMenteesByWorkspaceId(payload).then((res) => {
+      setMenteeUsers(res.payload);
+    });
   };
 
-  
   useEffect(() => {
     listMyMenteesUser();
-
-  }, []); 
+  }, []);
 
   return (
     <div>
@@ -58,7 +59,13 @@ export default function ClientMentee() {
             Invite user
           </button>
         </div>
-        <Table users={menteeUsers} />
+        <DataTable value={menteeUsers} tableStyle={{ minWidth: "50rem" }} className="!text-sm">
+          <Column field="userId.email" header="Email"></Column>
+          <Column field="userId.firstName" header="First Name"></Column>
+          <Column field="userId.lastName" header="Last Name"></Column>
+          <Column field="userId.phone" header="Phone"></Column>
+          <Column field="userId.gender" header="Gender"></Column>
+        </DataTable>
       </div>
       <Dialog
         header="Invite user"
