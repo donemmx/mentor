@@ -11,6 +11,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [visible, setVisible] = useState(false);
+  const auth = useRecoilValue(authState);
 
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
@@ -19,6 +20,25 @@ export default function ClientMentee() {
     setVisible(!visible);
     toast.success("Invite Sent Successfully");
   };
+
+  console.log(workspaceData.id, 'the workspace\n\n')
+
+  const listMyMenteesUser = () => {
+    const payload = {
+      sessionID: auth?.sessionID,
+      id:workspaceData.id,
+    }; 
+    getUsersMentorByWorkspace(payload).then((res)=> {
+      setMenteeUsers(res.payload[0])
+    })
+    console.log(menteeUsers);
+  };
+
+  
+  useEffect(() => {
+    listMyMenteesUser();
+
+  }, []); 
 
   return (
     <div>
