@@ -25,8 +25,6 @@ export default function ClientMentee() {
     toast.success("Invite Sent Successfully");
   };
 
-  console.log(workspaceData.id, "the workspace\n\n");
-
   const listMyMenteesUser = () => {
     const payload = {
       sessionID: auth?.sessionID,
