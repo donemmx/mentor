@@ -1,13 +1,18 @@
 import TopCard from "../../component/TopCard";
 import { Avatar } from "primereact/avatar";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { user } from "../../atom/userAtom";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { useState } from "react";
+import { workspaceStore } from "../../atom/workspaceAtom";
+import defaultLogo from "../../assets/bg/welcome-bg.png";
+
 
 export default function ClientAccount() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
+  const [userData, setUserData ] = useRecoilState(user);
+  const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
 
   const isLoggedin = useRecoilValue(user);
   const [open, setOpen] = useState(false);
@@ -15,11 +20,28 @@ export default function ClientAccount() {
   const [phone, setPhone] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
+
   const editProfile = () => {
     setOpen(!open);
     setPhone(isLoggedin?.data?.phoneNumber);
     setFullName(isLoggedin?.data?.fullName);
   };
+  console.log(fullName)
+  console.log(phone)
+  console.log(password)
+  // console.log(password)
+
+//   {
+//     "role": [
+//         "owner"
+//     ],
+//     "lastName": "Ladi",
+//     "firstName": "Samuel",
+//     "id": "ladisamuel00@gmail.com",
+//     "postalcode": "200261",
+//     "province": "Alberta",
+//     "phone": "+2347051900086"
+// }
 
   return (
     <div>
@@ -30,6 +52,33 @@ export default function ClientAccount() {
         base={"signin"}
         subtitle={"Manage your account"}
       />
+
+      <div className="w-[95%] lg:w-[90%] mx-auto grid lg:grid-cols-[3fr,9fr] gap-4 my-10 ">
+        <div className="left">
+            <div className="card p-10 border-[1px] relative border-gray-50 bg-gray-100 text-black h-[300px] w-[300px] rounded-lg ">
+                <div className="h-full flex flex-col justify-between  ">
+                    <div className="">
+                    <div className=" absolute top-4 right-2 h-[50px] w-[50px] flex items-start">
+                            <img src={workspaceData?.logo ? workspaceData?.logo : defaultLogo} alt="" className="w-full h-full object-contain" />
+                        </div>
+                        <div className="title text-xl font-bold flex items-center gap-2 ">
+                            <i className="pi pi-cog pi-spin "></i>
+                           {userData.firstName} {userData.lastName}
+                        </div>
+                      
+                        <div className="text-xs py-2 ">
+                        {workspaceData?.name} <br />
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, sapiente?
+                        </div>
+
+                    </div>
+                    <button className="h-[40px] w-full bg-gray-700 text-white flex items-center justify-center gap-2 rounded mt-auto text-sm ">
+                        <i className="pi pi-plus-circle "></i>
+                        Edit Profile</button>
+                </div>
+            </div>
+        </div>
+      </div>
       <div className="w-[90%] mx-auto mt-5 p-6">
         <div className="profile__body pt-[2vh]  h-[100%]  flex flex-col m-auto ">
           <div className="name flex items-center gap-2">
@@ -53,7 +102,8 @@ export default function ClientAccount() {
               <span className="p-float-label">
                 <InputText
                   id="phone"
-                  value={phone}
+                  // value={phone}
+                  value="phone"
                   onChange={(e) => setPhone(e.target.value)}
                 />
                 <label htmlFor="phone">Phone Number</label>

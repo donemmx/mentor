@@ -11,6 +11,8 @@ const getProvinces = async () => await api.structure('provinces').getData('getPr
 
 const getWorkspace = async (payload) => await api.structure('workspace').getData('ownerWorkspaseListing', payload);
 
+const ownerWorkspaseEdit = async (payload) => await api.structure('workspace').getData('ownerWorkspaseEdit', payload);
+// 
 const getUserWorkspace = async (payload) => await api.structure('workspace').getData('getUserWorkspaceById', payload);
 
 const createWorkspaceWithPayment = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceWithPayment', payload)
@@ -27,9 +29,8 @@ const newRequestToWorkspace = async (payload) => await api.structure('_workcpase
 
 const getMentorsByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMentorsByWorkspaceId', payload);
 
+
 const getMenteesByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMenteesByWorkspaceId', payload);
-
-
 
 export {
     login,
@@ -45,5 +46,6 @@ export {
     newRequestToWorkspace,
     manageRequstByWorkspace,
     getMentorsByWorkspaceId,
-    getMenteesByWorkspaceId
+    getMenteesByWorkspaceId,
+    ownerWorkspaseEdit
 }

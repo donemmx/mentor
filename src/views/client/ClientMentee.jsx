@@ -8,15 +8,17 @@ import { useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { authState } from "../../atom/authAtom";
-import { getMenteesByWorkspaceId } from "../../utils/api";
+import { getMenteesByWorkspaceId, getWorkspace } from "../../utils/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+
 
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [visible, setVisible] = useState(false);
   const auth = useRecoilValue(authState);
 
+  const [workspaceDataApi, setWorkspaceDataApi] = useState([]);
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
   let inviteLink = `${window.location.origin}/mentee-signup/${workspaceData?.id}`;
@@ -33,12 +35,20 @@ export default function ClientMentee() {
     getMenteesByWorkspaceId(payload).then((res) => {
       setMenteeUsers(res.payload);
     });
-  };
+    // new
+    getWorkspace(payload).then((res) => {
+      setWorkspaceDataApi(res.payload);
+      
+    });
 
+
+    // 
+  };
   useEffect(() => {
     listMyMenteesUser();
   }, []);
-
+  console.log(menteeUsers)
+  
 const view = (item) =>{
   console.log(item);
 }
@@ -64,6 +74,13 @@ const view = (item) =>{
             onClick={() => setVisible(!visible)}
             className="h-[40px] w-[118px] bg-[#F56B3F] rounded text-white text-xs"
           >
+            Ban user
+          </button>
+          <button
+            onClick={() => setVisible(!visible)}
+            className="h-[40px] w-[118px] bg-[#FF9900] rounded text-white text-xs"
+          >
+          {/* F56B3F */}
             Invite user
           </button>
         </div>
@@ -76,6 +93,7 @@ const view = (item) =>{
           <Column body={actionBodyTemplate}></Column>
         </DataTable>
       </div>
+
       <Dialog
         header="Invite user"
         visible={visible}
@@ -119,6 +137,16 @@ const view = (item) =>{
           </button>
         </div>
       </Dialog>
+
+      {/* <PopModal2 
+      //  header, title, message, visible
+      header="Invite User"
+      title="Mentee's"
+      message=""
+      visible={visible}
+      setVisible={() => setVisible(false)}
+
+      /> */}
     </div>
   );
 }

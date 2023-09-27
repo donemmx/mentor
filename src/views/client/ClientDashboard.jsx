@@ -20,6 +20,10 @@ export default function ClientDashboard() {
       console.log(res);
     }).catch((err)=> console.log(err))
   }, [])
+  // console.log(auth, 'User\n\n')
+  // console.log(auth.username, 'User id\n\n')
+  // console.log(workspace.id, 'workspace\n\n')
+  // console.log(workspace, 'workspace\n\n')
   return (
     <div>
       <ClientSidebar />
