@@ -10,7 +10,7 @@ import defaultLogo from "../../assets/bg/welcome-bg.png";
 
 
 export default function ClientAccount() {
-  const mylinks = ["mentors", "mentees", "account", "workspace"];
+  const mylinks = ["mentors", "mentees", "account", "workspace", "custom domain"];
   const [userData, setUserData ] = useRecoilState(user);
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
 

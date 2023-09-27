@@ -14,7 +14,7 @@ import { Column } from "primereact/column";
 
 
 export default function ClientMentee() {
-  const mylinks = ["mentors", "mentees", "account", "workspace"];
+  const mylinks = ["mentors", "mentees", "account", "workspace", "custom domain"];
   const [visible, setVisible] = useState(false);
   const auth = useRecoilValue(authState);
 

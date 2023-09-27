@@ -11,6 +11,7 @@ import { authState } from "../atom/authAtom";
 import { user } from "../atom/userAtom";
 import { registerUserAtom } from "../atom/registrationAtom";
 import { workspaceStore } from "../atom/workspaceAtom";
+import { addWorkSpaceStore } from "../atom/addWorkspace";
 
 export default function MainTopCard({
   links,
@@ -26,6 +27,7 @@ export default function MainTopCard({
   const [userData, setUserData] = useRecoilState(user);
   const workspaceData = useRecoilValue(workspaceStore)
   const [reg, setReg] = useRecoilState(registerUserAtom);
+  const [ addWorkspace, setAddWorkspace ] = useRecoilState(addWorkSpaceStore)
 
   const navigate = useNavigate();
   const signout = () => {
@@ -39,7 +41,9 @@ export default function MainTopCard({
       setAuth("");
       setUserData('')
       setReg('')
+      setAddWorkspace('')
       toast.success("user logged out successfully");
+
     });
   };
   return (
