@@ -257,6 +257,16 @@ export default function ClientWorkspace() {
                       ? "font-bold cursor-pointer"
                       : "cursor-pointer"
                   }
+                  onClick={() => setTab("invoice")}
+                >
+                  Invoice
+                </div>
+                <div
+                  className={
+                    active === "theme"
+                      ? "font-bold cursor-pointer"
+                      : "cursor-pointer"
+                  }
                   onClick={() => setTab("theme")}
                 >
                   Themes

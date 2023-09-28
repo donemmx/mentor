@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createWorkspaceWithPayment, login } from "../../utils/api";
 import { ColorPicker } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -20,6 +20,7 @@ export default function PricingFormThree() {
   ];
 
   const [file, setFile] = useState(null);
+  const [image, setImage] = useState(null);
   const [auth, setAuth] = useRecoilState(authState);
 
   const [fileDataURL, setFileDataURL] = useState(null);
@@ -36,7 +37,7 @@ export default function PricingFormThree() {
       name: addWorkspace.workspace.workspace,
       maxMentors: addWorkspace.workspace.maxMentors,
       maxMentees: addWorkspace.workspace.maxMentees,
-      workspaceLogo: fileDataURL,
+      workspaceLogo: image,
       color: color,
       lastName: userData.lastName,
       firstame: userData.firstName,
@@ -56,6 +57,27 @@ export default function PricingFormThree() {
       toast.success("successful");
     });
   };
+
+  useEffect(() => {
+    let fileReader,
+      isCancel = false;
+    if (file) {
+      fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        const { result } = e.target;
+        if (result && !isCancel) {
+          setImage(result);
+        }
+      };
+      fileReader.readAsDataURL(file);
+    }
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [file]);
 
   return (
     <div>
