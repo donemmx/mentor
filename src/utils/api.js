@@ -17,6 +17,8 @@ const getUserWorkspace = async (payload) => await api.structure('workspace').get
 
 const createWorkspaceWithPayment = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceWithPayment', payload)
 
+const editRequestWorkspaceUser = async (payload) => await api.structure('_workcpaseAction').setData('editRequestWorkspaceUser', payload)
+
 const createWorkspaceUser = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceUser', payload)
 
 const getProfile = async (payload) => await api.structure('WebUser').getData('profile', payload);
@@ -39,6 +41,7 @@ export {
     getPricing,
     getProvinces,
     createWorkspaceWithPayment,
+    editRequestWorkspaceUser,
     getWorkspace,
     getProfile,
     getUserWorkspace,
@@ -49,5 +52,5 @@ export {
     getMentorsByWorkspaceId,
     getMenteesByWorkspaceId,
     ownerWorkspaseEdit,
-    getInvoiceByWorkspace
+    getInvoiceByWorkspace,
 }

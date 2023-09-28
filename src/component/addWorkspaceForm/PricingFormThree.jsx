@@ -32,52 +32,53 @@ export default function PricingFormThree() {
 
   console.log(userData, "Thi is the user data");
 
-  const register = () => {
-    const userPayload = {
-      name: addWorkspace.workspace.workspace,
-      maxMentors: addWorkspace.workspace.maxMentors,
-      maxMentees: addWorkspace.workspace.maxMentees,
-      workspaceLogo: image,
-      color: color,
-      lastName: userData.lastName,
-      firstame: userData.firstName,
-      newMail: userData.id,
-      mail: userData.id,
-      _phone: userData.phone,
-      _provinceId: userData.province,
-      _postalcode: userData.postalcode,
-      _action: "createWithPayment",
-      _url: `${window.location.origin}/payments/${addWorkspace.id}`,
+    const register = () => {
+        const userPayload = {
+        name: addWorkspace.workspace.workspace,
+        maxMentors: addWorkspace.workspace.maxMentors,
+        maxMentees: addWorkspace.workspace.maxMentees,
+        workspaceLogo: image,
+        color: color,
+        lastName: userData.lastName,
+        firstame: userData.firstName,
+        newMail: userData.id,
+        mail: userData.id,
+        _phone: userData.phone,
+        _provinceId: userData.province,
+        _postalcode: userData.postalcode,
+        _action: "createWithPayment",
+        _url: `${window.location.origin}/payments/${addWorkspace.id}`,
+        };
+        createWorkspaceWithPayment(userPayload).
+            then((res) => {
+            const payload = {
+                step: 0,
+            };
+            setAddworkspace(payload);
+            toast.success("successful");
+        });
     };
-    createWorkspaceWithPayment(userPayload).then((res) => {
-      const payload = {
-        step: 0,
-      };
-      setAddworkspace(payload);
-      toast.success("successful");
-    });
-  };
 
-  useEffect(() => {
-    let fileReader,
-      isCancel = false;
-    if (file) {
-      fileReader = new FileReader();
-      fileReader.onload = (e) => {
-        const { result } = e.target;
-        if (result && !isCancel) {
-          setImage(result);
+    useEffect(() => {
+        let fileReader,
+        isCancel = false;
+        if (file) {
+        fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            const { result } = e.target;
+            if (result && !isCancel) {
+            setImage(result);
+            }
+        };
+        fileReader.readAsDataURL(file);
         }
-      };
-      fileReader.readAsDataURL(file);
-    }
-    return () => {
-      isCancel = true;
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
-      }
-    };
-  }, [file]);
+        return () => {
+        isCancel = true;
+        if (fileReader && fileReader.readyState === 1) {
+            fileReader.abort();
+        }
+        };
+    }, [file]);
 
   return (
     <div>

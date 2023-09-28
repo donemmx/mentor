@@ -24,6 +24,7 @@ import PricingFormOne from "../../component/addWorkspaceForm/PricingFormOne";
 import { addWorkSpaceStore } from "../../atom/addWorkspace";
 import PricingFormTwo from "../../component/addWorkspaceForm/PricingFormTwo";
 import PricingFormThree from "../../component/addWorkspaceForm/PricingFormThree";
+import EditWorkspaceForm from "../../component/editWorkspaceForm/EditWorkspaceForm";
 
 export default function ClientWorkspace() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -304,150 +305,7 @@ export default function ClientWorkspace() {
                 )}
 
                 {active === "edit" ? (
-                  <div className="rounded-lg h-[700px] w-full">
-                     <h2 className="font-black text-xl">
-                      Edit Your Workspace
-                    </h2>
-                    <div className="">
-                      <div className="">
-                        <div className="space-y-2 pt-8 w-[60%]">
-                          <span
-                            data-aos="fade-down"
-                            data-aos-duration="1000"
-                            className="p-float-label"
-                          >
-                            <InputText
-                              id="username"
-                              name="workspace"
-                              value={values.workspace}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            />
-                            <label htmlFor="username">
-                              {workspaceData.name}{" "}
-                            </label>
-                          </span>
-
-                          {errors.workspace && touched.workspace && (
-                            <p className="error">{errors.workspace}</p>
-                          )}
-
-                          <span
-                            data-aos="fade-down"
-                            data-aos-duration="1000"
-                            className="p-float-label"
-                          >
-                            <Dropdown
-                              id="username"
-                              name="maxMentors"
-                              value={values.maxMentors}
-                              options={numbers}
-                              onChange={handleChange}
-                            />
-                            <label htmlFor="username">Max Mentors</label>
-                          </span>
-
-                          {errors.maxMentors && touched.maxMentors && (
-                            <p className="error">{errors.maxMentors}</p>
-                          )}
-                          <span
-                            data-aos="fade-down"
-                            data-aos-duration="1000"
-                            className="p-float-label"
-                          >
-                            <Dropdown
-                              id="username"
-                              name="maxMentees"
-                              value={values.maxMentees}
-                              options={numbers}
-                              onChange={handleChange}
-                            />
-                            <label htmlFor="username">Max Mentees</label>
-                          </span>
-
-                          {errors.maxMentees && touched.maxMentees && (
-                            <p className="error">{errors.maxMentees}</p>
-                          )}
-
-                          <div>
-                            {fileDataURL !== null ? (
-                              <d>
-                                <img
-                                  src={fileDataURL}
-                                  className="h-[100px] w-[200px] object-cover border-[1px] my-3 rounded-md"
-                                />
-                                <div
-                                  className="underline cursor-pointer"
-                                  onClick={() => {
-                                    ("null");
-                                  }}
-                                >
-                                  Remove Image
-                                </div>
-                              </d>
-                            ) : (
-                              <div className="flex flex-col gap-3 mt-10">
-                                <input
-                                  type="file"
-                                  id="image"
-                                  accept=".png, .jpg, .jpeg"
-                                  onChange={(e) => getImage(e)}
-                                  className=""
-                                />
-                              </div>
-                            )}
-
-                            <div className="space-y-2 pt-8 w-[60%]">
-                              <span
-                                data-aos="fade-down"
-                                data-aos-duration="1000"
-                                className=" flex items-center gap-2 mb-5"
-                              >
-                                <ColorPicker
-                                  value={color}
-                                  onChange={(e) => setColor(e.value)}
-                                />
-                                <label htmlFor="username">
-                                  {" "}
-                                  Select a Color{" "}
-                                </label>
-                              </span>
-
-                              <span
-                                data-aos="fade-down"
-                                data-aos-duration="1000"
-                                className="p-float-label"
-                              >
-                                <MultiSelect
-                                  id="username"
-                                  name="name"
-                                  value={match}
-                                  options={matches}
-                                  className=" !text-black !w-full"
-                                  onChange={(e) => setMatches(e.target.value)}
-                                />
-                                <label htmlFor="username">
-                                  Select a Matching Criteria
-                                </label>
-                              </span>
-
-                              <button
-                                data-aos="fade-down"
-                                data-aos-duration="800"
-                                className="primary__btn"
-                                disabled={
-                                  !color || !file || matches.length === 0
-                                }
-                                onClick={edit}
-                              >
-                                Proceed
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    <EditWorkspaceForm />
                 ) : (
                   ""
                 )}
