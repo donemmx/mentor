@@ -4,37 +4,55 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { user } from "../../atom/userAtom";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import defaultLogo from "../../assets/bg/welcome-bg.png";
+import { getInvoiceByWorkspace, getWorkspace } from "../../utils/api";
+import { authState } from "../../atom/authAtom";
+import moment from "moment";
+import Loading from '../../component/loading/Loading'
 
 export default function ClientAccount() {
-  const mylinks = [
-    "mentors",
-    "mentees",
-    "account",
-    "workspace",
-  ];
+  const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [userData, setUserData] = useRecoilState(user);
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
+  const [workspace, setWorkspace] = useState([]);
+  const [auth, setAuth] = useRecoilState(authState);
 
-  const isLoggedin = useRecoilValue(user);
-  const [open, setOpen] = useState(false);
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
   const [active, setActive] = useState("profile");
-
-  const editProfile = () => {
-    setOpen(!open);
-    setPhone(isLoggedin?.data?.phoneNumber);
-    setFullName(isLoggedin?.data?.fullName);
-  };
+  const [invoices, setInvoices] = useState();
+  const [loading, setLoading] = useState(false);
 
   const setTab = (data) => {
     setActive(data);
   };
+
+  const listMyWorkspace = () => {
+    setLoading(true);
+    const payload = {
+      sessionID: auth?.sessionID,
+    };
+
+    getWorkspace(payload).then((res) => {
+      setWorkspace(res.payload);
+      const allInvoices = [];
+      res.payload?.forEach((data) => {
+        const myPayload = {
+          sessionID: auth?.sessionID,
+          id: data.id,
+        };
+        getInvoiceByWorkspace(myPayload).then((invoice) => {
+          allInvoices.push(...invoice.payload);
+        });
+      });
+      setInvoices(allInvoices);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    listMyWorkspace();
+  }, []);
 
   return (
     <div>
@@ -116,6 +134,36 @@ export default function ClientAccount() {
                   <div className="">
                     <div className="">
                       <h2 className="font-black text-xl">All Invoices</h2>
+                      <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-4 mt-8">
+                          {loading ? (
+                            <Loading />
+                          ) : (
+                            <>
+                              {invoices?.map((data, i) => (
+                                <div
+                                  className="flex items-center justify-between p-3 bg-gray-50 rounded-md"
+                                  key={i}
+                                >
+                                  <div className="flex items-center gap-4">
+                                    <i className="pi pi-folder !text-xl"></i>
+                                    <div className="">
+                                      <h3 className="text-sm font-bold">
+                                        {" "}
+                                        {data.tariffId.title}{" "}
+                                      </h3>
+                                      <div className="text-xs">
+                                        {moment(data.dateCteated).fromNow()}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <i className="pi pi-download cursor-pointer"></i>
+                                </div>
+                              ))}
+                            </>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

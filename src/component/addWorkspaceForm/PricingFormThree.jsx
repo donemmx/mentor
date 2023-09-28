@@ -10,7 +10,7 @@ import { user } from "../../atom/userAtom";
 
 export default function PricingFormThree() {
   const [match, setMatches] = useState([]);
-  const [color, setColor] = useState("#00000");
+  const [color, setColor] = useState();
   const [addWorkspace, setAddworkspace] = useRecoilState(addWorkSpaceStore);
   const userData = useRecoilValue(user);
   const matches = [

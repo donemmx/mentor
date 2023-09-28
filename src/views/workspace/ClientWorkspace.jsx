@@ -1,5 +1,9 @@
-import { getProfile, getUserWorkspace, getWorkspace } from "../../utils/api";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  getInvoiceByWorkspace,
+  getProfile,
+  getWorkspace,
+} from "../../utils/api";
+import { useRecoilState } from "recoil";
 import { user } from "../../atom/userAtom";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { authState } from "../../atom/authAtom";
@@ -12,10 +16,8 @@ import WorkspaceListCard from "../../component/workspaceCard/WorkspaceListCard";
 import defaultLogo from "../../assets/bg/welcome-bg.png";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { useFormik } from "formik";
-import { stage2 } from "../../utils/Validation";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { Dialog } from "primereact/dialog";
 import { ColorPicker } from "primereact/colorpicker";
 import { MultiSelect } from "primereact/multiselect";
 import { createWorkspaceWithPayment, login } from "../../utils/api";
@@ -25,6 +27,7 @@ import { addWorkSpaceStore } from "../../atom/addWorkspace";
 import PricingFormTwo from "../../component/addWorkspaceForm/PricingFormTwo";
 import PricingFormThree from "../../component/addWorkspaceForm/PricingFormThree";
 import EditWorkspaceForm from "../../component/editWorkspaceForm/EditWorkspaceForm";
+import moment from "moment/moment";
 
 export default function ClientWorkspace() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -49,6 +52,7 @@ export default function ClientWorkspace() {
   const [reg, setReg] = useRecoilState(registerUserAtom);
   const [auth, setAuth] = useRecoilState(authState);
   const [visible, setVisible] = useState(false);
+  const [invoices, setInvoices] = useState([]);
 
   const [fileDataURL] = useState(null);
   const [addWorkspace, setAddWorkspace] = useRecoilState(addWorkSpaceStore);
@@ -69,8 +73,6 @@ export default function ClientWorkspace() {
         },
       };
       setReg(payload);
-      // navigate("");
-      console.log(reg, "reg\n\n");
     }
     console.log(reg);
     setVisible(true);
@@ -122,16 +124,12 @@ export default function ClientWorkspace() {
   const {
     values,
     errors,
-    isValid,
-    isSubmitting,
     touched,
     handleBlur,
     handleChange,
-    handleSubmit,
   } = useFormik({
     validateOnMount: true,
     initialValues: initialValues,
-    // validationSchema:stage2,
     onSubmit,
   });
 
@@ -139,7 +137,8 @@ export default function ClientWorkspace() {
     setActive(data);
   };
 
-  const editOwnerWorkspaseEdit = "";
+  
+
 
   const listMyWorkspace = () => {
     const payload = {
@@ -148,12 +147,19 @@ export default function ClientWorkspace() {
     getProfile(payload).then((res) => {
       setUserData(res.payload[0]);
     });
-   
+
     getWorkspace(payload).then((res) => {
       setWorkspace(res.payload);
     });
-  };
 
+    const myPayload = {
+      sessionID: auth?.sessionID,
+      id: workspaceData.id,
+    };
+    getInvoiceByWorkspace(myPayload).then((res) => {
+      setInvoices(res.payload);
+    });
+  };
 
   const defaultStep = () => {
     const payload = {
@@ -238,7 +244,7 @@ export default function ClientWorkspace() {
                       ? "font-bold cursor-pointer"
                       : "cursor-pointer"
                   }
-                  onClick={() => (setTab("domain"))}
+                  onClick={() => setTab("domain")}
                 >
                   Custom Domain
                 </div>
@@ -254,7 +260,7 @@ export default function ClientWorkspace() {
                 </div>
                 <div
                   className={
-                    active === "theme"
+                    active === "invoice"
                       ? "font-bold cursor-pointer"
                       : "cursor-pointer"
                   }
@@ -274,6 +280,27 @@ export default function ClientWorkspace() {
                 </div>
               </div>
               <div className="">
+                {active === "invoice" ? (
+                  <div className="">
+                    <h2 className="font-black text-xl ">Workspace Invoices</h2>
+                    <div className="mt-8">
+                      {invoices?.map((data, i) => (
+                        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-md" key={i}>
+                          <div className="flex items-center gap-4">
+                            <i className="pi pi-folder !text-xl"></i>
+                            <div className="">
+                                 <h3 className="text-lg font-bold"> {data.tariffId.title} </h3>
+                                <div className="text-xs">{moment(data.dateCteated).fromNow()}</div>
+                            </div>
+                          </div>
+                          <i className="pi pi-download cursor-pointer"></i>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
                 {active === "theme" ? (
                   <div className="">
                     <h2 className="font-black text-xl ">Select A Theme</h2>
@@ -306,12 +333,14 @@ export default function ClientWorkspace() {
 
                 {active === "edit" ? (
                     <EditWorkspaceForm />
+                    
                 ) : (
-                  ""
+                    ""
                 )}
+                  
                 {active === "domain" ? (
                   <div className="rounded-lg h-[700px] w-full">
-                     <h2 className="font-black text-xl">
+                    <h2 className="font-black text-xl">
                       Add Custom Domain to Workspace
                     </h2>
                     <div className="">
@@ -326,7 +355,7 @@ export default function ClientWorkspace() {
                               id="username"
                               name="workspace"
                               options={workspace}
-                              onChange={(e)=> setSelectWorkspace(e.target.va)}
+                              onChange={(e) => setSelectWorkspace(e.target.va)}
                             />
                             <label htmlFor="username">List of Workspace</label>
                           </span>
@@ -347,9 +376,7 @@ export default function ClientWorkspace() {
                               onChange={handleChange}
                               onBlur={handleBlur}
                             />
-                            <label htmlFor="username">
-                             Workspace Url
-                            </label>
+                            <label htmlFor="username">Workspace Url</label>
                           </span>
                         </div>
                       </div>
