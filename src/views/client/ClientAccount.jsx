@@ -10,6 +10,7 @@ import defaultLogo from "../../assets/bg/welcome-bg.png";
 import { getInvoiceByWorkspace, getWorkspace } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
 import moment from "moment";
+import Loading from '../../component/loading/Loading'
 
 export default function ClientAccount() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -44,9 +45,8 @@ export default function ClientAccount() {
           allInvoices.push(...invoice.payload);
         });
       });
-      setLoading(false);
       setInvoices(allInvoices);
-      console.log(allInvoices);
+      setLoading(false);
     });
   };
 
@@ -135,9 +135,9 @@ export default function ClientAccount() {
                     <div className="">
                       <h2 className="font-black text-xl">All Invoices</h2>
                       <div className="flex flex-col gap-4">
-                        <div className="mt-8">
+                        <div className="flex flex-col gap-4 mt-8">
                           {loading ? (
-                            ""
+                            <Loading />
                           ) : (
                             <>
                               {invoices?.map((data, i) => (
@@ -148,7 +148,7 @@ export default function ClientAccount() {
                                   <div className="flex items-center gap-4">
                                     <i className="pi pi-folder !text-xl"></i>
                                     <div className="">
-                                      <h3 className="text-lg font-bold">
+                                      <h3 className="text-sm font-bold">
                                         {" "}
                                         {data.tariffId.title}{" "}
                                       </h3>
