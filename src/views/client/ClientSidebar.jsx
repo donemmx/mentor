@@ -6,7 +6,7 @@ import { workspaceStore } from "../../atom/workspaceAtom";
 export default function ClientSidebar() {
   const userData = useRecoilValue(user)
   const workspaceData = useRecoilValue(workspaceStore)
-  const mylinks = ["mentors", "mentees", "account", "workspace", "custom domain"];
+  const mylinks = ["mentors", "mentees", "account", "workspace"];
   // const mylinks = ["mentors", "mentees", "account", "workspace"];
   return (
    <MainTopCard

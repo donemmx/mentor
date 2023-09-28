@@ -13,7 +13,7 @@ import { getMentorsByWorkspaceId } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
 
 export default function ClientMentor() {
-  const mylinks = ["mentors", "mentees", "account", "workspace", "custom domain"];
+  const mylinks = ["mentors", "mentees", "account", "workspace"];
   const workspaceData = useRecoilValue(workspaceStore)
   const auth = useRecoilValue(authState);
 

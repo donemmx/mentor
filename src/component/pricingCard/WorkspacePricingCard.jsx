@@ -55,32 +55,31 @@ export default function PricingCard({
   };
 
   const payWithStripe = async (data) => {
-    
     const payload = {
       ...data,
-      step:1
+      step: 1,
     };
     setAddworkspace(payload);
     // redirectToCheckout().then((res) => {
     // });
   };
   return (
-    <div className=" w-[300px] h-full">
-      <div className="flex flex-col relative p-6 mx-auto max-w-lg text-center text-gray-900 h-[450px] bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+    <div className=" w-[250px] h-full">
+      <div className="flex flex-col relative p-6 mx-auto max-w-lg text-center text-gray-900 h-[350px] bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
         <h3 className="mb-4 text-xl font-bold">{title}</h3>
-        <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+        <p className="font-light text-gray-500 sm:text-xs dark:text-gray-400">
           {description}
         </p>
-        <div className="flex justify-center items-baseline my-8">
-          <span className="mr-2 text-4xl font-extrabold">
+        <div className="flex justify-center items-baseline my-4">
+          <span className="mr-2 text-2xl font-extrabold">
             {formatPrice(price)}
           </span>
           {/* <span className="text-gray-500 dark:text-gray-400">
-                        /month
-                    </span> */}
+                      /month
+                  </span> */}
         </div>
 
-        <ul role="list" className="mb-8 space-y-4 text-left">
+        <ul className="mb-8 space-y-2 text-left">
           {features?.map((res) => (
             <li className="flex items-center space-x-3" key={res.id}>
               <svg
@@ -95,7 +94,7 @@ export default function PricingCard({
                   clipRule="evenodd"
                 ></path>
               </svg>
-              <span>{res.title}</span>
+              <span className="!text-xs">{res.title}</span>
             </li>
           ))}
         </ul>
