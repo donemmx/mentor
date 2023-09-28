@@ -1,27 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { createWorkspaceWithPayment, getPricing, login } from '../../utils/api'
-import WorkspacePricingCard from '../pricingCard/WorkspacePricingCard'
+import React from 'react'
 import { InputText } from 'primereact/inputtext';
-import { ColorPicker, Dropdown } from 'antd';
 import { useRecoilState } from 'recoil';
-import { registerUserAtom } from '../../atom/registrationAtom';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
-import { MultiSelect } from 'primereact/multiselect';
-import { authState } from '../../atom/authAtom';
 import { addWorkSpaceStore } from '../../atom/addWorkspace';
-import { stage2, workspace1 } from '../../utils/Validation';
+import {  workspace1 } from '../../utils/Validation';
+import { useFormik } from 'formik';
 
 export default function PricingFormTwo() {
     
-    const [tariff, setTariff] = useState([])
-    const [visible, setVisible] = useState(null);
-    const [file, setFile] = useState(null);
-    const [fileDataURL, ] = useState(null);
-    const [color, setColor] = useState();
-    const [auth, setAuth] = useRecoilState(authState);
-    const [match, setMatches] = useState([]);
     // const [numbers, setNumbers] = useState([]);
     const [addWorkspace, setAddworkspace] = useRecoilState(addWorkSpaceStore);
  

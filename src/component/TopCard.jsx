@@ -6,6 +6,7 @@ import { user } from "../atom/userAtom";
 import { authState } from "../atom/authAtom";
 import { workspaceStore } from "../atom/workspaceAtom";
 import { addWorkSpaceStore } from "../atom/addWorkspace";
+import { registerUserAtom } from "../atom/registrationAtom";
 
 export default function TopCard({
   links,
@@ -20,13 +21,15 @@ export default function TopCard({
   const [userData, setUserData] = useRecoilState(user);
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
   const [ addWorkspace, setAddWorkspace ] = useRecoilState(addWorkSpaceStore)
+  const [reg, setReg] = useRecoilState(registerUserAtom);
 
   const logOut = () => {
     toast.success("user logged out successfully");
-    setUserData("")
-    setAuth("");
-    setWorkspaceData("");
-    setAddWorkspace('')
+    setUserData(null)
+    setAuth(null);
+    setReg(null)
+    setWorkspaceData(null);
+    setAddWorkspace(null)
     location(`/${base}`);
 
   };

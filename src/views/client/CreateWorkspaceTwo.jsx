@@ -14,7 +14,7 @@ import { authState } from "../../atom/authAtom";
 export default function CreateWorkspaceTwo() {
   const navigate = useNavigate();
   const [match, setMatches] = useState([]);
-  const [color, setColor] = useState();
+  const [color, setColor] = useState('#00000');
   const matches = [
     "Area of Specilization",
     "Province",
@@ -51,6 +51,8 @@ export default function CreateWorkspaceTwo() {
         _provinceId: reg.user.province,
         _postalcode: reg.user.postalcode,
         _action: "createWithPayment",
+        _url: `${window.location.origin}/payments/${reg.workspace.id}`
+
       };
       createWorkspaceWithPayment(userPayload).then((res) => {
         toast.success("successful");

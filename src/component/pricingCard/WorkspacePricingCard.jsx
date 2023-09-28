@@ -55,14 +55,12 @@ export default function PricingCard({
   };
 
   const payWithStripe = async (data) => {
-    const { user, ...others } = addWorkspace;
-    // const payload = {
-    //   ...data,
-    //   user: user,
-    //   step:1
-    // };
-    // setAddworkspace(payload);
-    console.log(user);
+    
+    const payload = {
+      ...data,
+      step:1
+    };
+    setAddworkspace(payload);
     // redirectToCheckout().then((res) => {
     // });
   };
