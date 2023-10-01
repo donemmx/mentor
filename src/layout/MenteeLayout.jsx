@@ -16,7 +16,7 @@ export default function MenteeLayout() {
               <Outlet />
             </div>
           ) : (
-            <>{navigate(`/mentee-signin/${params?.id}`)}</>
+            <>{navigate(`/mentee-signin/${params.id}`)}</>
           )}
         </>
       ) : (
