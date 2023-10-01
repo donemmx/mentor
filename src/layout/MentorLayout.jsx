@@ -10,7 +10,7 @@ export default function MentorLayout() {
 
   return (
     <div className="">
-    {params.id ? 
+    {params.id !== undefined ? 
     <>
       {auth && auth?.role === 'mentor' ? (
       <div>
