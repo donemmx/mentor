@@ -12,7 +12,7 @@ const getProvinces = async () => await api.structure('provinces').getData('getPr
 const getWorkspace = async (payload) => await api.structure('workspace').getData('ownerWorkspaseListing', payload);
 
 const ownerWorkspaseEdit = async (payload) => await api.structure('workspace').getData('ownerWorkspaseEdit', payload);
-// 
+ 
 const getUserWorkspace = async (payload) => await api.structure('workspace').getData('getUserWorkspaceById', payload);
 
 const createWorkspaceWithPayment = async (payload) => await api.structure('_workcpaseAction').setData('createWorkspaceWithPayment', payload)
@@ -33,7 +33,10 @@ const getMentorsByWorkspaceId = async (payload) => await api.structure('userBywo
 
 const getInvoiceByWorkspace = async (payload) => await api.structure('invoice').getData('getInvoiceByWorkspace', payload);
 
-const getMenteesByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMenteesByWorkspaceId', payload);
+const getMenteesByWorkspaceId = async (payload) => await api.structure('workspace').getData('getMenteesByWorkspaceId', payload);
+
+// Mentees 
+const getMenteeProfile = async (payload) => await api.structure('WebUser').getData('getMenteeProfile', payload);
 
 export {
     login,
@@ -53,4 +56,5 @@ export {
     getMenteesByWorkspaceId,
     ownerWorkspaseEdit,
     getInvoiceByWorkspace,
+    getMenteeProfile,
 }

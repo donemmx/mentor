@@ -126,6 +126,7 @@ export default function EditWorkspaceForm() {
       });
         
     useEffect(() => {
+        console.log(workspaceData);
         let fileReader,
         isCancel = false;
         if (file) {

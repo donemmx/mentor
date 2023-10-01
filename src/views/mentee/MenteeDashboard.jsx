@@ -5,8 +5,9 @@ import MenteeSidebar from './MenteeSidebar'
 import { authState } from '../../atom/authAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { user } from '../../atom/userAtom';
-import { getProfile, getUserWorkspace } from '../../utils/api';
+import { getMenteeProfile, getProfile, getUserWorkspace } from '../../utils/api';
 import { workspaceStore } from '../../atom/workspaceAtom';
+import { useNavigate } from 'react-router-dom';
 
 export default function MenteeDashboard() {
   const [users, setUsers] = useState([]);
@@ -14,6 +15,7 @@ export default function MenteeDashboard() {
   const auth = useRecoilValue(authState);
   const [userData, setUserData] = useRecoilState(user);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
+  const navigate = useNavigate();
 
   const getWorkspace = () => {
     const payload = {
@@ -24,21 +26,48 @@ export default function MenteeDashboard() {
     });
   };
 
-  useEffect(() => {
-    getWorkspace();
+  // useEffect(() => {
+  //   getWorkspace();
+  //   const payload = {
+  //     id: workspace
+  //   };
+  //   getUserWorkspace(payload).then((res) => {
+  //     const data ={
+  //       ...res.payload[0], workspace, 
+  //     }
+  //     setWorkspace(data)
+  //   });
+  // }, []);
+  
+  
+  
+  // const [users, setUsers] = useState([]);
+  // const auth = useRecoilValue(authState)
+  // const workspace = useRecoilValue(workspaceStore)
+  useEffect(()=> {
     const payload = {
-      id: workspace
-    };
-    getUserWorkspace(payload).then((res) => {
-      const data ={
-        ...res.payload[0], workspace, 
+      sessionID: auth?.sessionID,
+    }
+    getMenteeProfile(payload).then((res)=> {
+      console.log(res);
+      const data = {
+        ...res.payload[0],
+        ...res.status
+    }
+      if (res.status === "OK"){
+        console.log('Response OK')
       }
-      setWorkspace(data)
-    });
-  }, []);
+    setUserData(data)
+    }).catch((err)=> console.log(err))
+  }, [])
+  console.log(userData, 'As user data')
+  
   return (
     <div>
-      <MenteeSidebar />
+      <MenteeSidebar 
+      firstname={userData.firstName}
+      lastname={userData.lastName}
+      />
       <div className="w-[90%] mx-auto flex gap-10">
         <div className=" mt-5 space-y-7 border broder-gray-100 p-6 w-fit rounded">
           <div className="">Recent Notifications</div>

@@ -11,6 +11,7 @@ import { getInvoiceByWorkspace, getWorkspace } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
 import moment from "moment";
 import Loading from '../../component/loading/Loading'
+import ProfileAccount from "../../component/profileAccount/ProfileAccount";
 
 export default function ClientAccount() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -124,6 +125,7 @@ export default function ClientAccount() {
               {active === "profile" ? (
                 <div className="">
                   <h2 className="font-black text-xl">My Account</h2>
+                  <ProfileAccount />
                 </div>
               ) : (
                 ""

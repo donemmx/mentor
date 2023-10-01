@@ -32,17 +32,13 @@ export default function ClientMentee() {
       sessionID: auth?.sessionID,
       id: workspaceData.id,
     };
+    
     getMenteesByWorkspaceId(payload).then((res) => {
-      setMenteeUsers(res.payload);
+      setMenteeUsers(res.payload[2].menteeIds);
+      // setMenteeUsers(res.payload);
+      // console.log('the res unloaded\n', res.payload);
+      // 
     });
-    // new
-    getWorkspace(payload).then((res) => {
-      setWorkspaceDataApi(res.payload);
-      
-    });
-
-
-    // 
   };
   useEffect(() => {
     listMyMenteesUser();
@@ -85,11 +81,11 @@ const view = (item) =>{
           </button>
         </div>
         <DataTable value={menteeUsers} tableStyle={{ minWidth: "50rem" }} className="!text-sm">
-          <Column className=" text-sm" field="userId.email" header="Email"></Column>
-          <Column className=" text-sm"field="userId.firstName" header="First Name"></Column>
-          <Column className=" text-sm" field="userId.lastName" header="Last Name"></Column>
-          <Column className=" text-sm" field="userId.phone" header="Phone"></Column>
-          <Column className=" text-sm" field="userId.gender" header="Gender"></Column>
+          <Column className=" text-sm" field="email" header="Email"></Column>
+          <Column className=" text-sm"field="firstName" header="First Name"></Column>
+          <Column className=" text-sm" field="lastName" header="Last Name"></Column>
+          <Column className=" text-sm" field="phone" header="Phone"></Column>
+          <Column className=" text-sm" field="gender" header="Gender"></Column>
           <Column body={actionBodyTemplate}></Column>
         </DataTable>
       </div>

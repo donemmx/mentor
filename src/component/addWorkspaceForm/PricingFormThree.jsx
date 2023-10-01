@@ -54,8 +54,9 @@ export default function PricingFormThree() {
             const payload = {
                 step: 0,
             };
-            setAddworkspace(payload);
-            toast.success("successful");
+            console.log(color)
+            // setAddworkspace(payload);
+            // toast.success("successful");
         });
     };
 
