@@ -18,7 +18,7 @@ export default function MentorLayout() {
       </div>
     ) : (
       <>
-        {navigate(`/mentee-signin/${params?.id}`)}
+        {navigate(`/mentor-signin/${params?.id}`)}
       </>
     )}
     </>:
