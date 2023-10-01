@@ -1,24 +1,30 @@
-import {  Navigate, Outlet, useNavigate } from "react-router-dom";
+import {   Outlet, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { authState } from "../atom/authAtom";
-import { workspaceStore } from "../atom/workspaceAtom";
+import NotFound  from "../views/NotFound";
 
 export default function MenteeLayout() {
   let auth = useRecoilValue(authState);
   const navigate = useNavigate();
-  const workspaceData = useRecoilValue(workspaceStore)
-  
+   const params = useParams()
   return (
+
     <div className="">
-      {auth && auth?.role === 'mentee' ? (
+      {params.id ? 
+      <>
+        {auth && auth?.role === 'mentee' ? (
         <div>
           <Outlet />
         </div>
       ) : (
         <>
-          {navigate(`/mentee-signin/${workspaceData?.workspace}`)}
+          {navigate(`/mentee-signin/${params?.id}`)}
         </>
       )}
+      </>:
+        <NotFound />
+      }
+    
     </div>
   );
 }

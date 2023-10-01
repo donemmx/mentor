@@ -1,23 +1,30 @@
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import {  Outlet, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { authState } from "../atom/authAtom";
-import { workspaceStore } from "../atom/workspaceAtom";
+import NotFound  from "../views/NotFound";
 
 export default function MentorLayout() {
   let auth = useRecoilValue(authState);
   const navigate = useNavigate();
-  const workspaceData = useRecoilValue(workspaceStore)
+  const params = useParams()
+
   return (
     <div className="">
-    {auth && auth?.role === 'mentor' ? (
+    {params.id ? 
+    <>
+      {auth && auth?.role === 'mentor' ? (
       <div>
         <Outlet />
       </div>
     ) : (
       <>
-          {navigate(`/mentor-signin/${workspaceData?.workspace}`)}
-        </>
+        {navigate(`/mentee-signin/${params?.id}`)}
+      </>
     )}
+    </>:
+      <NotFound />
+    }
+  
   </div>
   );
 }
