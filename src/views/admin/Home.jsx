@@ -8,24 +8,24 @@ import Section from "../../component/Section";
 export default function Home() {
   return (
     <div className="bg-[var(--primary)] w-full  text-white min-h-[100vh]">
-      <div className="w-[85%] mx-auto ">
+      <div className="w-[90%] lg:w-[85%] mx-auto ">
         <ClientHeader/>
-      <div className="  h-[90vh] ">
-        <div className="grid grid-cols-2 items-center justify-center h-full ">
-          <div className="w-[90%]">
-            <h1 data-aos='fade-down' data-aos-init data-aos-duration='2000' className="text-[48px] font-black leading-[1.2] gap-4">
+      <div className=" h-full lg:h-[90vh] ">
+        <div className=" py-[10vh] grid gap-4 lg:grid-cols-2 items-center justify-center h-full ">
+          <div className="w-full lg:w-[90%]">
+            <h1 data-aos='fade-down' data-aos-init data-aos-duration='2000' className="mt-3 mb-4 text-3xl font-extrabold tracking-tight  md:text-4xl dark:text-white">
               Get the best Mentorship On a Seamless Mentoring App
             </h1>
-            <p className="mt-10 mb-5 font-light leading-7">
+            <p className="font-light mb-10 text-gray-500 sm:text-xl dark:text-gray-400">
               Match your mentors, peers, groups anywhere and at any time. Set
               goals, chat, share feedback, set up meetings and run scalable
               mentoring programs in your organization with Mentor Systems.
             </p>
-            <Link to='/register' className=" mt-10 p-3 px-5 w-[150px] h-[45px] text-black text-sm bg-[var(--secondary)] rounded">
+            <Link to='/register' className=" my-4 p-3 px-5 w-[150px] h-[45px] text-black text-sm bg-[var(--secondary)] rounded">
               Get Started
             </Link>
           </div>
-          <div className="absolute right-0 z-0  h-[70vh]">
+          <div className="absolute right-0 z-0  ">
             <img className=" h-full w-full object-cover" src={line} alt="" />
           </div>
           <div className=" relative z-10">
