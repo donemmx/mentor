@@ -35,7 +35,9 @@ export default function ClientMentor() {
     };
     getMentorsByWorkspaceId(payload).then((res) => {
       setMentorUsers(res.payload);
-    });
+    }).catch((err)=> 
+      console.log(err)
+    )
   };
 
   const view = (item) =>{

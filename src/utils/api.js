@@ -1,3 +1,4 @@
+
 import Directual from 'directual-api';
 const api = new Directual({apiHost: '/'});
 
@@ -33,7 +34,9 @@ const getInvoiceByWorkspace = async (payload) => await api.structure('invoice').
 
 const getMentorsByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMentorsByWorkspaceId', payload);
 
-const getMenteesByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMenteesByWorkspaceIds', payload);
+const getMenteesByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMenteesByWorkspaceId', payload);
+
+// editWorkspaceWithPayment
 
 // Mentees 
 const getMenteeProfile = async (payload) => await api.structure('WebUser').getData('getMenteeProfile', payload);
