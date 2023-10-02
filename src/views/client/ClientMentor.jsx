@@ -43,7 +43,7 @@ export default function ClientMentor() {
   }
   
     const actionBodyTemplate = (rowItem) => {
-      return <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" onClick={() => view(rowItem.userId)}>
+      return <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" onClick={() => view(rowItem)}>
         view
       </button>;
   };
@@ -73,16 +73,16 @@ export default function ClientMentor() {
         </div>
         <DataTable value={mentorUsers} tableStyle={{ minWidth: "50rem" }} className="!text-sm">
         <Column className=" text-sm"  ></Column>
-          <Column className=" text-sm" field="userId.email" header="Email"></Column>
-          <Column className=" text-sm"field="userId.firstName" header="First Name"></Column>
-          <Column className=" text-sm" field="userId.lastName" header="Last Name"></Column>
-          <Column className=" text-sm" field="userId.phone" header="Phone"></Column>
-          <Column className=" text-sm" field="userId.gender" header="Gender"></Column>
+          <Column className=" text-sm" field="email" header="Email"></Column>
+          <Column className=" text-sm"field="firstName" header="First Name"></Column>
+          <Column className=" text-sm" field="lastName" header="Last Name"></Column>
+          <Column className=" text-sm" field="phone" header="Phone"></Column>
+          <Column className=" text-sm" field="gender" header="Gender"></Column>
           <Column body={actionBodyTemplate}></Column>
         </DataTable>
       </div>
       <Dialog
-        header="Invite user"
+        header="Invite user"s
         visible={visible}
         onHide={() => setVisible(false)}
         className="w-[90%] lg:w-[35vw]"
