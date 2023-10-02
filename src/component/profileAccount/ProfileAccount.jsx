@@ -26,6 +26,7 @@ export default function ProfileAccount() {
           <div className=''>Role - {userData.role}</div>
           <br />
           <div>
+            <small className='text-uppercase mb-3 text-bold'>Contact Data</small>
             <table>
               <tr>
                 <td className='font-bold p-5 border'>Phone</td>

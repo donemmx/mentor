@@ -29,11 +29,11 @@ const manageRequstByWorkspace = async (payload) => await api.structure('requestW
 
 const newRequestToWorkspace = async (payload) => await api.structure('_workcpaseAction').getData('newRequestToWorkspace', payload);
 
-const getMentorsByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMentorsByWorkspaceId', payload);
-
 const getInvoiceByWorkspace = async (payload) => await api.structure('invoice').getData('getInvoiceByWorkspace', payload);
 
-const getMenteesByWorkspaceId = async (payload) => await api.structure('workspace').getData('getMenteesByWorkspaceId', payload);
+const getMentorsByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMentorsByWorkspaceId_N', payload);
+
+const getMenteesByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMenteesByWorkspaceId2', payload);
 
 // Mentees 
 const getMenteeProfile = async (payload) => await api.structure('WebUser').getData('getMenteeProfile', payload);
