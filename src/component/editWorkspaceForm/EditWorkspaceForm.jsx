@@ -1,26 +1,24 @@
-import { ColorPicker, Dropdown } from 'antd';
+import { ColorPicker } from 'antd';
 import { useFormik } from 'formik';
 import { InputText } from 'primereact/inputtext';
 import React from 'react'
-import { registerUserAtom } from '../../atom/registrationAtom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { workspaceStore } from '../../atom/workspaceAtom';
 import { MultiSelect } from 'primereact/multiselect';
 import { useState } from 'react';
-import { createWorkspaceWithPayment, editRequestWorkspaceUser } from '../../utils/api';
+import {  editRequestWorkspaceUser } from '../../utils/api';
 import { toast } from 'react-toastify';
-import { addWorkSpaceStore } from '../../atom/addWorkspace';
 import { useEffect } from 'react';
+import {  workspace1 } from '../../utils/Validation';
+import { Dropdown } from "primereact/dropdown";
 
 export default function EditWorkspaceForm() {
-    const [reg, setReg] = useRecoilState(registerUserAtom);
-    const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
+    const workspaceData  = useRecoilValue(workspaceStore);
     const [numbers, setNumbers] = useState([]);
     const [fileDataURL] = useState(null);
     const [color, setColor] = useState();
     const [match, setMatches] = useState([]);
     const [file, setFile] = useState(null);
-    const [addWorkspace, setAddWorkspace] = useRecoilState(addWorkSpaceStore);
     const [image, setImage] = useState(null);
 
 
@@ -39,21 +37,18 @@ export default function EditWorkspaceForm() {
 
 
     const onSubmit = async (values) => {
-        console.log(values.workspace);
-        if (values.workspace) {
-          const payload = {
-            ...reg,
-            workspace: {
-              ...values,
-            },
-          };
-          setReg(payload);
-          // navigate("");
-          console.log(reg, "reg\n\n");
+            const userPayload = {
+              name: values.workspace,
+              maxMentors: values.maxMentors,
+              maxMentees: values.maxMentees,
+              workspaceLogo: fileDataURL,
+              color: color,
+              _action: "createWithPayment",
+            };
+            
+        
+         
         }
-        console.log(reg);
-        // setVisible(true);
-    };
 
     
     const initialValues = {
@@ -62,52 +57,8 @@ export default function EditWorkspaceForm() {
         maxMentees: "",
     };
 
-    const edit = () => {
-        const userPayload = {
-          name: reg.workspace.workspace,
-          maxMentors: reg.workspace.maxMentors,
-          maxMentees: reg.workspace.maxMentees,
-          workspaceLogo: fileDataURL,
-          color: color,
-          lastName: reg.user.lastName,
-          firstame: reg.user.firstName,
-          newMail: reg.user.email,
-          mail: reg.user.email,
-          _password: reg.user.confirmPassword,
-          _phone: reg.user.phone,
-          _country: reg.user.country,
-          _provinceId: reg.user.province,
-          _postalcode: reg.user.postalcode,
-          _action: "createWithPayment",
-        };
-
+  
         
-    
-    
-    
-    
-        editRequestWorkspaceUser(userPayload).then((res) => {
-            toast.success("successful");
-            const payload = {
-                ...reg,
-                workspace: {
-                ...res.workspace,
-                id: res.result[0].workspaceId,
-                userId: res.result[0].id,
-                },
-            };
-            setReg(payload);
-            
-                // navigate("/welcome");
-            });
-        };
-        
-        // };
-// const payload = {
-//     step: 0,
-// };
-// setReg(payload);
-// toast.success("successful");
 
     const {
         values,
@@ -121,7 +72,7 @@ export default function EditWorkspaceForm() {
       } = useFormik({
         validateOnMount: true,
         initialValues: initialValues,
-        // validationSchema:stage2,
+        validationSchema:workspace1,
         onSubmit,
       });
         
@@ -146,6 +97,15 @@ export default function EditWorkspaceForm() {
         }
         };
     }, [file]);
+
+    useEffect(() => {
+        var my_array = [];
+        for (let i = 1; i <= 100; i++) {
+          my_array.push(i);
+        }
+        setNumbers(my_array);
+      }, []);
+
     return (
         <div className="rounded-lg h-[700px] w-full">
             <h2 className="font-black text-xl">
@@ -153,7 +113,7 @@ export default function EditWorkspaceForm() {
             </h2>
             <div className="">
                 <div className="">
-                <div className="space-y-2 pt-8 w-[60%]">
+                <form onSubmit={handleSubmit} className="space-y-2 pt-8 w-[60%]">
                     <span
                     data-aos="fade-down"
                     data-aos-duration="1000"
@@ -167,7 +127,7 @@ export default function EditWorkspaceForm() {
                         onBlur={handleBlur}
                     />
                     <label htmlFor="username">
-                        {workspaceData.name}{" "}
+                        Workspace name
                     </label>
                     </span>
 
@@ -180,11 +140,11 @@ export default function EditWorkspaceForm() {
                     data-aos-duration="1000"
                     className="p-float-label"
                     >
-                    <InputText
+                    <Dropdown
                         id="username"
                         name="maxMentors"
                         value={values.maxMentors}
-                        options=''
+                        options={numbers}
                         onChange={handleChange}
                     />
                     <label htmlFor="username">Max Mentors</label>
@@ -198,11 +158,11 @@ export default function EditWorkspaceForm() {
                     data-aos-duration="1000"
                     className="p-float-label"
                     >
-                    <InputText
+                    <Dropdown
                         id="username"
                         name="maxMentees"
                         value={values.maxMentees}
-                        options=''
+                        options={numbers}
                         onChange={handleChange}
                     />
                     <label htmlFor="username">Max Mentees</label>
@@ -242,8 +202,6 @@ export default function EditWorkspaceForm() {
 
                     <div className="space-y-2 pt-8 w-[60%]">
                         <span
-                        data-aos="fade-down"
-                        data-aos-duration="1000"
                         className=" flex items-center gap-2 mb-5"
                         >
                         <ColorPicker
@@ -257,8 +215,6 @@ export default function EditWorkspaceForm() {
                         </span>
 
                         <span
-                        data-aos="fade-down"
-                        data-aos-duration="1000"
                         className="p-float-label"
                         >
                         <MultiSelect
@@ -275,19 +231,16 @@ export default function EditWorkspaceForm() {
                         </span>
 
                         <button
-                        data-aos="fade-down"
-                        data-aos-duration="800"
                         className="primary__btn"
                         // disabled={
                         //     !color || !file || matches.length === 0
                         // }
-                        onClick={edit}
                         >
                         Proceed
                         </button>
                     </div>
                     </div>
-                </div>
+                </form>
                 </div>
             </div>
         </div>

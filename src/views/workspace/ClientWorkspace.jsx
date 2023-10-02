@@ -152,6 +152,9 @@ export default function ClientWorkspace() {
       setWorkspace(res.payload);
     });
 
+  };
+
+  const getInvoice  = () => {
     const myPayload = {
       sessionID: auth?.sessionID,
       id: workspaceData.id,
@@ -159,7 +162,7 @@ export default function ClientWorkspace() {
     getInvoiceByWorkspace(myPayload).then((res) => {
       setInvoices(res.payload);
     });
-  };
+  }
 
   const defaultStep = () => {
     const payload = {
@@ -264,7 +267,7 @@ export default function ClientWorkspace() {
                       ? "font-bold cursor-pointer"
                       : "cursor-pointer"
                   }
-                  onClick={() => setTab("invoice")}
+                  onClick={() => (setTab("invoice"), getInvoice())}
                 >
                   Invoice
                 </div>

@@ -21,22 +21,22 @@ export default function ClientAccount() {
   const [auth, setAuth] = useRecoilState(authState);
 
   const [active, setActive] = useState("profile");
-  const [invoices, setInvoices] = useState();
+  const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const setTab = (data) => {
     setActive(data);
   };
 
-  const listMyWorkspace = () => {
+  const getInvoices = () => {
     setLoading(true);
+
     const payload = {
       sessionID: auth?.sessionID,
     };
-
+    let allInvoices = []
     getWorkspace(payload).then((res) => {
       setWorkspace(res.payload);
-      const allInvoices = [];
       res.payload?.forEach((data) => {
         const myPayload = {
           sessionID: auth?.sessionID,
@@ -44,16 +44,22 @@ export default function ClientAccount() {
         };
         getInvoiceByWorkspace(myPayload).then((invoice) => {
           allInvoices.push(...invoice.payload);
-        });
+        }).catch((res) =>  console.log(res))
       });
-      setInvoices(allInvoices);
-      setLoading(false);
-    });
-  };
+      if(allInvoices?.length > 0){
+        setLoading(false);
+        setInvoices(allInvoices);
+        console.log(allInvoices);
+      }
+    }).catch((res)=> {
+      console.log(res);
+    })
+  }
+  
+  useEffect(()=> {
+    getInvoices()
+  }, [])
 
-  useEffect(() => {
-    listMyWorkspace();
-  }, []);
 
   return (
     <div>
@@ -108,7 +114,7 @@ export default function ClientAccount() {
                 }
                 onClick={() => setTab("profile")}
               >
-                Personl Profile
+                Personal Profile
               </div>
               <div
                 className={
@@ -116,7 +122,7 @@ export default function ClientAccount() {
                     ? "font-bold cursor-pointer"
                     : "cursor-pointer"
                 }
-                onClick={() => setTab("invoice")}
+                onClick={() => (setTab("invoice"), getInvoices())}
               >
                 Invoice
               </div>

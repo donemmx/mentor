@@ -45,6 +45,7 @@ import UserOnboardOne from "./views/usersOnboard/UserOnboardOne";
 import UserOnboardTwo from "./views/usersOnboard/UserOnboardTwo";
 import UserOnboardThree from "./views/usersOnboard/UserOnboardThree";
 import ClientWorkspace from "./views/workspace/ClientWorkspace";
+import Invoice from "./component/invoice/Invoice";
 
 const router = createBrowserRouter([
   {
@@ -216,6 +217,10 @@ const router = createBrowserRouter([
       {
         path: "/workspace-landing",
         element: <ClientLanding />,
+      },
+      {
+        path: "/invoice",
+        element: <Invoice />,
       },
     
     
