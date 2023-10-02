@@ -13,7 +13,7 @@ export default function WorkspaceListCard({data}) {
   };
   return (
     <div
-    className="bg-white  border-[1px] border-gray-100 w-full h-[14vh] my-4 rounded-lg  cursor-pointer transition-all ease-in-out text-black flex items-center gap-4  hover:bg-black hover:border-[2px] hover:text-white "
+    className="bg-white  border-[1px] border-gray-100 w-full h-[14vh] rounded-lg  cursor-pointer transition-all ease-in-out text-black flex items-center gap-4  hover:bg-black hover:border-[2px] hover:text-white "
     onClick={() => selectWorkspace(data)}
   >
     <div className="h-[80px] w-[50%] mx-2 rounded-lg">

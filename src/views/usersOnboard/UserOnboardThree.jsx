@@ -44,7 +44,7 @@ export default function UserOnboardThree() {
         _phone: reg.user.phone,
         _provinceId: reg.user.province,
         _postalcode: reg.user.postalcode,
-        _url: params.id
+        _url: window.location.href
         
       };
       createWorkspaceUser(userPayload).then((res)=> {
@@ -84,6 +84,8 @@ export default function UserOnboardThree() {
     validationSchema: userOnboard3,
     onSubmit,
   });
+
+
 
   return (
     <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">

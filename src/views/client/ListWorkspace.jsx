@@ -39,7 +39,7 @@ export default function ListWorkspace() {
   }, []);
   return (
     <div>
-      <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
+      <div className="w-full min-h-[100vh] bg-[var(--primary)] text-white ">
         <div className="grid h-full w-[90%] mx-auto ">
           <ClientHeader />
           <div className=" flex">
@@ -59,7 +59,7 @@ export default function ListWorkspace() {
                   Select a Workspace
                 </h3>
 
-                <div className=" w-full">
+                <div className=" mt-10 grid grid-cols-2 gap-4 w-full">
                   {workspace?.map((res, i) => (
                     <WorkspaceListCard data={res}/>
                   ))}
