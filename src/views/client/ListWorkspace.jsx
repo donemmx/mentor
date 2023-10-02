@@ -59,7 +59,7 @@ export default function ListWorkspace() {
                   Select a Workspace
                 </h3>
 
-                <div className=" mt-10 grid grid-cols-2 gap-4 w-full">
+                <div className=" my-[10vh] grid lg:grid-cols-2 gap-4 w-full">
                   {workspace?.map((res, i) => (
                     <WorkspaceListCard data={res}/>
                   ))}

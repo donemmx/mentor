@@ -46,7 +46,7 @@ export default function ClientHeader() {
           </button>
         </div>
       ) : (
-        <div className=" flex items-center gap-6 text-sm ">
+        <div className=" flex  items-center gap-6 text-sm ">
           <Link onClick={resetRegistration} to="/pricing-stage-1">
             Pricing
           </Link>
