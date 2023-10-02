@@ -8,7 +8,7 @@ export default function Invoice() {
       <div class="bg-[white] rounded-b-md">
        <div class="p-9">
         <div class="space-y-6 text-slate-700">
-         <img class="object-cover h-12" src="https://pbs.twimg.com/profile_images/1513243060834123776/dL8-d7zI_400x400.png" />
+         <img alt='' class="object-cover h-12" src="https://pbs.twimg.com/profile_images/1513243060834123776/dL8-d7zI_400x400.png" />
    
          <p class="text-xl font-extrabold tracking-tight uppercase font-body">
           Unwrapped.design
