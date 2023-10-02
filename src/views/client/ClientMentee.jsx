@@ -51,16 +51,8 @@ export default function ClientMentee() {
 const view = (item) =>{
   console.log(item);
 }
-/*
 
-            <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" 
-            onClick={navigate(`/mentee-account/${id}`);}
-            >
-              view
-            </button>;
-*/
-// onClick={navigate(`//mentee-account/:id/${}`);}
-// body={actionBodyTemplate}
+
   const actionBodyTemplate = (rowItem) => {
     return <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" onClick={() => view(rowItem)}>
       view
