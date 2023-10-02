@@ -11,7 +11,7 @@ const getProvinces = async () => await api.structure('provinces').getData('getPr
 
 const getWorkspace = async (payload) => await api.structure('workspace').getData('ownerWorkspaseListing', payload);
 
-const ownerWorkspaseEdit = async (payload) => await api.structure('workspace').getData('ownerWorkspaseEdit', payload);
+const ownerWorkspaceEdit = async (payload) => await api.structure('workspace').setData('ownerWorkspaceEdit', payload);
  
 const getUserWorkspace = async (payload) => await api.structure('workspace').getData('getUserWorkspaceById', payload);
 
@@ -54,7 +54,7 @@ export {
     manageRequstByWorkspace,
     getMentorsByWorkspaceId,
     getMenteesByWorkspaceId,
-    ownerWorkspaseEdit,
+    ownerWorkspaceEdit,
     getInvoiceByWorkspace,
     getMenteeProfile,
 }

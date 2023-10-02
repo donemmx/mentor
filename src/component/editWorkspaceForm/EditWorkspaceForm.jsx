@@ -1,4 +1,4 @@
-import { ColorPicker } from "antd";
+import { ColorPicker } from 'primereact/colorpicker';
 import { useFormik } from "formik";
 import { InputText } from "primereact/inputtext";
 import React from "react";
@@ -6,22 +6,24 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { MultiSelect } from "primereact/multiselect";
 import { useState } from "react";
-import { editRequestWorkspaceUser } from "../../utils/api";
+import { editRequestWorkspaceUser, ownerWorkspaceEdit } from "../../utils/api";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { workspace1 } from "../../utils/Validation";
 import { Dropdown } from "primereact/dropdown";
 import { user } from "../../atom/userAtom";
+import { authState } from "../../atom/authAtom";
 
 export default function EditWorkspaceForm() {
   const workspaceData = useRecoilValue(workspaceStore);
   const userData = useRecoilValue(user)
   const [numbers, setNumbers] = useState([]);
   const [fileDataURL, setFileDataURL] = useState(null);
-  const [color, setColor] = useState();
-  const [match, setMatches] = useState([]);
+  const [newColor, setNewColor] = useState();
+//   const [match, setMatches] = useState([]);
   const [file, setFile] = useState(null);
-  const [image, setImage] = useState(null);
+  const auth = useRecoilValue(authState);
+  const [loading, setLoading] = useState(false)
 
   const matches = [
     "Area of Specilization",
@@ -36,31 +38,32 @@ export default function EditWorkspaceForm() {
   };
 
   const onSubmit = async (values) => {
+    setLoading(true)
     const userPayload = {
       _creatorId: userData.id,
       _description: "",
-      _maxMentee: "",
-      _maxMentor: "",
+      _maxMentee: values.maxMentees,
+      _maxMentor: values.maxMentors,
       _name: values.workspace,
       id: workspaceData.id,
-      maxMentors: values.maxMentors,
-      maxMentees: values.maxMentees,
-      workspaceLogo: fileDataURL,
-      color: color,
-      _action: "createWithPayment",
+      logo: fileDataURL,
+      maxMentee:values.maxMentors,
+      maxMentor:values.maxMentees,
+      color: newColor,
     };
+
+    ownerWorkspaceEdit(userPayload).then((res)=> {
+        console.log(res)
+        setLoading(false)
+    })
+
   };
 
-  const initialValues = {
-    workspace: "",
-    maxMentors: "",
-    maxMentees: "",
-  };
 
   const loadedValues = {
     workspace: workspaceData.name,
-    maxMentors: "",
-    maxMentees: "",
+    maxMentors: workspaceData._maxMentor,
+    maxMentees: workspaceData._maxMentee,
   };
 
   const {
@@ -110,7 +113,7 @@ export default function EditWorkspaceForm() {
 
 
   useEffect(()=> {
-    setColor(workspaceData.color)
+    setNewColor(workspaceData.color)
     setFileDataURL(workspaceData.logo)
   }, [])
 
@@ -208,13 +211,13 @@ export default function EditWorkspaceForm() {
               <div className="space-y-2 pt-8 w-[60%]">
                 <span className=" flex items-center gap-2 mb-5">
                   <ColorPicker
-                    value={color}
-                    onChange={(e) => setColor(e.value)}
+                    value={newColor}
+                    onChange={(e) => setNewColor(e.value)}
                   />
                   <label htmlFor="username"> Select a Color </label>
                 </span>
 
-                <span className="p-float-label">
+                {/* <span className="p-float-label">
                   <MultiSelect
                     id="username"
                     name="name"
@@ -224,13 +227,13 @@ export default function EditWorkspaceForm() {
                     onChange={(e) => setMatches(e.target.value)}
                   />
                   <label htmlFor="username">Select a Matching Criteria</label>
-                </span>
+                </span> */}
 
                 <button
                   className="primary__btn"
-                  // disabled={
-                  //     !color || !file || matches.length === 0
-                  // }
+                  disabled={
+                      !newColor || !fileDataURL 
+                  }
                 >
                   Proceed
                 </button>
