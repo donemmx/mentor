@@ -48,18 +48,18 @@ export default function ClientMentor() {
   };
 
   
-  const activateBanUser = (data)=>{
+  const activateBanUser = () =>{
     const userPayload = {
       isDeasctivated: true,
-      id: data.id
+      id: userPass.id
     };
-    console.log(data)
-    banUser(userPayload).then((res) => {
-      toast.error('User Banned!!!')
-      navigate("/list-workspace");
-      }).catch((err)=> 
-      console.log(err)
-    )
+    console.log(userPayload)
+    // banUser(userPayload).then((res) => {
+    //   toast.error('User Banned!!!')
+    //   navigate("/list-workspace");
+    //   }).catch((err)=> 
+    //   console.log(err)
+    // )
     setShow(!show)
   };
 
@@ -174,7 +174,7 @@ export default function ClientMentor() {
             </div>
             <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
               <button
-                onClick={activateBanUser(userPass)}
+                onClick={activateBanUser}
                 className="h-[45px] w-[150px] bg-[#F56B3F] mx-auto text-center rounded text-white"
               >Proceed to Ban
               </button>
