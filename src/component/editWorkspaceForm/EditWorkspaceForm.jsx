@@ -1,4 +1,4 @@
-import { ColorPicker } from 'primereact/colorpicker';
+import { ColorPicker } from "primereact/colorpicker";
 import { useFormik } from "formik";
 import { InputText } from "primereact/inputtext";
 import React from "react";
@@ -6,7 +6,11 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { MultiSelect } from "primereact/multiselect";
 import { useState } from "react";
-import { editRequestWorkspaceUser, ownerWorkspaceEdit } from "../../utils/api";
+import {
+  editRequestWorkspaceUser,
+  getWorkspace,
+  ownerWorkspaceEdit,
+} from "../../utils/api";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { workspace1 } from "../../utils/Validation";
@@ -15,15 +19,15 @@ import { user } from "../../atom/userAtom";
 import { authState } from "../../atom/authAtom";
 
 export default function EditWorkspaceForm() {
-  const workspaceData = useRecoilValue(workspaceStore);
-  const userData = useRecoilValue(user)
+  const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
+  const userData = useRecoilValue(user);
   const [numbers, setNumbers] = useState([]);
   const [fileDataURL, setFileDataURL] = useState(null);
   const [newColor, setNewColor] = useState();
-//   const [match, setMatches] = useState([]);
+  //   const [match, setMatches] = useState([]);
   const [file, setFile] = useState(null);
   const auth = useRecoilValue(authState);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const matches = [
     "Area of Specilization",
@@ -38,7 +42,7 @@ export default function EditWorkspaceForm() {
   };
 
   const onSubmit = async (values) => {
-    setLoading(true)
+    setLoading(true);
     const userPayload = {
       _creatorId: userData.id,
       _description: "",
@@ -47,18 +51,24 @@ export default function EditWorkspaceForm() {
       _name: values.workspace,
       id: workspaceData.id,
       logo: fileDataURL,
-      maxMentee:values.maxMentors,
-      maxMentor:values.maxMentees,
+      maxMentee: values.maxMentors,
+      maxMentor: values.maxMentees,
       color: newColor,
     };
 
-    ownerWorkspaceEdit(userPayload).then((res)=> {
-        console.log(res)
-        setLoading(false)
-    })
-
+    ownerWorkspaceEdit(userPayload).then((res) => {
+      setLoading(false);
+      const payload = {
+        sessionID: auth?.sessionID,
+      };
+      getWorkspace(payload).then((res) => {
+        console.log(res.payload);
+        const filteredData = res.payload.filter((data)=> data.id === workspaceData.id)
+        console.log(filteredData);
+        setWorkspaceData(filteredData)
+      });
+    });
   };
-
 
   const loadedValues = {
     workspace: workspaceData.name,
@@ -90,7 +100,7 @@ export default function EditWorkspaceForm() {
       fileReader.onload = (e) => {
         const { result } = e.target;
         if (result && !isCancel) {
-            setFileDataURL(result);
+          setFileDataURL(result);
         }
       };
       fileReader.readAsDataURL(file);
@@ -111,11 +121,10 @@ export default function EditWorkspaceForm() {
     setNumbers(my_array);
   }, []);
 
-
-  useEffect(()=> {
-    setNewColor(workspaceData.color)
-    setFileDataURL(workspaceData.logo)
-  }, [])
+  useEffect(() => {
+    setNewColor(workspaceData.color);
+    setFileDataURL(workspaceData.logo);
+  }, []);
 
   return (
     <div className="rounded-lg h-[700px] w-full">
@@ -230,11 +239,10 @@ export default function EditWorkspaceForm() {
                 </span> */}
 
                 <button
-                  className="primary__btn"
-                  disabled={
-                      !newColor || !fileDataURL 
-                  }
+                  className="primary__btn flex items-center gap-4"
+                  disabled={!newColor || !fileDataURL || loading}
                 >
+                  {loading ? <i className="pi pi-spin pi-spinner"></i> : ""}
                   Proceed
                 </button>
               </div>
