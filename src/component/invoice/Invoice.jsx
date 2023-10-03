@@ -2,16 +2,16 @@ import React from 'react'
 
 export default function Invoice() {
   return (
-    <section class="py-20 bg-black">
-    <div class="max-w-5xl mx-auto py-16 bg-white">
+    <section class="">
+    <div class="max-w-5xl mx-auto bg-white">
      <article class="overflow-hidden">
       <div class="bg-[white] rounded-b-md">
        <div class="p-9">
         <div class="space-y-6 text-slate-700">
-         <img class="object-cover h-12" src="https://pbs.twimg.com/profile_images/1513243060834123776/dL8-d7zI_400x400.png" />
+         <img alt='' class="object-cover h-12" src="https://pbs.twimg.com/profile_images/1513243060834123776/dL8-d7zI_400x400.png" />
    
          <p class="text-xl font-extrabold tracking-tight uppercase font-body">
-          Unwrapped.design
+          Mentor Systems
          </p>
         </div>
        </div>

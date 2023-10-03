@@ -38,6 +38,7 @@ export default function ClientMentor() {
     }).catch((err)=> 
       console.log(err)
     )
+    }).catch((err)=> console.log(err))
   };
 
   const view = (item) =>{

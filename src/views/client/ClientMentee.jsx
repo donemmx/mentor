@@ -34,6 +34,10 @@ export default function ClientMentee() {
     };
     
     getMenteesByWorkspaceId(payload).then((res) => {
+      setMenteeUsers(res.payload[2].menteeIds);
+      setMenteeUsers(res.payload);
+    }).catch((err) => console.log(err))
+  }
       // setMenteeUsers(res.payload[2].menteeIds);
       setMenteeUsers(res.payload);
       console.log('the res unloaded\n', res.payload);
