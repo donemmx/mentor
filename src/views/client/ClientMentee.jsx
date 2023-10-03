@@ -17,6 +17,10 @@ export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [visible, setVisible] = useState(false);
   const auth = useRecoilValue(authState);
+  const [mentorData, setMentorData] = useRecoilState(profileAccount)
+  const navigate = useNavigate();
+  const [ userPass, setUserPass] = useState({});
+  const [show, setShow] = useState(false);
 
   const [workspaceDataApi, setWorkspaceDataApi] = useState([]);
   const [menteeUsers, setMenteeUsers] = useState([]);
@@ -47,10 +51,21 @@ const view = (item) =>{
   console.log(item);
 }
 
+  const passUserData = (data) => {
+    setUserPass(data)
+    console.log(data)
+    setShow(!show)
+  } 
+
   const actionBodyTemplate = (rowItem) => {
     return <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" onClick={() => view(rowItem.userId)}>
       view
     </button>;
+};
+const banActionBodyTemplate = (rowItem) => {
+  return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => passUserData(rowItem)}>
+    Ban User
+  </button>;
 };
 
   return (
@@ -64,12 +79,7 @@ const view = (item) =>{
       />
       <div className="w-[80%] mx-auto mt-5 p-6">
         <div className="buttons flex items-cente justify-end gap-6 py-5">
-          <button
-            onClick={() => setVisible(!visible)}
-            className="h-[40px] w-[118px] bg-[#F56B3F] rounded text-white text-xs"
-          >
-            Ban user
-          </button>
+
           <button
             onClick={() => setVisible(!visible)}
             className="h-[40px] w-[118px] bg-[#FF9900] rounded text-white text-xs"
