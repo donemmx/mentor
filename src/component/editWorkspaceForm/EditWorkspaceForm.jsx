@@ -45,12 +45,24 @@ export default function EditWorkspaceForm() {
 
   const onSubmit = async (values) => {
     setLoading(true);
+    // const userPayload = {
+    //   _creatorId: userData.id,
+    //   _description: "",
+    //   _maxMentee: values.maxMentees,
+    //   _maxMentor: values.maxMentors,
+    //   _name: values.workspace,
+    //   id: workspaceData.id,
+    //   logo: fileDataURL,
+    //   maxMentee: values.maxMentors,
+    //   maxMentor: values.maxMentees,
+    //   color: newColor,
+    // };
+
     const userPayload = {
       _creatorId: userData.id,
       _description: "",
       _maxMentee: values.maxMentees,
       _maxMentor: values.maxMentors,
-      _name: values.workspace,
       id: workspaceData.id,
       logo: fileDataURL,
       maxMentee: values.maxMentors,
@@ -125,7 +137,7 @@ export default function EditWorkspaceForm() {
       <div className="">
         <div className="">
           <form onSubmit={handleSubmit} className="space-y-2 pt-8 w-[60%]">
-            <span
+            {/* <span
               data-aos="fade-down"
               data-aos-duration="1000"
               className="p-float-label"
@@ -142,7 +154,7 @@ export default function EditWorkspaceForm() {
 
             {errors.workspace && touched.workspace && (
               <p className="error">{errors.workspace}</p>
-            )}
+            )} */}
 
             <span
               data-aos="fade-down"
