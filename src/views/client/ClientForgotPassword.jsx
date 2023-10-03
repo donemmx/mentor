@@ -9,9 +9,14 @@ import { resetPassword } from "../../utils/api";
 import { useRecoilState } from "recoil";
 import { authState } from "../../atom/authAtom";
 
-export default function ClientForgotten() {
+export default function ClientForgotPassword() {
   const [auth, setAuth] = useRecoilState(authState);
   const navigate = useNavigate();
+
+// 
+// requesting recover password
+// /anonym/request-change-password
+
   const onSubmit = async (values) => {
     const { email, password, repeat_password, secret } = values;
     const payload = {
@@ -174,7 +179,7 @@ export default function ClientForgotten() {
             </div>
           </div>
         </div>
-        <div className="bgSignin hidden  md:flex justify-center items-center w-full "></div>
+        <div className="bgSignup hidden  md:flex justify-center items-center w-full "></div>
       </div>
     </div>
   );

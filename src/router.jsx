@@ -47,7 +47,8 @@ import UserOnboardThree from "./views/usersOnboard/UserOnboardThree";
 import ClientWorkspace from "./views/workspace/ClientWorkspace";
 import Invoice from "./component/invoice/Invoice";
 import ClientMentorProfile from "./views/client/ClientMentorProfile";
-import ClientForgotten from "./views/client/ClientForgotten";
+import ClientForgotten from "./views/client/ClientForgotPassword";
+import ClientRequestNewPassword from "./views/client/ClientRequestNewPassword";
 
 const router = createBrowserRouter([
   {
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
       {
         path: "/anonym/forgot-password/",
         element: <ClientForgotten />
+      },
+      {
+        path: "/anonym/request-change-password",
+        element: <ClientRequestNewPassword />
       },
       {
         path: "/mentor-signin/:id",

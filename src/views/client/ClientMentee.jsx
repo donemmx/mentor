@@ -19,7 +19,7 @@ export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [visible, setVisible] = useState(false);
   const auth = useRecoilValue(authState);
-  const [mentorData, setMentorData] = useRecoilState(ProfileAccount)
+  const [mentorData, setMentorData] = useRecoilState(profileAccount)
   const navigate = useNavigate();
   const [ userPass, setUserPass] = useState({});
   const [show, setShow] = useState(false);

@@ -8,6 +8,8 @@ const logout = async (payload) =>  await api.auth.logout(payload);
 
 const resetPassword = async (payload) => await api.structure('reset_password_inputs').setData('resetPassword', payload)
 
+const requestPasswordChange = async (payload) => await api.structure('ResetPasswordRequest').setData('requestPasswordChange', payload)
+
 const getPricing = async () => await api.structure('tariff').getData('getTarif');
 
 const getProvinces = async () => await api.structure('provinces').getData('getProvince');
@@ -41,14 +43,16 @@ const getMenteesByWorkspaceId = async (payload) => await api.structure('userBywo
 // Mentees 
 const getMenteeProfile = async (payload) => await api.structure('WebUser').getData('getMenteeProfile', payload);
 
-// New api call
 const banUser = async (payload) => await api.structure('userByworkSpace').setData('banUser', payload);
 
+// Mentees 
+const getProfAreasByWorkSpace = async (payload) => await api.structure('professional_areas').getData('profAreasByWorkSpace', payload);
 
 export {
     login,
     logout,
     resetPassword,
+    requestPasswordChange,
     getPricing,
     getProvinces,
     createWorkspaceWithPayment,
@@ -66,5 +70,5 @@ export {
     getInvoiceByWorkspace,
     getMenteeProfile,
     banUser,
-
+    getProfAreasByWorkSpace,
 }

@@ -5,18 +5,23 @@ import { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import ClientHeader from "../client/ClientHeader";
 import line from "../../assets/bg/lines.svg";
-import { getProvinces } from "../../utils/api";
+import { getProfAreasByWorkSpace, getProvinces } from "../../utils/api";
 import { stage2 } from "../../utils/Validation";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import UserHeader from "./UserHeader";
+import { authState } from "../../atom/authAtom";
 
 export default function UserOnboardTwo() {
     const [ province, setProvince ] = useState([])
     const params = useParams()
     const [ reg, setReg ] = useRecoilState(registerUserAtom)
     const navigate = useNavigate();
-  
+    const [ profAreasByWorkSpace, setProfAreasByWorkSpace ] = useState(null)
+    const auth = useRecoilValue(authState)
+    // getProfAreasByWorkSpace
+    
+
     const onSubmit = async (values) => {
       const { user, ...others } = reg
       const payload = {
@@ -28,16 +33,38 @@ export default function UserOnboardTwo() {
       }  
       setReg(payload)
       
+      console.log(user, 'user')
+      console.log(reg, 'reg')
+      console.log(others, 'others')
+      console.log(payload, 'payload')
+      console.log(auth, 'auth')
+      console.log(auth?.sessionID)
       navigate(`/user-onboard-3/${params.id}`);
     };
   
+  const viewGetProfAreasByWorkSpace = () => {
+    const payload = {
+      sessionID: auth?.sessionID,
+      // sessionI
+    }
+  }
   
     useEffect(()=>{
       getProvinces().then((res)=>{
         setProvince(res.payload)
+
+      const payload = {
+        sessionID: auth?.sessionID,
+        }
+
       })
+
+      getProfAreasByWorkSpace().theen((res)=>{
+        setProfAreasByWorkSpace(res)
+
+    })
     }, [])
-  
+    console.log(profAreasByWorkSpace)
   
     const initialValues = {
       province: "",

@@ -18,6 +18,7 @@ export default function ClientAccount() {
   const [userData, setUserData] = useRecoilState(user);
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
   const [workspace, setWorkspace] = useState([]);
+  const [ edit, setEdit ] = useState(false);
   const [auth, setAuth] = useRecoilState(authState);
 
   const [active, setActive] = useState("profile");
@@ -27,7 +28,8 @@ export default function ClientAccount() {
   const setTab = (data) => {
     setActive(data);
   };
-
+console.log(auth)
+console.log(userData)
   const getInvoices = () => {
     setLoading(true);
 
@@ -54,6 +56,15 @@ export default function ClientAccount() {
     }).catch((res)=> {
       console.log(res);
     })
+  }
+
+  const getProfileData = () =>{
+    const payload = {
+      sessionID: auth?.sessionID,
+      email : userData.id
+    }
+  //   getProfile()
+
   }
   
   useEffect(()=> {
@@ -127,11 +138,18 @@ export default function ClientAccount() {
                 Invoice
               </div>
             </div>
+
             <div className="">
               {active === "profile" ? (
                 <div className="">
                   <h2 className="font-black text-xl">My Account</h2>
-                  <ProfileAccount />
+
+                    {edit === false ? 
+                    (<ProfileAccount />)
+                      :
+                      ""
+                    }
+
                 </div>
               ) : (
                 ""
@@ -179,6 +197,7 @@ export default function ClientAccount() {
                 ""
               )}
             </div>
+
           </div>
         </div>
       </div>

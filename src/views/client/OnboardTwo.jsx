@@ -27,9 +27,9 @@ export default function OnboardTwo() {
       }
     }  
     setReg(payload)
-    
     navigate("/onboard-4");
   };
+
 
 
   useEffect(()=>{

@@ -31,6 +31,8 @@ export default function UserOnboardThree() {
         ...user,
       },
     };
+    console.log(params)
+    console.log(params.id)
 
     const userPayload = {
         gender: values.gender,
