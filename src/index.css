@@ -237,6 +237,7 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   font-size: clamp(0.75rem, 2.5vw, 1rem);
   color: white;
   border-radius: 10px;

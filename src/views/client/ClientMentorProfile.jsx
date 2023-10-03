@@ -7,6 +7,7 @@ import { workspaceStore } from '../../atom/workspaceAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { user } from '../../atom/userAtom';
 import { profileAccount } from '../../atom/profileAtom';
+import { Link } from 'react-router-dom';
 
 export default function ClientMentorProfile() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -14,15 +15,18 @@ export default function ClientMentorProfile() {
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
 //   console.log('created view to another page, ban as pop up')
   
+const back = () => {
+    window.history.back()
+}
   
   return (
     <div>
         <TopCard
         links={mylinks}
         homeLink={"/dashboard"}
-        title={"My account"}
+        title={"User Profile"}
         base={"signin"}
-        subtitle={"Manage your account"}
+        subtitle={"Manage User Profile"}
         />
         
         
@@ -45,12 +49,7 @@ export default function ClientMentorProfile() {
                       {workspaceData.name}
                         </div>
 
-                        <div className="text-xs py-2 ">
-                            <span className='text-lg mb-[5px]'>Description</span>
-                        <br />
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Accusantium, sapiente?
-                        </div>
+                      
                     </div>
                     {/* <button className="h-[40px] w-full bg-gray-700 text-white flex items-center justify-center gap-2 rounded mt-auto text-sm ">
                         <i className="pi pi-plus-circle "></i>
@@ -61,42 +60,42 @@ export default function ClientMentorProfile() {
             </div>
             
             <div className="right">
-                <div className="grid lg:grid-cols-[2fr,10fr] gap-4 ">
+                <div  className=" cursor-pointer text-lg font-bold mb-3" onClick={back}>
+                   <i className='pi pi-angle-left !text-lg'></i> Back
+                </div>
+                <div className="grid lg:grid-cols-[5fr,5fr] gap-4 ">
                     <div className="">
                         <div className="">
-                            <h2 className="font-black text-xl">My Account</h2>
+                            <h2 className="font-black text-xl">{userData?.firstName} {userData?.lastName}</h2>
                             
                             <div>
-                            <div className="h-[70vh] mt-5  ">
-                                <div className='flex flex-wrap items-center my-1'>
-                                    <span className='text-[30px] font-bold mr-5 p-0'>{userData.firstName} {userData.lastName}</span>
+                            <div className="h-full mt-5  ">
+                                <div className='flex items-center my-1'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                                     <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                                     </svg>        
-                                    <span className=' ml-2'>{userData.province}</span>
+                                    <span className=' ml-2'>{userData.provinceId}</span>
                                 </div>
                                 <div className=''>Role - {userData.role}</div>
                                 <br />
-                                <div>
+                                <div className='flex flex-col gap-4'>
                                     {/* <small className='text-uppercase mb-3 text-bold'>Contact Data</small> */}
-                                    <table>
-                                    <tr>
-                                        <td className='font-bold p-5 border'>Phone</td>
-                                        <td className='px-5'>{userData.phone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='font-bold p-5 border'>Address</td>
-                                        <td className='px-5'>{userData.userId} {userData.postalcode}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='font-bold p-5 border'>Email</td>
-                                        <td className='px-5'>{userData.email}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className='font-bold p-5 border'>Gender</td>
-                                        <td className='px-5'>Female</td>
-                                    </tr>
-                                    </table>
+                                    <div className='flex'>
+                                        <div className='font-bold '>Phone</div>
+                                        <div className='px-5'>{userData.phone}</div>
+                                    </div>
+                                    <div className='flex'>
+                                        <div className='font-bold '>Address</div>
+                                        <div className='px-5'>{userData.userId} {userData.postalcode}</div>
+                                    </div>
+                                    <div className='flex'>
+                                        <div className='font-bold '>Email</div>
+                                        <div className='px-5'>{userData.email}</div>
+                                    </div>
+                                    <div className='flex'>
+                                        <div className='font-bold '>Gender</div>
+                                        <div className='px-5'>Female</div>
+                                    </div>
 
                                 </div>
                                 </div>

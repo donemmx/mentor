@@ -6,24 +6,24 @@ import Logo from "../../component/logo/Logo";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { useRecoilState } from "recoil";
+import { useState } from "react";
 
 export default function ClientSignup() {
   const [reg, setReg] = useRecoilState(registerUserAtom);
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate();
   const params = useParams();
 
   const onSubmit = async (values) => {
-    const { user, ...others } = reg;
+    setLoading(true)
     const payload = {
-      ...others,
       user: {
-        ...user,
         ...values,
       },
     };
     setReg(payload);
-    navigate(`/onboard-1`);
+    navigate(`/pricing`);
   };
   const {
     values,
@@ -106,9 +106,9 @@ export default function ClientSignup() {
                 )}
                 <button
                   className="primary__btn mt-5"
-                  disabled={!isValid || isSubmitting}
+                  disabled={!isValid || isSubmitting || loading}
                 >
-                  {isSubmitting ? (
+                  {loading ? (
                     <i className="pi pi-spin pi-spinner text-white !text-[20px]"></i>
                   ) : (
                     ""

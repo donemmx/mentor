@@ -13,12 +13,13 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useNavigate, useParams } from "react-router-dom";
 import { profileAccount } from "../../atom/profileAtom";
+import ProfileAccount from "../../component/profileAccount/ProfileAccount";
 
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [visible, setVisible] = useState(false);
   const auth = useRecoilValue(authState);
-  const [mentorData, setMentorData] = useRecoilState(profileAccount)
+  const [mentorData, setMentorData] = useRecoilState(ProfileAccount)
   const navigate = useNavigate();
   const [ userPass, setUserPass] = useState({});
   const [show, setShow] = useState(false);
