@@ -39,27 +39,16 @@ export default function ClientMentee() {
     
     getMenteesByWorkspaceId(payload).then((res) => {
       setMenteeUsers(res.payload);
-      console.log('the res loaded\n');
     }).catch((err) => console.log(err))
-  
-      // setMenteeUsers(res.payload[2].menteeIds);
-      console.log('the res unloaded not loaded\n');
   };
 
   useEffect(() => {
     listMyMenteesUser();
   }, []);
-  console.log(menteeUsers)
-  // console.log(menteeUsers[0].id)
   
   const view = (item) =>{
-    console.log(item);
     setMentorData(item)
     navigate(`/mentor-account/${item.id}`);
-
-    // console.log(auth);
-    // console.log(auth?.sessionID);
-
   }
 
 

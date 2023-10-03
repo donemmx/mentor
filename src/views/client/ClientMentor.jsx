@@ -53,26 +53,18 @@ export default function ClientMentor() {
       isDeasctivated: true,
       id: id
     };
-    console.log(userPayload, 'about to send payload\n\n')
     banUser(userPayload).then((res) => {
-      console.log(res, 'The response after banning\n\n\n')
       toast.success("User banned successfully");
       navigate("/list-workspace");
       }).catch((err)=> 
       console.log(err)
     )
-    console.log(userPayload, 'the sent payload\n\n')
 
   };
 
   const view = (item) =>{
-    console.log(item);
     setMentorData(item)
     navigate(`/mentor-account/${item.id}`);
-
-    // console.log(auth);
-    // console.log(auth?.sessionID);
-
   }
   
     const actionBodyTemplate = (rowItem) => {
