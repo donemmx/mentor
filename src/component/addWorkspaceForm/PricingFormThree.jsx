@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { createWorkspaceWithPayment, login } from "../../utils/api";
-import { ColorPicker } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "react-toastify";
 import { MultiSelect } from "primereact/multiselect";
 import { authState } from "../../atom/authAtom";
 import { addWorkSpaceStore } from "../../atom/addWorkspace";
 import { user } from "../../atom/userAtom";
+import { useNavigate } from "react-router-dom";
+import { ColorPicker } from "primereact/colorpicker";
 
 export default function PricingFormThree() {
   const [match, setMatches] = useState([]);
@@ -30,56 +31,53 @@ export default function PricingFormThree() {
     setFileDataURL(URL.createObjectURL(fileData));
   };
 
-  console.log(userData, "Thi is the user data");
-
-    const register = () => {
-        const userPayload = {
-        name: addWorkspace.workspace.workspace,
-        maxMentors: addWorkspace.workspace.maxMentors,
-        maxMentees: addWorkspace.workspace.maxMentees,
-        workspaceLogo: image,
-        color: color,
-        lastName: userData.lastName,
-        firstame: userData.firstName,
-        newMail: userData.id,
-        mail: userData.id,
-        _phone: userData.phone,
-        _provinceId: userData.province,
-        _postalcode: userData.postalcode,
-        _action: "createWithPayment",
-        _url: `${window.location.origin}/payments/${addWorkspace.id}`,
-        };
-        createWorkspaceWithPayment(userPayload).
-            then((res) => {
-            const payload = {
-                step: 0,
-            };
-            console.log(color)
-            // setAddworkspace(payload);
-            // toast.success("successful");
-        });
+  const navigate = useNavigate();
+  const register = () => {
+    const userPayload = {
+      name: addWorkspace.workspace.workspace,
+      maxMentors: addWorkspace.workspace.maxMentors,
+      maxMentees: addWorkspace.workspace.maxMentees,
+      workspaceLogo: image,
+      color: color,
+      lastName: userData.lastName,
+      firstame: userData.firstName,
+      newMail: userData.id,
+      mail: userData.id,
+      _phone: userData.phone,
+      _provinceId: userData.province,
+      _postalcode: userData.postalcode,
+      _action: "createWithPayment",
+      _url: `${window.location.origin}/payments/${addWorkspace.id}`,
     };
+    createWorkspaceWithPayment(userPayload).then((res) => {
+      const payload = {
+        step: 0,
+      };
+      toast.success("successful");
+      navigate('/list-workspace')
+    });
+  };
 
-    useEffect(() => {
-        let fileReader,
-        isCancel = false;
-        if (file) {
-        fileReader = new FileReader();
-        fileReader.onload = (e) => {
-            const { result } = e.target;
-            if (result && !isCancel) {
-            setImage(result);
-            }
-        };
-        fileReader.readAsDataURL(file);
+  useEffect(() => {
+    let fileReader,
+      isCancel = false;
+    if (file) {
+      fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        const { result } = e.target;
+        if (result && !isCancel) {
+          setImage(result);
         }
-        return () => {
-        isCancel = true;
-        if (fileReader && fileReader.readyState === 1) {
-            fileReader.abort();
-        }
-        };
-    }, [file]);
+      };
+      fileReader.readAsDataURL(file);
+    }
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [file]);
 
   return (
     <div>
@@ -143,7 +141,7 @@ export default function PricingFormThree() {
               data-aos="fade-down"
               data-aos-duration="800"
               className="primary__btn"
-              disabled={!file || matches.length === 0}
+              disabled={!file || matches.length === 0 || !color}
               onClick={register}
             >
               Proceed

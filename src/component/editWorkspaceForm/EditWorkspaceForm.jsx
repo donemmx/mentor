@@ -58,18 +58,10 @@ export default function EditWorkspaceForm() {
       color: newColor,
     };
 
-    ownerWorkspaceEdit(userPayload).then((res) => {
+    ownerWorkspaceEdit(userPayload).then(() => {
       setLoading(false);
-      const payload = {
-        sessionID: auth?.sessionID,
-      };
-      getWorkspace(payload).then((res) => {
-        console.log(res.payload);
-        const filteredData = res.payload.filter((data)=> data.id === workspaceData.id)
-        console.log(filteredData);
-        // setWorkspaceData(filteredData)
-
-      });
+      navigate('/list-workspace')
+      
     });
   };
 

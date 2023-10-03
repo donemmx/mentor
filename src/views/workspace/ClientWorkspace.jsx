@@ -308,7 +308,7 @@ export default function ClientWorkspace() {
                   <div className="">
                     <h2 className="font-black text-xl ">Select A Theme</h2>
                     <div className="my-10 grid grid-cols-3 gap-6">
-                      {[1, 2, 3, 4, 5].map((res) => (
+                      {[1].map((res) => (
                         <ThemeCard />
                       ))}
                     </div>
