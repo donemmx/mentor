@@ -16,21 +16,22 @@ export default function ClientSignin() {
     const { email, password } = values;
     login(email, password)
       .then((res) => {
-          setAuth(res);
-          navigate("/list-workspace");
-          toast.success("Signin Successful");
-        }
-      ).catch((e) => {
-        if(!e.response){
-          toast.error('please check ')
+        setAuth(res);
+        navigate("/list-workspace");
+        toast.success("Signin Successful");
+      })
+      .catch((e) => {
+        if (!e.response) {
+          toast.error("please check ");
 
           //check you API endpoint, you must enable CORS header in settings
         }
-        if(e.response && e.response.status === 403){
-          toast.error('please check ')
+        if (e.response && e.response.status === 403) {
+          toast.error("please check ");
           //todo: api endpoint required authorisation
-        }})
-  }
+        }
+      });
+  };
 
   const {
     values,
@@ -56,7 +57,13 @@ export default function ClientSignin() {
       <div className="grid md:grid-cols-2 h-full w-full ">
         <div className=" p-5 flex items-center justify-center">
           <div className="w-full flex flex-col justify-center">
-            <Logo />
+            <Link to='/' className="absolute top-6 font-black  text-[16px]">
+              <span className=" bg-black text-white px-3 py-2 rounded mr-2">
+                M
+              </span>
+              Mentor Systems
+            </Link>
+
             <div className="w-[95%] md:w-[90%] lg:w-[60%] mx-auto">
               <h3 className=" font-black text-[20px] lg:text-[30px] leading-[1.1]">
                 Welcome back
