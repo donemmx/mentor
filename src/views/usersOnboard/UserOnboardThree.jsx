@@ -58,7 +58,7 @@ export default function UserOnboardThree() {
             res,
           }
           setAuth(payload)
-          navigate(`/${reg.user.role}-dashboard`);
+          navigate(`/${reg.user.role}-signin/${params.id}`);
         })
       })
     setReg(payload);

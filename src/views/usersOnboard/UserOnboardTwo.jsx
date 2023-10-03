@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
-import ClientHeader from "../client/ClientHeader";
 import line from "../../assets/bg/lines.svg";
 import { getProfAreasByWorkSpace, getProvinces } from "../../utils/api";
 import { stage2 } from "../../utils/Validation";
@@ -42,29 +41,20 @@ export default function UserOnboardTwo() {
       navigate(`/user-onboard-3/${params.id}`);
     };
   
-  const viewGetProfAreasByWorkSpace = () => {
-    const payload = {
-      sessionID: auth?.sessionID,
-      // sessionI
-    }
-  }
+  // const viewGetProfAreasByWorkSpace = () => {
+  //   const payload = {
+  //     sessionID: auth?.sessionID,
+  //     // sessionI
+  //   }
+  // }
   
     useEffect(()=>{
       getProvinces().then((res)=>{
         setProvince(res.payload)
 
-      const payload = {
-        sessionID: auth?.sessionID,
-        }
-
       })
 
-      getProfAreasByWorkSpace().theen((res)=>{
-        setProfAreasByWorkSpace(res)
-
-    })
     }, [])
-    console.log(profAreasByWorkSpace)
   
     const initialValues = {
       province: "",
