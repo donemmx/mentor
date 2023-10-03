@@ -23,7 +23,7 @@ export default function ClientSignup() {
       },
     };
     setReg(payload);
-    navigate(`/onboard-1`);
+    navigate(`/pricing`);
   };
   const {
     values,
