@@ -39,6 +39,7 @@ const getMenteesByWorkspaceId = async (payload) => await api.structure('userBywo
 // Mentees 
 const getMenteeProfile = async (payload) => await api.structure('WebUser').getData('getMenteeProfile', payload);
 
+// New api
 const banUser = async (payload) => await api.structure('userByworkSpace').setData('banUser', payload);
 
 

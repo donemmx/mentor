@@ -12,6 +12,7 @@ export default function ClientMentorProfile() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [userData, setUserData] = useRecoilState(profileAccount);
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
+  console.log('created view to another page, ban as pop up')
   
   
   return (

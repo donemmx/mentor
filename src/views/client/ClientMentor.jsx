@@ -73,6 +73,7 @@ export default function ClientMentor() {
     setMentorData(item)
     navigate(`/mentor-account/${item.id}`);
   }
+console.log('created view to another page, ban as pop up')
   
     const actionBodyTemplate = (rowItem) => {
       return <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" onClick={() => view(rowItem)}>
