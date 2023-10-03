@@ -23,7 +23,7 @@ export default function PricingStageTwo() {
       }
     }
     setReg(payload)
-    navigate("/pricing-stage-2");
+    navigate("/onboard-2");
   };
   return (
     <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
@@ -43,7 +43,7 @@ export default function PricingStageTwo() {
               >
                 Thank you {`${reg?.user?.firstName} ${reg?.user?.lastName}`} 👋. <br /> Can we have your email?
               </h3>
-              <form className="space-y-6 w-[80%] pt-8">
+              <div className="space-y-6 w-[80%] pt-8">
                 <span
                   data-aos="fade-down"
                   data-aos-duration="1000"
@@ -53,7 +53,7 @@ export default function PricingStageTwo() {
                   <label htmlFor="username">Email</label>
                 </span>
                 <button
-                  to="/pricing-stage-3"
+                  onClick={onSubmit}
                   data-aos="fade-down"
                   data-aos-duration="800"
                   className="primary__btn"
@@ -61,7 +61,7 @@ export default function PricingStageTwo() {
                 >
                   Proceed
                 </button>
-              </form>
+              </div>
             </div>
             <div className="absolute top-0 right-0 z-0  h-[70vh]">
               <img className=" h-full w-full object-cover" src={line} alt="" />
