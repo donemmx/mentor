@@ -192,7 +192,7 @@ export default function EditWorkspaceForm() {
                   <div
                     className="underline cursor-pointer"
                     onClick={() => {
-                      ("null");
+                      setFileDataURL(null);
                     }}
                   >
                     Remove Image
