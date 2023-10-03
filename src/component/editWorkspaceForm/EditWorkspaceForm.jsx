@@ -17,6 +17,7 @@ import { workspace1 } from "../../utils/Validation";
 import { Dropdown } from "primereact/dropdown";
 import { user } from "../../atom/userAtom";
 import { authState } from "../../atom/authAtom";
+import { useNavigate } from "react-router-dom";
 
 export default function EditWorkspaceForm() {
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
@@ -28,6 +29,7 @@ export default function EditWorkspaceForm() {
   const [file, setFile] = useState(null);
   const auth = useRecoilValue(authState);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const matches = [
     "Area of Specilization",
@@ -66,6 +68,7 @@ export default function EditWorkspaceForm() {
         const filteredData = res.payload.filter((data)=> data.id === workspaceData.id)
         console.log(filteredData);
         setWorkspaceData(filteredData)
+        navigate("/dashboard");
       });
     });
   };
@@ -79,8 +82,6 @@ export default function EditWorkspaceForm() {
   const {
     values,
     errors,
-    isValid,
-    isSubmitting,
     touched,
     handleBlur,
     handleChange,
