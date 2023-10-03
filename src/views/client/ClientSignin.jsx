@@ -8,19 +8,24 @@ import { toast } from "react-toastify";
 import { login } from "../../utils/api";
 import { useRecoilState } from "recoil";
 import { authState } from "../../atom/authAtom";
+import { useState } from "react";
 
 export default function ClientSignin() {
   const [auth, setAuth] = useRecoilState(authState);
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const onSubmit = async (values) => {
+    setLoading(true)
     const { email, password } = values;
     login(email, password)
       .then((res) => {
         setAuth(res);
         navigate("/list-workspace");
         toast.success("Signin Successful");
+        setLoading(false)
       })
       .catch((e) => {
+        setLoading(false)
         if (!e.response) {
           toast.error("please check ");
 
@@ -100,9 +105,9 @@ export default function ClientSignin() {
                 )}
                 <button
                   className="primary__btn mt-5"
-                  disabled={!isValid || isSubmitting}
+                  disabled={!isValid || isSubmitting || loading}
                 >
-                  {isSubmitting ? (
+                  {loading ? (
                     <i className="pi pi-spin pi-spinner !text-[20px]"></i>
                   ) : (
                     ""
