@@ -14,7 +14,6 @@ import { Column } from "primereact/column";
 import { useNavigate, useParams } from "react-router-dom";
 import { profileAccount } from "../../atom/profileAtom";
 
-
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [visible, setVisible] = useState(false);
@@ -56,7 +55,7 @@ export default function ClientMentee() {
 
   const passUserData = (data) => {
     setUserPass(data)
-    // console.log(data)
+    console.log(data)
     setShow(!show)
   } 
 // console.log('created view to another page, ban as pop up')

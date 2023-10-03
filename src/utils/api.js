@@ -6,6 +6,8 @@ const login = async (username, password) =>  await api.auth.login(username, pass
 
 const logout = async (payload) =>  await api.auth.logout(payload);
 
+const resetPassword = async (payload) => await api.structure('reset_password_inputs').setData('resetPassword', payload)
+
 const getPricing = async () => await api.structure('tariff').getData('getTarif');
 
 const getProvinces = async () => await api.structure('provinces').getData('getProvince');
@@ -46,6 +48,7 @@ const banUser = async (payload) => await api.structure('userByworkSpace').setDat
 export {
     login,
     logout,
+    resetPassword,
     getPricing,
     getProvinces,
     createWorkspaceWithPayment,

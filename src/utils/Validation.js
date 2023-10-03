@@ -12,6 +12,12 @@ const loginuser = yup.object().shape({
     password: yup.string().required("Required"),
 })
 
+const forgotPassword = yup.object().shape({
+    email: yup.string().email("Please enter a valid email").required("Required"),
+    password: yup.string().required("Required"),
+    repeat_password: yup.string().required("Required"),
+})
+
 const stage1 = yup.object().shape({
     firstName: yup.string().required("Required"),
     lastName: yup.string().required("Required"),
@@ -39,6 +45,7 @@ const workspace1 = yup.object().shape({
 export {
     registerUser,
     loginuser,
+    forgotPassword,
     stage1,
     stage2,
     workspace1,

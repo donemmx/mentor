@@ -54,12 +54,12 @@ export default function ClientMentor() {
       id: userPass.id
     };
     console.log(userPayload)
-    // banUser(userPayload).then((res) => {
-    //   toast.error('User Banned!!!')
-    //   navigate("/list-workspace");
-    //   }).catch((err)=> 
-    //   console.log(err)
-    // )
+    banUser(userPayload).then((res) => {
+      toast.error('User Banned!!!')
+      navigate("/list-workspace");
+      }).catch((err)=> 
+      console.log(err)
+    )
     setShow(!show)
   };
 

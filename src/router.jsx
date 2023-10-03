@@ -47,6 +47,7 @@ import UserOnboardThree from "./views/usersOnboard/UserOnboardThree";
 import ClientWorkspace from "./views/workspace/ClientWorkspace";
 import Invoice from "./component/invoice/Invoice";
 import ClientMentorProfile from "./views/client/ClientMentorProfile";
+import ClientForgotten from "./views/client/ClientForgotten";
 
 const router = createBrowserRouter([
   {
@@ -100,6 +101,10 @@ const router = createBrowserRouter([
       {
         path: "/signin",
         element: <ClientSignin />,
+      },
+      {
+        path: "/anonym/forgot-password/",
+        element: <ClientForgotten />
       },
       {
         path: "/mentor-signin/:id",
@@ -223,8 +228,6 @@ const router = createBrowserRouter([
         path: "/invoice",
         element: <Invoice />,
       },
-    
-    
       {
         path: "/mentors",
         element: <ClientUsers />,
@@ -264,7 +267,8 @@ const router = createBrowserRouter([
       {
         path: "/mentee-account/:id",
         element: <ClientMentorProfile />
-      }
+      },
+      // 
     ],
   },
   {
