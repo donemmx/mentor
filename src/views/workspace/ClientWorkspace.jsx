@@ -241,7 +241,7 @@ export default function ClientWorkspace() {
                 >
                   Add Workspace
                 </div>
-                <div
+                {/* <div
                   className={
                     active === "domain"
                       ? "font-bold cursor-pointer"
@@ -250,7 +250,7 @@ export default function ClientWorkspace() {
                   onClick={() => setTab("domain")}
                 >
                   Custom Domain
-                </div>
+                </div> */}
                 <div
                   className={
                     active === "switch"

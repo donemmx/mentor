@@ -127,7 +127,7 @@ console.log(userData)
               >
                 Personal Profile
               </div>
-              <div
+              {/* <div
                 className={
                   active === "invoice"
                     ? "font-bold cursor-pointer"
@@ -136,7 +136,7 @@ console.log(userData)
                 onClick={() => (setTab("invoice"), getInvoices())}
               >
                 Invoice
-              </div>
+              </div> */}
             </div>
 
             <div className="">
