@@ -51,7 +51,7 @@ export default function ClientMentor() {
   const activateBanUser = () =>{
     const userPayload = {
       isDeasctivated: true,
-      id: userPass.id
+      id: userPass?.id
     };
     console.log(userPayload)
     // banUser(userPayload).then((res) => {

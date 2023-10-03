@@ -67,8 +67,8 @@ export default function EditWorkspaceForm() {
         console.log(res.payload);
         const filteredData = res.payload.filter((data)=> data.id === workspaceData.id)
         console.log(filteredData);
-        setWorkspaceData(filteredData)
-        navigate("/dashboard");
+        // setWorkspaceData(filteredData)
+
       });
     });
   };
