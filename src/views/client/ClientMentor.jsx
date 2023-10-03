@@ -21,10 +21,11 @@ export default function ClientMentor() {
   const auth = useRecoilValue(authState);
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
+  const [show, setShow] = useState(false);
   const [mentorUsers, setMentorUsers] = useState([]);
   const params = useParams();
   const [mentorData, setMentorData] = useRecoilState(profileAccount)
-
+  const [ userPass, setUserPass] = useState({});
   
   let inviteLink = `${window.location.origin}/mentor-signup/${workspaceData?.id}`;
 
@@ -41,26 +42,32 @@ export default function ClientMentor() {
     };
     getMentorsByWorkspaceId(payload).then((res) => {
       setMentorUsers(res.payload);
-      console.log('the res loaded\n');
     }).catch((err)=> 
       console.log(err)
     )
   };
 
   
-  const activateBanUser = (id)=>{
+  const activateBanUser = (data)=>{
     const userPayload = {
       isDeasctivated: true,
-      id: id
+      id: data.id
     };
+    console.log(data)
     banUser(userPayload).then((res) => {
-      toast.success("User banned successfully");
+      toast.error('User Banned!!!')
       navigate("/list-workspace");
       }).catch((err)=> 
       console.log(err)
     )
-
+    setShow(!show)
   };
+
+  const passUserData = (data) => {
+    setUserPass(data)
+    console.log(data)
+    setShow(!show)
+  } 
 
   const view = (item) =>{
     setMentorData(item)
@@ -74,7 +81,7 @@ export default function ClientMentor() {
   };
 
     const banActionBodyTemplate = (rowItem) => {
-      return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => activateBanUser(rowItem.id)}>
+      return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => passUserData(rowItem)}>
         Ban User
       </button>;
   };
@@ -153,6 +160,27 @@ export default function ClientMentor() {
           <label htmlFor="username">Email</label>
         </span>
         <button className="primary__btn  mt-5" onClick={sendInvite}>Send Invite</button>
+        </div>
+      </Dialog>
+      <Dialog
+        header="Ban User"s
+        visible={show}
+        onHide={() => setShow(false)}
+        className="w-[90%] lg:w-[35vw]"
+      >
+           <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
+              <h4 className=" font-bold pt-3">Ban {userPass?.firstName} {userPass?.lastName} ?</h4>
+              <br /><br />
+            </div>
+            <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
+              <button
+                onClick={activateBanUser(userPass)}
+                className="h-[45px] w-[150px] bg-[#F56B3F] mx-auto text-center rounded text-white"
+              >Proceed to Ban
+              </button>
+            </div>
+        <div className="w-[80%] mx-auto py-5">
+        
         </div>
       </Dialog>
     </div>

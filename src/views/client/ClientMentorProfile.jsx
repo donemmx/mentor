@@ -12,7 +12,6 @@ export default function ClientMentorProfile() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [userData, setUserData] = useRecoilState(profileAccount);
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
-console.log(workspaceData)
   
   
   return (
