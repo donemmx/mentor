@@ -258,6 +258,10 @@ const router = createBrowserRouter([
         element: <ListWorkspace />,
       },
       {
+        path: "/mentor-account/:id",
+        element: <ClientMentorProfile />
+      },
+      {
         path: "/mentee-account/:id",
         element: <ClientMentorProfile />
       }

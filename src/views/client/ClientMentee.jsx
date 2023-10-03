@@ -4,19 +4,23 @@ import Table from "../../component/Table";
 import { toast } from "react-toastify";
 import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { authState } from "../../atom/authAtom";
 import { getMenteesByWorkspaceId, getWorkspace } from "../../utils/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { useNavigate, useParams } from "react-router-dom";
+import { profileAccount } from "../../atom/profileAtom";
 
 
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [visible, setVisible] = useState(false);
   const auth = useRecoilValue(authState);
+  const [mentorData, setMentorData] = useRecoilState(profileAccount)
+  const navigate = useNavigate();
 
   const [workspaceDataApi, setWorkspaceDataApi] = useState([]);
   const [menteeUsers, setMenteeUsers] = useState([]);
@@ -34,27 +38,29 @@ export default function ClientMentee() {
     };
     
     getMenteesByWorkspaceId(payload).then((res) => {
-      setMenteeUsers(res.payload[2].menteeIds);
       setMenteeUsers(res.payload);
+      console.log('the res loaded\n');
     }).catch((err) => console.log(err))
-  }
+  
       // setMenteeUsers(res.payload[2].menteeIds);
-      setMenteeUsers(res.payload);
-      console.log('the res unloaded\n', res.payload);
-      // 
-    }).catch((err)=> 
-    console.log(err)
-  );
+      console.log('the res unloaded not loaded\n');
   };
+
   useEffect(() => {
     listMyMenteesUser();
   }, []);
   console.log(menteeUsers)
   // console.log(menteeUsers[0].id)
   
-const view = (item) =>{
-  console.log(item);
-}
+  const view = (item) =>{
+    console.log(item);
+    setMentorData(item)
+    navigate(`/mentor-account/${item.id}`);
+
+    // console.log(auth);
+    // console.log(auth?.sessionID);
+
+  }
 
 
   const actionBodyTemplate = (rowItem) => {

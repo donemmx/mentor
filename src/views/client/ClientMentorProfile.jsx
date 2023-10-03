@@ -4,13 +4,16 @@ import ProfileAccount from '../../component/profileAccount/ProfileAccount'
 import defaultLogo from "../../assets/bg/welcome-bg.png";
 import { useState } from 'react';
 import { workspaceStore } from '../../atom/workspaceAtom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { user } from '../../atom/userAtom';
+import { profileAccount } from '../../atom/profileAtom';
 
 export default function ClientMentorProfile() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
-  const [userData, setUserData] = useRecoilState(user);
+  const [userData, setUserData] = useRecoilState(profileAccount);
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
+//   const [mentorData, setMentorData] = useRecoilValue(profileAccount)
+console.log(workspaceData)
   
   
   return (
@@ -40,19 +43,20 @@ export default function ClientMentorProfile() {
                         </div>
                         <div className="title text-xl font-bold flex items-center gap-2 ">
                         <i className="pi pi-cog pi-spin "></i>
-                        {userData.firstName} {userData.lastName}
+                      {workspaceData.name}
                         </div>
 
                         <div className="text-xs py-2 ">
-                        {workspaceData?.name} <br />
+                            <span className='text-lg mb-[5px]'>Description</span>
+                        <br />
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Accusantium, sapiente?
                         </div>
                     </div>
-                    <button className="h-[40px] w-full bg-gray-700 text-white flex items-center justify-center gap-2 rounded mt-auto text-sm ">
+                    {/* <button className="h-[40px] w-full bg-gray-700 text-white flex items-center justify-center gap-2 rounded mt-auto text-sm ">
                         <i className="pi pi-plus-circle "></i>
                         Edit Profile
-                    </button>
+                    </button> */}
                     </div>
                 </div>
             </div>
@@ -62,7 +66,42 @@ export default function ClientMentorProfile() {
                     <div className="">
                         <div className="">
                             <h2 className="font-black text-xl">My Account</h2>
-                            <ProfileAccount />
+                            
+                            <div>
+                            <div className="h-[70vh] mt-5  ">
+                                <div className='flex flex-wrap items-center my-1'>
+                                    <span className='text-[30px] font-bold mr-5 p-0'>{userData.firstName} {userData.lastName}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                    </svg>        
+                                    <span className=' ml-2'>{userData.province}</span>
+                                </div>
+                                <div className=''>Role - {userData.role}</div>
+                                <br />
+                                <div>
+                                    <small className='text-uppercase mb-3 text-bold'>Contact Data</small>
+                                    <table>
+                                    <tr>
+                                        <td className='font-bold p-5 border'>Phone</td>
+                                        <td className='px-5'>{userData.phone}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='font-bold p-5 border'>Address</td>
+                                        <td className='px-5'>{userData.userId} {userData.postalcode}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='font-bold p-5 border'>Email</td>
+                                        <td className='px-5'>{userData.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='font-bold p-5 border'>Gender</td>
+                                        <td className='px-5'>Female</td>
+                                    </tr>
+                                    </table>
+
+                                </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

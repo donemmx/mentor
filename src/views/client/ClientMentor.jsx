@@ -5,21 +5,27 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { toast } from "react-toastify";
 import { workspaceStore } from "../../atom/workspaceAtom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { DataTable } from "primereact/datatable";
 import Column from "antd/es/table/Column";
-import { getMentorsByWorkspaceId } from "../../utils/api";
+import { banUser, getMentorsByWorkspaceId } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
+import { useNavigate, useParams } from "react-router-dom";
+import { user } from "../../atom/userAtom";
+import { profileAccount } from "../../atom/profileAtom";
 
 export default function ClientMentor() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const workspaceData = useRecoilValue(workspaceStore)
   const auth = useRecoilValue(authState);
-
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [mentorUsers, setMentorUsers] = useState([]);
+  const params = useParams();
+  const [mentorData, setMentorData] = useRecoilState(profileAccount)
 
+  
   let inviteLink = `${window.location.origin}/mentor-signup/${workspaceData?.id}`;
 
 
@@ -35,14 +41,38 @@ export default function ClientMentor() {
     };
     getMentorsByWorkspaceId(payload).then((res) => {
       setMentorUsers(res.payload);
+      console.log('the res loaded\n');
     }).catch((err)=> 
       console.log(err)
     )
-    }).catch((err)=> console.log(err))
+  };
+
+  
+  const activateBanUser = (id)=>{
+    const userPayload = {
+      isDeasctivated: true,
+      id: id
+    };
+    console.log(userPayload, 'about to send payload\n\n')
+    banUser(userPayload).then((res) => {
+      console.log(res, 'The response after banning\n\n\n')
+      toast.success("User banned successfully");
+      navigate("/list-workspace");
+      }).catch((err)=> 
+      console.log(err)
+    )
+    console.log(userPayload, 'the sent payload\n\n')
+
   };
 
   const view = (item) =>{
     console.log(item);
+    setMentorData(item)
+    navigate(`/mentor-account/${item.id}`);
+
+    // console.log(auth);
+    // console.log(auth?.sessionID);
+
   }
   
     const actionBodyTemplate = (rowItem) => {
@@ -50,6 +80,13 @@ export default function ClientMentor() {
         view
       </button>;
   };
+
+    const banActionBodyTemplate = (rowItem) => {
+      return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => activateBanUser(rowItem.id)}>
+        Ban User
+      </button>;
+  };
+  
   
 
   useEffect(() => {
@@ -82,6 +119,7 @@ export default function ClientMentor() {
           <Column className=" text-sm" field="phone" header="Phone"></Column>
           <Column className=" text-sm" field="gender" header="Gender"></Column>
           <Column body={actionBodyTemplate}></Column>
+          <Column body={banActionBodyTemplate}></Column>
         </DataTable>
       </div>
       <Dialog
