@@ -202,7 +202,7 @@ export default function ClientAccount() {
               >
                 Personal Profile
               </div>
-              <div
+              {/* <div
                 className={
                   active === "invoice"
                     ? "font-bold cursor-pointer"
@@ -211,7 +211,7 @@ export default function ClientAccount() {
                 onClick={() => (setTab("invoice"), getInvoices())}
               >
                 Invoice
-              </div>
+              </div> */}
             </div>
 
             <div className="">
