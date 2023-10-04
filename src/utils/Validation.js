@@ -45,6 +45,18 @@ const workspace1 = yup.object().shape({
     maxMentees: yup.number().required("Required"),
 })
 
+const profile = yup.object().shape({
+    firstName: yup.string().required("Required"),
+    lastName: yup.string().required("Required"),
+    gender: yup.string().required("Required"),
+    phone: yup.string().required("Required"),
+    city: yup.string().required("Required"),
+    postalcode: yup.string().required("Required"),
+    profilesummary: yup.string().required("Required"),
+    province: yup.string().required("Required"),
+    yearsofprofessionalinterest: yup.string().required("Required"),
+})
+
 
 export {
     registerUser,
@@ -54,5 +66,6 @@ export {
     stage1,
     stage2,
     workspace1,
-    userOnboard3
+    userOnboard3,
+    profile
 }

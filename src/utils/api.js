@@ -28,6 +28,8 @@ const createWorkspaceUser = async (payload) => await api.structure('_workcpaseAc
 
 const getProfile = async (payload) => await api.structure('WebUser').getData('profile', payload);
 
+const editOwnerProfile = async (payload) => await api.structure('WebUser').setData('editOwnerProfile', payload)
+
 const requestWorkspace = async (payload) => await api.structure('requestWorkspace').getData('myRequstToWorkspace', payload);
 
 const manageRequstByWorkspace = async (payload) => await api.structure('requestWorkspace').getData('manageRequstByWorkspace', payload);
@@ -59,6 +61,7 @@ export {
     editRequestWorkspaceUser,
     getWorkspace,
     getProfile,
+    editOwnerProfile,
     getUserWorkspace,
     createWorkspaceUser,
     requestWorkspace,
