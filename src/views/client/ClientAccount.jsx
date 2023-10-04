@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import { Dropdown } from "antd";
 import { Link } from "react-router-dom";
 import { profile } from "../../utils/Validation";
+import ChangePasswordInProfile from "../../component/password/ChangePasswordInProfile";
 
 export default function ClientAccount() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -29,12 +30,11 @@ export default function ClientAccount() {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [ province, setProvince ] = useState([])
+  const [ chgPwd, setChgPwd ] = useState(false)
 
   const setTab = (data) => {
     setActive(data);
   };
-  // console.log(auth)
-  // console.log(userData)
   const getInvoices = () => {
     setLoading(true);
 
@@ -65,9 +65,6 @@ export default function ClientAccount() {
 
   const [ gender, setGender ] = useState([])
 
-  // const updateOwnerProfile = () => {
-  //   const payload = {}
-  // }
 
   const onSubmit = async (values) => {
     const payload = {
@@ -85,7 +82,6 @@ export default function ClientAccount() {
     }
     editOwnerProfile(payload).then((res)=>{
       setUserData(res.payload)
-      console.log(res, 'the new profile')
     })
   };
 
@@ -96,7 +92,6 @@ export default function ClientAccount() {
     }
     getProfile(payload).then((res)=>{
       setProfileData(res.payload[0])
-      console.log(profileData, 'the feedback\n\n\n\n')
     })
   };
 
@@ -108,10 +103,7 @@ export default function ClientAccount() {
     province:profileData.province,
   }
 
-  console.log(initValue, 'the init values for form')
 
-  // isValid,
-  // isSubmitting,
   const {
     values,
     errors,
@@ -126,11 +118,14 @@ export default function ClientAccount() {
     onSubmit,
   });
 
-  console.log(values,'values for form', values.firstName)
 
   const changeEditButton= () => {
-    console.log('edit button clicked')
     setEdit(!edit)
+  }
+
+  const dealPassword = () => {
+    setChgPwd(!chgPwd)
+    console.log('change password button clicked')
   }
   
   var getGender = ['Male', 'Female']
@@ -141,7 +136,6 @@ export default function ClientAccount() {
     
     getProvinces().then((res)=>{
       setProvince(res.payload)
-      console.log(res, 'the provicec\n\n\n')
     })
 
   }, [])
@@ -222,13 +216,12 @@ export default function ClientAccount() {
                     {edit === false ? 
                     (
                     <div className="">
-                      <button className="buttons text-white bg-[red]">Edit Profile</button>
+                      <button className="buttons text-white rounded px-3 py-1 bg-[#F56B3F]" onClick={dealPassword}>Change Password</button>
                       <ProfileAccount />
                   
                     </div>
                     )
-                      :
-                     (
+                      :  (
                           // ""
         <form onSubmit={handleSubmit} className="pb-[200px] mx-a h-[150%] w-[400px]">
         <div className="">
@@ -458,6 +451,12 @@ export default function ClientAccount() {
       </form>
                      )
                     }
+
+                    {chgPwd === true ? (
+                        <ChangePasswordInProfile />
+                      ) :
+                      ""
+                      }
 
                 </div>
               ) : (

@@ -10,6 +10,8 @@ const resetPassword = async (payload) => await api.structure('reset_password_inp
 
 const requestPasswordChange = async (payload) => await api.structure('ResetPasswordRequest').setData('requestPasswordChange', payload)
 
+const resetPwdFromProfile = async (payload) => await api.structure('reset_password_from_profile').setData('resetPwdFromProfile', payload)
+
 const getPricing = async () => await api.structure('tariff').getData('getTarif');
 
 const getProvinces = async () => await api.structure('provinces').getData('getProvince');
@@ -55,6 +57,7 @@ export {
     logout,
     resetPassword,
     requestPasswordChange,
+    resetPwdFromProfile,
     getPricing,
     getProvinces,
     createWorkspaceWithPayment,
