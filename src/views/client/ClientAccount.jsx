@@ -31,7 +31,9 @@ export default function ClientAccount() {
   const [loading, setLoading] = useState(false);
   const [ province, setProvince ] = useState([])
   const [ chgPwd, setChgPwd ] = useState(false)
+  const [ viewAction, setViewAction ] = useState([])
 
+  
   const setTab = (data) => {
     setActive(data);
   };

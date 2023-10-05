@@ -30,6 +30,7 @@ export default function CreateWorkspaceOne() {
 
   const initialValues = {
     workspace: "",
+    professionalArea: "",
     maxMentors: "",
     maxMentees: "",
   };
@@ -98,9 +99,25 @@ export default function CreateWorkspaceOne() {
                   />
                   <label htmlFor="username">Workspace Name</label>
                 </span>
-
                 {errors.workspace && touched.workspace && (
                   <p className="error">{errors.workspace}</p>
+                )}
+                <span
+                  data-aos="fade-down"
+                  data-aos-duration="1000"
+                  className="p-float-label"
+                >
+                  <InputText
+                    id="username"
+                    name="professionalArea"
+                    value={values.professionalArea}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <label htmlFor="username">Professional Name</label>
+                </span>
+                {errors.professionalArea && touched.professionalArea && (
+                  <p className="error">{errors.professionalArea}</p>
                 )}
 
                 <span

@@ -19,7 +19,7 @@ const forgotPassword = yup.object().shape({
 })
 
 const reforgotPassword = yup.object().shape({
-    old_password: yup.string().email("Please enter a valid email").required("Required"),
+    old_password: yup.string().required("Required"),
     new_password: yup.string().required("Required"),
     repeat_new_password: yup.string().required("Required"),
 })
@@ -47,6 +47,7 @@ const userOnboard3 = yup.object().shape({
 
 const workspace1 = yup.object().shape({
     workspace: yup.string().required("Required"),
+    professionalArea: yup.string().required("Required"),
     maxMentors: yup.number().required("Required"),
     maxMentees: yup.number().required("Required"),
 })

@@ -30,6 +30,7 @@ export default function CreateWorkspaceTwo() {
     const fileData = e.target.files[0];
     setFile(fileData);
     console.log(fileData);
+    console.log(color);
   };
 
 
@@ -45,6 +46,7 @@ export default function CreateWorkspaceTwo() {
         firstame: reg.user.firstName,
         newMail: reg.user.email,
         mail: reg.user.email,
+        _fiirstProfArea: reg.workspace.professionalArea,
         _password: reg.user.confirmPassword,
         _phone: reg.user.phone,
         _country: reg.user.country,
@@ -54,6 +56,8 @@ export default function CreateWorkspaceTwo() {
         _url: `${window.location.origin}/payments/${reg.workspace.id}`
 
       };
+      console.log(color)
+
       createWorkspaceWithPayment(userPayload).then((res) => {
         toast.success("successful");
         const payload = {
@@ -73,8 +77,10 @@ export default function CreateWorkspaceTwo() {
       });
     }
   
+      
 
   useEffect(() => {
+    console.log(color)
     let fileReader,
       isCancel = false;
     if (file) {
@@ -152,7 +158,7 @@ export default function CreateWorkspaceTwo() {
                   data-aos-duration="1000"
                   className=" flex items-center gap-2 mb-5"
                 >
-              <ColorPicker value={color} onChange={(e) => setColor(e.value)} />
+              <ColorPicker value={color} onChange={(e)=> setColor(e.value)} />
               <label htmlFor="username"> Select a Color </label>
               </span>
 

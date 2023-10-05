@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, createContext } from "react";
 import Directual from 'directual-api';
+import { withError } from "antd/es/modal/confirm";
 
 const api = new Directual({apiHost: '/'});
 
@@ -27,6 +28,9 @@ function useProvideAuth() {
       setRole(res.role)
       window.localStorage.setItem('sid', res.sessionID)
     })
+    // .catch(err) {
+    //   console.log(err)
+    // }
   };
 
   const signout = (cb) => {

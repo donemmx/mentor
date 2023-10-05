@@ -26,11 +26,14 @@ export default function ChangePasswordInProfile() {
     const payload = {
         password : values.new_password,
         repeat_password : values.repeat_new_password,
-        secret : values.old_password,
+        old_password : values.old_password,
         user_id : userData.id,
+        sessionID : auth.sessionID,
       };
+      console.log(' Newww about ressetttttttttttttpassword in porfile ')
       resetPwdFromProfile(payload).then((res) => {
         res = res.result[0];
+        console.log(res, 'ressetttttttttttttpassword in porfile ')
         if (res.is_success === false || res.result_title === "Secrets don't match"){
           toast.error("Incorrect token !!!")
         } else if (res.is_success === true && res.result_title == "New password is set"){
@@ -62,7 +65,7 @@ export default function ChangePasswordInProfile() {
     handleChange,
     handleSubmit,
   } = useFormik({
-    validateOnMount: true,
+    validateOnMount: false,
     initialValues: {
         old_password: "",
         new_password: "",
@@ -125,7 +128,7 @@ export default function ChangePasswordInProfile() {
                 )}
                 <button
                   className="primary__btn mt-5"
-                  disabled={!isValid || isSubmitting}
+                  // disabled={!isValid || isSubmitting}
                 >
                   {isSubmitting ? (
                     <i className="pi pi-spin pi-spinner !text-[20px]"></i>
