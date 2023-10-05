@@ -24,12 +24,13 @@ export default function ChangePasswordInProfile() {
   const onSubmit = async (values) => {
     const { user_id, old_password, new_password, repeat_new_password } = values;
     const payload = {
-        password : values.new_password,
-        repeat_password : values.repeat_new_password,
+        new_password : values.new_password,
+        repeat_new_password : values.repeat_new_password,
         old_password : values.old_password,
         user_id : userData.id,
         sessionID : auth.sessionID,
       };
+
       console.log(' Newww about ressetttttttttttttpassword in porfile ')
       resetPwdFromProfile(payload).then((res) => {
         res = res.result[0];
