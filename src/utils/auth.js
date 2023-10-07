@@ -28,7 +28,7 @@ function useProvideAuth() {
       setRole(res.role)
       window.localStorage.setItem('sid', res.sessionID)
     })
-    // .catch(err) {
+    // .catch(err) {3h
     //   console.log(err)
     // }
   };

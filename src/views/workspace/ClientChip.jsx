@@ -28,7 +28,6 @@ import PricingFormTwo from "../../component/addWorkspaceForm/PricingFormTwo";
 import PricingFormThree from "../../component/addWorkspaceForm/PricingFormThree";
 import EditWorkspaceForm from "../../component/editWorkspaceForm/EditWorkspaceForm";
 import moment from "moment/moment";
-import ClientDynamicForm from "../../component/dynamicForm/ClientDynamicForm";
 
 export default function ClientWorkspace() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -37,7 +36,7 @@ export default function ClientWorkspace() {
   const navigate = useNavigate();
   const [numbers, setNumbers] = useState([]);
 
-  const [active, setActive] = useState("userForm");
+  const [active, setActive] = useState("edit");
   const [workspace, setWorkspace] = useState([]);
   const [match, setMatches] = useState([]);
 
@@ -194,13 +193,7 @@ export default function ClientWorkspace() {
               <div className="h-full flex flex-col justify-between  ">
                 <div className="">
                   <div className=" absolute top-4 right-2 h-[50px] w-[50px] flex items-start">
-                    <img
-                      src={
-                        workspaceData?.logo ? workspaceData?.logo : defaultLogo
-                      }
-                      alt=""
-                      className="w-full h-full object-contain"
-                    />
+                   
                   </div>
                   <div className="title text-xl font-bold flex items-center gap-2 ">
                     <i className="pi pi-cog pi-spin "></i>
@@ -222,16 +215,6 @@ export default function ClientWorkspace() {
           <div className="right">
             <div className="grid lg:grid-cols-[2fr,10fr] gap-4 ">
               <div className="flex flex-col gap-4 text-sm ">
-                <div
-                  className={
-                    active === "userForm"
-                      ? "font-bold cursor-pointer"
-                      : "cursor-pointer"
-                  }
-                  onClick={() => setTab("userForm")}
-                >
-                  User Form
-                </div>
                 <div
                   className={
                     active === "edit"
@@ -294,11 +277,8 @@ export default function ClientWorkspace() {
                 </div>
               </div>
               <div className="">
-                {active === "userForm" ? (
-                  <ClientDynamicForm />
-
-                ) : active === "invoice" ? (
-                <div className="">
+                {active === "invoice" ? (
+                  <div className="">
                     <h2 className="font-black text-xl ">Workspace Invoices</h2>
                     <div className="mt-8">
                       {invoices?.map((data, i) => (
@@ -315,7 +295,10 @@ export default function ClientWorkspace() {
                       ))}
                     </div>
                   </div>
-                ) : active === "theme" ? (
+                ) : (
+                  ""
+                )}
+                {active === "theme" ? (
                   <div className="">
                     <h2 className="font-black text-xl ">Select A Theme</h2>
                     <div className="my-10 grid grid-cols-3 gap-6">
@@ -324,7 +307,11 @@ export default function ClientWorkspace() {
                       ))}
                     </div>
                   </div>
-                ) : active === "switch" ? (
+                ) : (
+                  ""
+                )}
+                {/* <div className=" "> */}
+                {active === "switch" ? (
                   <div className="">
                     <h2 className="font-black text-xl">
                       Select Your Workspace
@@ -337,10 +324,18 @@ export default function ClientWorkspace() {
                       </div>
                     </div>
                   </div>
-                ) : active === "edit" ? (
+                ) : (
+                  ""
+                )}
+
+                {active === "edit" ? (
                     <EditWorkspaceForm />
                     
-                ) : active === "domain" ? (
+                ) : (
+                    ""
+                )}
+                  
+                {active === "domain" ? (
                   <div className="rounded-lg h-[700px] w-full">
                     <h2 className="font-black text-xl">
                       Add Custom Domain to Workspace
@@ -384,7 +379,10 @@ export default function ClientWorkspace() {
                       </div>
                     </div>
                   </div>
-                ) : active === "add" ? (
+                ) : (
+                  ""
+                )}
+                {active === "add" ? (
                   <div className="">
                     {addWorkspace.step === 0 ? (
                       <PricingFormOne />
