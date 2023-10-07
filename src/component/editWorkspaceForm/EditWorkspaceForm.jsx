@@ -31,6 +31,8 @@ export default function EditWorkspaceForm() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  console.log('hello world')
+
   const matches = [
     "Area of Specilization",
     "Province",

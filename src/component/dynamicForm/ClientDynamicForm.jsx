@@ -87,7 +87,7 @@ export default function ClientDynamicForm() {
     // 
     // console.log(resultArray);
 
-    
+    console.log('hello world')
     
   const loadedValues = {
     workspace: "",

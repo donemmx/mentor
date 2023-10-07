@@ -57,6 +57,7 @@ export default function ClientWorkspace() {
 
   const [fileDataURL] = useState(null);
   const [addWorkspace, setAddWorkspace] = useRecoilState(addWorkSpaceStore);
+  console.log('hello world')
 
   const initialValues = {
     workspace: "",
