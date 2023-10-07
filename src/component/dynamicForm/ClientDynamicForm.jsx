@@ -1,248 +1,193 @@
-import { ColorPicker } from "primereact/colorpicker";
 import { useFormik } from "formik";
 import { InputText } from "primereact/inputtext";
 import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { workspaceStore } from "../../atom/workspaceAtom";
-import { MultiSelect } from "primereact/multiselect";
 import { useState } from "react";
-import {
-  editRequestWorkspaceUser,
-  getWorkspace,
-  ownerWorkspaceEdit,
-} from "../../utils/api";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
-import { workspace1 } from "../../utils/Validation";
+import { userDynamicForm, workspace1 } from "../../utils/Validation";
+import { Chips } from "primereact/chips";
 import { Dropdown } from "primereact/dropdown";
-import { user } from "../../atom/userAtom";
-import { authState } from "../../atom/authAtom";
-import { useNavigate } from "react-router-dom";
+import { workspace_genericForm } from "../../utils/api";
+import { Dialog } from "primereact/dialog";
+import { Accordion, AccordionTab } from "primereact/accordion";
 
 export default function ClientDynamicForm() {
-    const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
-    const userData = useRecoilValue(user);
-    const [numbers, setNumbers] = useState([]);
-    const navigate = useNavigate();
+  const [formProperties, setFormProperties] = useState([]);
+  const [select, setsSelect] = useState([]);
+  const [visible, setVisible] = useState(false);
 
-    //   For user forms
-    const [ formList, setFormList ] = useState([])
-    const [ formProperties, setFormProperties ] = useState([
-        { label: '', options: '',},
-    ])
-    const [ formFields, setFormFields ] = useState({
-        label: '',
-        options: []
-    })
+  const onSubmit = async (values) => {
+    const property = {
+      label: values.label,
+      options: values.options,
+    };
 
-    console.log(formFields, 'The form fields')
-    console.log(formProperties, 'The form Propertyies fields')
-    const handleFormChange = (e) => {
-        console.log(e.target.value, e.target.name, 'the results')
-
-        if (e.target.name === 'options') {
-            var resultArray = e.target.value
-            var arrayValue = resultArray.split(',').map(item => item.trim()).filter(item => item !== '');
-            let value = formFields
-            value[e.target.name] = arrayValue
-            setFormFields({value})
-        } else {
-            let value = formFields;
-            value[e.target.name] = e.target.value
-            setFormFields({value})
-        }
-    }
-
-    const chFields = (values) => {
-        const property = {
-            label : values.label,
-            option : values.options
-        }
-
-    }
-    
-    const createField = () => {
-        let value = []
-    }
-
-    const handleFieldChange = (e) => {
-        let x;
-        console.log(e.target.value, e.target.name)
-        // let value = [...formProperties];
-        // value[index][e.target.name] = e.target.value
-        // setFormProperties([value])
-    }
-    const addField = (e) => {
-        e.preventDefault()
-        const property = {
-            label : '',
-            option : ''
-        }
-        setFormFields([...formProperties, property])
-    }
-
-
-    // var text = "Area of Specilization, Province, Years of Professional Experience,";
-
-    // 
-    // console.log(resultArray);
-
-    console.log('hello world')
-    
-  const loadedValues = {
-    workspace: "",
-    maxMentors: "",
-    maxMentees: "",
+    setFormProperties([...formProperties, property]);
+    addForm();
+    resetForm();
   };
-        
-    const {
-        values,
-        errors,
-        touched,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-    } = useFormik({
-        validateOnMount: true,
-        initialValues: loadedValues,
-        validationSchema: workspace1,
-        // onSubmit,
-    });
+  const submitForm = () => {
+    const payload = {
+      generic_forms: [...formProperties],
+    };
+    console.log(formProperties);
+  };
 
-    return (
-        <div className="rounded-lg h-[700px] w-full">
-        <h2 className="font-black text-xl">Create Form</h2>
+  const addForm = () => {
+    setVisible(!visible);
+  };
+
+  const loadedValues = {
+    label: "",
+    options: [],
+    acceptedValue: ''
+  };
+
+  const removeData = (data) => {
+    const newData = formProperties.splice(data);
+    setFormProperties(newData);
+  };
+
+  const {
+    values,
+    errors,
+    resetForm,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+  } = useFormik({
+    validateOnMount: true,
+    initialValues: loadedValues,
+    validationSchema: userDynamicForm,
+    onSubmit,
+  });
+
+  return (
+    <div className="rounded-lg h-[700px] w-full">
+      <h2 className="font-black text-xl">Create Form</h2>
+      <div className="">
+        {/* fixed */}
+        {formProperties ? (
+          <div className="">
+            <div
+              //   onSubmit={addForm}
+              className="space-y-2 pt-8 w-[60%]"
+            >
+              {formProperties.map((form, i) => (
+                <div
+                  className="flex items-center justify-between gap-4"
+                  key={i}
+                >
+                  <Accordion className="!w-full !p-1 !text-sm">
+                    <AccordionTab header={`Question ${i + 1} - ${form.label}`}>
+                      <div className="">
+                        <div className="font-black">Options</div>
+                        {form.options.map((options, i) => (
+                          <div className="flex gap-2">
+                            <p className="">{i + 1}.</p>
+                            <li key={i} className=" list-none">
+                              {" "}
+                              {options}
+                            </li>
+                          </div>
+                        ))}
+                        <p className="font-black py-2">Accepted Value: {form.acceptance}</p>
+                      </div>
+                    </AccordionTab>
+                  </Accordion>
+                  <div className="">
+                    <i
+                      className="pi pi-trash"
+                      onClick={() => removeData(i)}
+                    ></i>
+                  </div>
+                </div>
+              ))}
+
+              <div className=" flex items-center gap-4">
+                <button
+                  onClick={addForm}
+                  className="primary__btn flex items-center gap-4"
+                >
+                  <i className="pi pi-plus"></i> Add Form
+                </button>
+                {formProperties.length > 0 ? (
+                  <button
+                    onClick={submitForm}
+                    className="primary__btn flex items-center gap-4"
+                  >
+                    <i className="pi pi-send"></i> Submit
+                  </button>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
         <div className="">
-            <form>
-                <div>
-                    <span
+          <Dialog
+            header="Acceptance Form"
+            visible={visible}
+            onHide={() => setVisible(false)}
+            className="w-[90%] lg:w-[35vw]"
+          >
+            <div className="user  flex flex-col justify-center items-center w-[100%] mx-auto mt-[5vh]">
+              <h4 className=" font-bold pt-3">Mentor Acceptance Form </h4>
+              <p className="text-sm text-center text-[#666666]">
+                create a form
+              </p>
+            </div>
+            <div className="w-[80%] mx-auto py-5">
+              <form onSubmit={handleSubmit} className="my-1">
+                <div className="space-y-2 pt-8 w-[100%]">
+                  <span
                     data-aos="fade-down"
                     data-aos-duration="1000"
                     className="p-float-label"
-                    >
-                        
+                  >
                     <InputText
-                        id="username"
-                        name="label"
-                        onChange={event => handleFormChange(event)}
-                        value={formFields.label}
-                        // value={values.workspace}
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
+                      id="username"
+                      name="label"
+                      onChange={handleChange}
+                      value={values.label}
                     />
                     <label htmlFor="username">Enter Field Label</label>
-                    </span>
-                    <span
-                        data-aos="fade-down"
-                        data-aos-duration="1000"
-                        className="my-2 p-float-label"
-                        >
-                        <InputText
-                            id="username"
-                            name="options"
-                            onChange={event => handleFormChange(event)}
-                            value={formFields.options}
-                            // value={values.workspace}
-                            // onChange={handleChange}
-                            // onBlur={handleBlur}
-                        />
-                        <label htmlFor="username">Enter options separated by comma (,)</label>
-                    </span>
-                    
-                    <button
-                        onClick={createField}
-                            className="primary__btn flex items-center gap-4"
-                        //   disabled={!newColor || !fileDataURL || loading}
-                        >
-                            {/* //{loading ? <i className="pi pi-spin pi-spinner"></i> : ""} */}
-                            Create field..
-                    </button>
-                    {/* <button
-                        onClick={addField}
-                            className="my-2 primary__btn flex items-center gap-4"
-                        //   disabled={!newColor || !fileDataURL || loading}
-                        >
-                        {/* //   {loading ? <i className="pi pi-spin pi-spinner"></i> : ""}
-                            Add more fields
-                    </button> */}
-                </div>
-            </form>
-                  
+                  </span>
 
-            {/* fixed */}
-            {/* <div className="">
-                <div 
-                onSubmit={handleFormChange} 
-                className="space-y-2 pt-8 w-[60%]">
-                    {formFields.map((form, index) =>{
+                  {errors.label && touched.label && (
+                    <p className="error">{errors.label}</p>
+                  )}
+                  <span
+                    data-aos="fade-down"
+                    data-aos-duration="1000"
+                    className="my-2 p-float-label"
+                  >
+                    <Chips
+                      name="options"
+                      value={values.options}
+                      onChange={handleChange}
+                      separator=","
+                    />
 
-                        return (
-                            <div key={index}>
-                                <span
-                                data-aos="fade-down"
-                                data-aos-duration="1000"
-                                className="p-float-label"
-                                >
-                                <InputText
-                                    id="username"
-                                    name="label"
-                                    onChange={event => handleFormChange(event, index)}
-                                    value={form.label}
-                                    // value={values.workspace}
-                                    // onChange={handleChange}
-                                    // onBlur={handleBlur}
-                                />
-                                <label htmlFor="username">Label</label>
-                                </span>
-                
-                                {errors.workspace && touched.workspace && (
-                                <p className="error">{errors.workspace}</p>
-                                )}
-                                <span
-                                data-aos="fade-down"
-                                data-aos-duration="1000"
-                                className="p-float-label"
-                                >
-                                <InputText
-                                    id="username"
-                                    name="options"
-                                    // value={values.workspace}
-                                    onChange={event => handleFormChange(event, index)}
-                                    value={form.options}
-                                    // onChange={handleChange}
-                                    // onBlur={handleBlur}
-                                />
-                                <label htmlFor="username">options</label>
-                                </span>
-                
-                                {errors.workspace && touched.workspace && (
-                                <p className="error">{errors.workspace}</p>
-                                )}
-                            </div>
-                        )
-                    }
-                    )
-                    }
-                
-                <button
-                    // onClick={onSubmit}
-                    className="primary__btn flex items-center gap-4"
-                    //   disabled={!newColor || !fileDataURL || loading}
-                    >
-                    {/* //{loading ? <i className="pi pi-spin pi-spinner"></i> : ""} 
-                    Proceed
-                    </button>
-                    <button
-                    onClick={addField}
-                    className="primary__btn flex items-center gap-4"
-                    //   disabled={!newColor || !fileDataURL || loading}
-                    >
-                    {/* //{loading ? <i className="pi pi-spin pi-spinner"></i> : ""} 
-                    Add more fields
-                    </button>
+                    <label htmlFor="username">
+                      Enter options separated by comma (,)
+                    </label>
+                  </span>
+
+                  {errors.options && touched.options && (
+                    <p className="error">{errors.options}</p>
+                  )}
+                  <button className="primary__btn flex items-center gap-4">
+                    Save
+                  </button>
                 </div>
-            </div> */}
+              </form>
+            </div>
+          </Dialog>
         </div>
-        </div>
-    );
+      </div>
+    </div>
+  );
 }

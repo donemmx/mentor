@@ -42,9 +42,9 @@ export default function ListWorkspace() {
       <div className="w-full min-h-[100vh] bg-[var(--primary)] text-white ">
         <div className="grid h-full w-[90%] mx-auto ">
           <ClientHeader />
-          <div className=" flex">
+          <div className="z-0 flex">
             <div className="">
-              <div className=" mx-auto">
+              <div className="mx-auto">
                 <div className="steps">
                   <div className="font-light">My workspace</div>
                   <div className="pb-10 text-[1.2rem] font-bold text-[var(--secondary)]">
@@ -65,9 +65,9 @@ export default function ListWorkspace() {
                   ))}
                 </div>
               </div>
-              <div className="absolute top-0 right-0 z-0  h-[70vh]">
+              <div className="absolute top-0 right-0 -z-10  h-[70vh]">
                 <img
-                  className=" h-full w-full object-cover"
+                  className="h-full w-full object-cover "
                   src={line}
                   alt=""
                 />

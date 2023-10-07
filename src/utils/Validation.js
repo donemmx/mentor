@@ -52,6 +52,12 @@ const workspace1 = yup.object().shape({
     maxMentees: yup.number().required("Required"),
 })
 
+const userDynamicForm = yup.object().shape({
+    label: yup.string().required("Required"),
+    options: yup.array().required("Required"),
+    accpetedValue: yup.string().required("Required"),
+})
+
 const profile = yup.object().shape({
     firstName: yup.string().required("Required"),
     lastName: yup.string().required("Required"),
@@ -74,6 +80,7 @@ export {
     stage1,
     stage2,
     workspace1,
+    userDynamicForm,
     userOnboard3,
     profile
 }
