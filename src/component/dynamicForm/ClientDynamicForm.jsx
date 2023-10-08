@@ -44,16 +44,15 @@ const filteredData = formProperties.map((data)=> {
     return others
 })
 
-console.log(filteredData);
     const payload = {
         id: workspaceData[0].id,
         acceptance_criteria: acceptedValueList,
         generic_forms: JSON.stringify(filteredData),
     };
 
-    // workspaceGenericForm(payload).then((res)=>{
-    //     toast.success('Form created successfully')
-    // })
+    workspaceGenericForm(payload).then((res)=>{
+        toast.success('Form created successfully')
+    })
   };
 
   const addForm = () => {
