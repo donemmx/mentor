@@ -63,7 +63,7 @@ export default function UserOnboardThree() {
       })
     setReg(payload);
 
-    navigate(`/user-onboard-3/${params.id}`);
+    navigate(`/user-onboard-4/${params.id}`);
   };
 
   const initialValues = {

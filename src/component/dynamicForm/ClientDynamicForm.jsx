@@ -1,23 +1,33 @@
 import { useFormik } from "formik";
 import { InputText } from "primereact/inputtext";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { userDynamicForm, workspace1 } from "../../utils/Validation";
 import { Chips } from "primereact/chips";
 import { Dropdown } from "primereact/dropdown";
-import { workspace_genericForm } from "../../utils/api";
+import { workspaceGenericForm } from "../../utils/api";
 import { Dialog } from "primereact/dialog";
 import { Accordion, AccordionTab } from "primereact/accordion";
+import { useRecoilState } from "recoil";
+import { workspaceStore } from "../../atom/workspaceAtom";
+import { toast } from "react-toastify";
+import { user } from "../../atom/userAtom";
+import { authState } from "../../atom/authAtom";
 
 export default function ClientDynamicForm() {
   const [formProperties, setFormProperties] = useState([]);
   const [select, setsSelect] = useState([]);
   const [visible, setVisible] = useState(false);
+//   const workspace = useRecoilState()
+  const workspaceData = useRecoilState(workspaceStore);
+  const userData = useRecoilState(user);
+  const auth = useRecoilState(authState);
 
   const onSubmit = async (values) => {
     const property = {
       label: values.label,
       options: values.options,
+      acceptedValue: values.acceptedValue
     };
 
     setFormProperties([...formProperties, property]);
@@ -25,10 +35,25 @@ export default function ClientDynamicForm() {
     resetForm();
   };
   const submitForm = () => {
+    let acceptedValueList = []
+    for (let value = 0; value<formProperties.length; value++) {
+        acceptedValueList.push(formProperties[value].acceptedValue,)
+    }
+const filteredData = formProperties.map((data)=> {
+    const {acceptedValue, ...others} = data
+    return others
+})
+
+console.log(filteredData);
     const payload = {
-      generic_forms: [...formProperties],
+        id: workspaceData[0].id,
+        acceptance_criteria: acceptedValueList,
+        generic_forms: JSON.stringify(filteredData),
     };
-    console.log(formProperties);
+
+    // workspaceGenericForm(payload).then((res)=>{
+    //     toast.success('Form created successfully')
+    // })
   };
 
   const addForm = () => {
@@ -38,7 +63,7 @@ export default function ClientDynamicForm() {
   const loadedValues = {
     label: "",
     options: [],
-    acceptedValue: ''
+    acceptedValue: "",
   };
 
   const removeData = (data) => {
@@ -49,6 +74,8 @@ export default function ClientDynamicForm() {
   const {
     values,
     errors,
+    isValid,
+    isSubmitting,
     resetForm,
     touched,
     handleBlur,
@@ -61,6 +88,11 @@ export default function ClientDynamicForm() {
     onSubmit,
   });
 
+  useEffect(()=>{
+    console.log(workspaceData)
+    console.log(userData[0], userData[1], 'the user data\n\n\\n')
+    console.log(auth[0].sessionID, ' the suth for users\n\n\n\nn')
+  }, [])
   return (
     <div className="rounded-lg h-[700px] w-full">
       <h2 className="font-black text-xl">Create Form</h2>
@@ -77,7 +109,7 @@ export default function ClientDynamicForm() {
                   className="flex items-center justify-between gap-4"
                   key={i}
                 >
-                  <Accordion className="!w-full !p-1 !text-sm">
+                  <Accordion className="!w-full !p-1 !text-sm !outline-none !shadow-none">
                     <AccordionTab header={`Question ${i + 1} - ${form.label}`}>
                       <div className="">
                         <div className="font-black">Options</div>
@@ -90,7 +122,9 @@ export default function ClientDynamicForm() {
                             </li>
                           </div>
                         ))}
-                        <p className="font-black py-2">Accepted Value: {form.acceptance}</p>
+                        <p className=" py-2">
+                        <span className="font-black">   Accepted Value: </span> {form.acceptedValue} 
+                        </p>
                       </div>
                     </AccordionTab>
                   </Accordion>
@@ -141,7 +175,7 @@ export default function ClientDynamicForm() {
             </div>
             <div className="w-[80%] mx-auto py-5">
               <form onSubmit={handleSubmit} className="my-1">
-                <div className="space-y-2 pt-8 w-[100%]">
+                <div className="space-y-2 flex flex-col gap-2 pt-8 w-[100%]">
                   <span
                     data-aos="fade-down"
                     data-aos-duration="1000"
@@ -179,7 +213,23 @@ export default function ClientDynamicForm() {
                   {errors.options && touched.options && (
                     <p className="error">{errors.options}</p>
                   )}
-                  <button className="primary__btn flex items-center gap-4">
+                  <span
+                    data-aos="fade-down"
+                    data-aos-duration="1000"
+                    className="my-2 p-float-label"
+                  >
+                    <Dropdown
+                      name="acceptedValue"
+                      options={values.options}
+                      value={values.acceptedValue}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor="username">
+                      Accepted Value
+                    </label>
+                  </span>
+
+                  <button className="primary__btn flex items-center gap-4" disabled={!isValid || isSubmitting}>
                     Save
                   </button>
                 </div>

@@ -49,6 +49,7 @@ import Invoice from "./component/invoice/Invoice";
 import ClientMentorProfile from "./views/client/ClientMentorProfile";
 import ClientForgotten from "./views/client/ClientForgotPassword";
 import ClientRequestNewPassword from "./views/client/ClientRequestNewPassword";
+import UserOnboardFour from "./views/usersOnboard/UserOnboardFour";
 
 const router = createBrowserRouter([
   {
@@ -138,6 +139,10 @@ const router = createBrowserRouter([
       {
         path: "/user-onboard-3/:id",
         element: <UserOnboardThree />,
+      },
+      {
+        path: "/user-onboard-4/:id",
+        element: <UserOnboardFour />,
       },
       {
         path: "/otp",

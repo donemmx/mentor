@@ -55,7 +55,7 @@ const workspace1 = yup.object().shape({
 const userDynamicForm = yup.object().shape({
     label: yup.string().required("Required"),
     options: yup.array().required("Required"),
-    accpetedValue: yup.string().required("Required"),
+    acceptedValue: yup.string().required("Required"),
 })
 
 const profile = yup.object().shape({

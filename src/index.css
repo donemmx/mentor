@@ -151,7 +151,7 @@ textarea {
 .p-inputtext {
   margin: 0;
   padding-bottom: 0px;
-  font-size: 0.80rem;
+  font-size: 0.80rem !important;
 }
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight,
@@ -163,7 +163,7 @@ textarea {
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item,
 .p-multiselect-panel .p-multiselect-items .p-multiselect-item {
-  font-size: 0.9rem;
+  font-size: 0.8rem !important;
 }
 
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
@@ -180,7 +180,7 @@ textarea {
 }
 
 .p-chips .p-chips-multiple-container .p-chips-token {
-  font-size: 0.8rem;
+  font-size: 0.75rem !important;
   padding: 0.175rem 0.45rem;
   margin-top: 5px;
 }

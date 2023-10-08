@@ -53,7 +53,9 @@ const banUser = async (payload) => await api.structure('userByworkSpace').setDat
 const getProfAreasByWorkSpace = async (payload) => await api.structure('professional_areas').getData('profAreasByWorkSpace', payload);
 
 // Form
-const workspace_genericForm = async (payload) => await api.structure('workspace').setData('workspace_genericForm', payload)
+const workspaceGenericForm = async (payload) => await api.structure('workspace').setData('workspaceGenericForm', payload)
+
+const getUserGenericForm = async (payload) => await api.structure('workspace').getData('getUserGenericForm', payload)
 
 
 export {
@@ -81,5 +83,6 @@ export {
     getMenteeProfile,
     banUser,
     getProfAreasByWorkSpace,
-    workspace_genericForm,
+    workspaceGenericForm,
+    getUserGenericForm
 }
