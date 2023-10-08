@@ -45,7 +45,8 @@ const filteredData = formProperties.map((data)=> {
 })
 
     const payload = {
-        id: workspaceData[0].id,
+        sessionID: auth?.sessionID,
+        id: workspaceData[0]?.id,
         acceptance_criteria: acceptedValueList,
         generic_forms: JSON.stringify(filteredData),
     };
