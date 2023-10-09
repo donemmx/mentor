@@ -3,7 +3,6 @@
   "name": "mentor",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://mentor-indol.vercel.app",
   "dependencies": {
     "@stripe/stripe-js": "^2.1.6",
     "@testing-library/jest-dom": "^5.17.0",

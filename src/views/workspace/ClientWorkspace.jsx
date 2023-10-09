@@ -137,9 +137,6 @@ export default function ClientWorkspace() {
     setActive(data);
   };
 
-  
-
-
   const listMyWorkspace = () => {
     const payload = {
       sessionID: auth?.sessionID,

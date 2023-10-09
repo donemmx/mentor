@@ -4097,7 +4097,7 @@ dir-glob@^3.0.1:
 
 directual-api@^1.4.0:
   version "1.4.0"
-  resolved "https://registry.npmjs.org/directual-api/-/directual-api-1.4.0.tgz"
+  resolved "https://registry.yarnpkg.com/directual-api/-/directual-api-1.4.0.tgz#42e335cbc602a3d8c80a6784abf95b84b5eca755"
   integrity sha512-fT/xiNdkMl/tj39oEcE4cr7IQfKbzM3fAK/EZOksOtRFfnUDuFY42YUmWgYgdOgcrlXMnm7YZNSb+AnGszIZpw==
   dependencies:
     "@types/lodash" "4.14.104"
