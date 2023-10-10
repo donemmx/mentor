@@ -61,7 +61,7 @@ export default function ListWorkspace() {
 
                 <div className=" relative my-[10vh] grid md:grid-cols-2 z-1000 lg:grid-cols-3 gap-4 w-full">
                   {workspace?.map((res, i) => (
-                    <WorkspaceListCard data={res}/>
+                    <WorkspaceListCard data={res} key={i}/>
                   ))}
                 </div>
               </div>

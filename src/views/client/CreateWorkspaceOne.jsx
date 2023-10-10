@@ -8,6 +8,7 @@ import { registerUserAtom } from "../../atom/registrationAtom";
 import { useFormik } from "formik";
 import { workspace1 } from "../../utils/Validation";
 import { useEffect, useState } from "react";
+import { Chips } from "primereact/chips";
 
 export default function CreateWorkspaceOne() {
   const navigate = useNavigate();
@@ -17,20 +18,23 @@ export default function CreateWorkspaceOne() {
 
   const onSubmit = async (values) => {
     if (values.workspace) {
+      // let pro = values.professionalArea.join(',')
         const payload = {
           ...reg,
           workspace: {
-            ...values,
+            maxMentees : values.maxMentees,
+            maxMentors : values.maxMentors,
+            professionalArea : values.professionalArea,
+            workspace : values.workspace,
           },
         };
         setReg(payload);
         navigate("/create-workspace-2");
-    }
-  };
+    }};
 
   const initialValues = {
     workspace: "",
-    professionalArea: "",
+    professionalArea: [],
     maxMentors: "",
     maxMentees: "",
   };
@@ -102,7 +106,8 @@ export default function CreateWorkspaceOne() {
                 {errors.workspace && touched.workspace && (
                   <p className="error">{errors.workspace}</p>
                 )}
-                <span
+              
+                {/* <span
                   data-aos="fade-down"
                   data-aos-duration="1000"
                   className="p-float-label"
@@ -115,6 +120,45 @@ export default function CreateWorkspaceOne() {
                     onBlur={handleBlur}
                   />
                   <label htmlFor="username">Professional Name</label>
+                </span>
+                {errors.professionalArea && touched.professionalArea && (
+                  <p className="error">{errors.professionalArea}</p>
+                )} */}
+
+                  {/* <span
+                    data-aos="fade-down"
+                    data-aos-duration="1000"
+                    className="my-2 p-float-label"
+                  >
+                    <Chips
+                      name="professionalArea"
+                      value={values.professionalArea}
+                      onChange={handleChange}
+                      separator=","
+                    />
+
+                    <label htmlFor="username">
+                      Enter Professional Area separated by comma (,)
+                    </label>
+                  </span>
+
+                  {errors.professionalArea && touched.professionalArea && (
+                    <p className="error">{errors.professionalArea}</p>
+                  )} */}
+
+                <span
+                  data-aos="fade-down"
+                  data-aos-duration="1000"
+                  className="p-float-label"
+                >
+                  <InputText
+                    id="username"
+                    name="professionalArea"
+                    value={values.professionalArea}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <label htmlFor="username">Professional Area</label>
                 </span>
                 {errors.professionalArea && touched.professionalArea && (
                   <p className="error">{errors.professionalArea}</p>

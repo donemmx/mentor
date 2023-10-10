@@ -29,6 +29,8 @@ import PricingFormThree from "../../component/addWorkspaceForm/PricingFormThree"
 import EditWorkspaceForm from "../../component/editWorkspaceForm/EditWorkspaceForm";
 import moment from "moment/moment";
 import ClientDynamicForm from "../../component/dynamicForm/ClientDynamicForm";
+// import ProfessionalArea from "../../component/professional/professionalArea";
+import ProfessionalArea from "../../component/professional/ProfessionalArea"
 
 export default function ClientWorkspace() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -248,16 +250,6 @@ export default function ClientWorkspace() {
                 >
                   Add Workspace
                 </div>
-                {/* <div
-                  className={
-                    active === "domain"
-                      ? "font-bold cursor-pointer"
-                      : "cursor-pointer"
-                  }
-                  onClick={() => setTab("domain")}
-                >
-                  Custom Domain
-                </div> */}
                 <div
                   className={
                     active === "switch"
@@ -287,6 +279,16 @@ export default function ClientWorkspace() {
                   onClick={() => setTab("theme")}
                 >
                   Themes
+                </div>
+                <div
+                  className={
+                    active === "professional"
+                      ? "font-bold cursor-pointer"
+                      : "cursor-pointer"
+                  }
+                  onClick={() => (setTab("professional"))}
+                >   
+                Professional Areas             
                 </div>
               </div>
               <div className="">
@@ -335,7 +337,8 @@ export default function ClientWorkspace() {
                   </div>
                 ) : active === "edit" ? (
                     <EditWorkspaceForm />
-                    
+                ) : active === "professional" ? (
+                    <ProfessionalArea />
                 ) : active === "domain" ? (
                   <div className="rounded-lg h-[700px] w-full">
                     <h2 className="font-black text-xl">

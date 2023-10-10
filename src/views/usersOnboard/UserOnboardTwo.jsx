@@ -4,7 +4,7 @@ import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import line from "../../assets/bg/lines.svg";
-import { getProfAreasByWorkSpace, getProvinces } from "../../utils/api";
+import { getProfAreasByWorkSpace, getProfAreasByWorkSpaceAll, getProvinces } from "../../utils/api";
 import { stage2 } from "../../utils/Validation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
@@ -13,13 +13,12 @@ import { authState } from "../../atom/authAtom";
 
 export default function UserOnboardTwo() {
     const [ province, setProvince ] = useState([])
+    const [ professionalArea, setProfessionalArea ] = useState([])
     const params = useParams()
     const [ reg, setReg ] = useRecoilState(registerUserAtom)
     const navigate = useNavigate();
     const [ profAreasByWorkSpace, setProfAreasByWorkSpace ] = useState(null)
-    const auth = useRecoilValue(authState)
-    // getProfAreasByWorkSpace
-    
+    const auth = useRecoilValue(authState)    
 
     const onSubmit = async (values) => {
       const { user, ...others } = reg
@@ -32,6 +31,8 @@ export default function UserOnboardTwo() {
       }  
       setReg(payload)
       
+      console.log(params, 'params')
+      console.log(params.id, 'params.id')
       console.log(user, 'user')
       console.log(reg, 'reg')
       console.log(others, 'others')
@@ -41,22 +42,25 @@ export default function UserOnboardTwo() {
       navigate(`/user-onboard-3/${params.id}`);
     };
   
-  // const viewGetProfAreasByWorkSpace = () => {
-  //   const payload = {
-  //     sessionID: auth?.sessionID,
-  //     // sessionI
-  //   }
-  // }
+    const getProAreas = () =>{
+      const payload = {
+        id:params.id
+      }
+      getProfAreasByWorkSpaceAll(payload).then((res)=>{
+        setProfessionalArea(res.payload)
+      })
+      console.log(professionalArea, ' the professional Area')
+    }
   
     useEffect(()=>{
       getProvinces().then((res)=>{
         setProvince(res.payload)
-
       })
-
+      getProAreas()
     }, [])
   
     const initialValues = {
+      professionalArea: "",
       province: "",
       phone: "",
       postalcode: "",
@@ -112,13 +116,34 @@ export default function UserOnboardTwo() {
                   >
                     <Dropdown
                       id="username"
+                      name="professionalArea"
+                      value={values.professionalArea}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      options={professionalArea}
+                      className=" !text-black"
+                      filter
+                    />
+                    <label htmlFor="username">Professionl Areas</label>
+                  </span>
+                  {errors.professionalArea && touched.professionalArea && (
+                    <p className="error">{errors.professionalArea}</p>
+                  )}
+  
+                  <span
+                    data-aos="fade-down"
+                    data-aos-duration="1000"
+                    className="p-float-label"
+                  >
+                    <Dropdown
+                      id="username"
                       name="province"
                       value={values.province}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       options={province}
-                      optionLabel="Province"
                       optionValue="Province"
+                      optionLabel="Province"
                       className=" !text-black"
                       filter
                     />
@@ -128,6 +153,23 @@ export default function UserOnboardTwo() {
                     <p className="error">{errors.province}</p>
                   )}
   
+                  {/* <span
+                    data-aos="fade-down"
+                    data-aos-duration="1000"
+                    className="p-float-label"
+                  >
+                    <InputText 
+                    id="username" 
+                    name="professionalArea" 
+                    value={values.professionalArea}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    />
+                    <label htmlFor="username">professionalArea</label>
+                  </span>
+                  {errors.professionalArea && touched.professionalArea && (
+                    <p className="error">{errors.professionalArea}</p>
+                  )} */}
                   <span
                     data-aos="fade-down"
                     data-aos-duration="1000"
@@ -140,8 +182,8 @@ export default function UserOnboardTwo() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     />
-                    <label htmlFor="username">Phone Number</label>
                   </span>
+                    <label htmlFor="username">Phone Number</label>
                   {errors.phone && touched.phone && (
                     <p className="error">{errors.phone}</p>
                   )}

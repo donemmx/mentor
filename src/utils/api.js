@@ -44,13 +44,17 @@ const getMentorsByWorkspaceId = async (payload) => await api.structure('userBywo
 
 const getMenteesByWorkspaceId = async (payload) => await api.structure('userByworkSpace').getData('getMenteesByWorkspaceId', payload);
 
+// Client 
+const getProfAreasByWorkSpace = async (payload) => await api.structure('professional_areas').getData('profAreasByWorkSpace', payload);
+const getProfAreasByWorkSpaceAll = async (payload) => await api.structure('professional_areas').getData('profAreasByWorkSpaceAll', payload);
+
+const editProfAreaByWorkSpace = async (payload) => await api.structure('_professional_areasAction').setData('professonalAreaAction', payload);
+
+
 // Mentees 
 const getMenteeProfile = async (payload) => await api.structure('WebUser').getData('getMenteeProfile', payload);
 
 const banUser = async (payload) => await api.structure('userByworkSpace').setData('banUser', payload);
-
-// Mentees 
-const getProfAreasByWorkSpace = async (payload) => await api.structure('professional_areas').getData('profAreasByWorkSpace', payload);
 
 // Form
 const workspaceGenericForm = async (payload) => await api.structure('workspace').setData('workspaceGenericForm', payload)
@@ -83,6 +87,8 @@ export {
     getMenteeProfile,
     banUser,
     getProfAreasByWorkSpace,
+    getProfAreasByWorkSpaceAll,
+    editProfAreaByWorkSpace,
     workspaceGenericForm,
     getUserGenericForm
 }
