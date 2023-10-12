@@ -34,7 +34,8 @@ export default function ProfessionalArea() {
   };
 
   const createNewArea = (data) => {
-    setNewArea(!newArea);
+    setNewArea(true);
+    setOpen(false);
     // setArea(data.area_title);
     // setFullInfo(data);
   };
@@ -61,17 +62,33 @@ export default function ProfessionalArea() {
       _url: `${window.location.origin}/${workspace.id}`,
       area_title: area,
     };
-    professionalAreaAction(payload).then((res) => {});
+    professionalAreaAction(payload).then((res) => {
+      getProfessionalAreas();
+    });
   };
+
+  const deleteProfArea = (data)  => {
+    const payload = {
+        _action: "delete",
+        _creatorId: auth.username,
+        _url: `${window.location.origin}/${workspace.id}`,
+        professional_areaId: data.id,
+      };
+      professionalAreaAction(payload).then((res) => {
+        getProfessionalAreas();
+      });
+  }
 
   useEffect(() => {
     getProfessionalAreas();
   }, []);
   return (
     <div className="">
-        <div className="">
-            <button className="btn bg-gray-200 p-4 rounded" onClick={createNewArea}>Add New Professional Area</button>
-        </div>
+      <div className="">
+        <button className="btn bg-gray-200 p-4 rounded" onClick={createNewArea}>
+          Add New Professional Area
+        </button>
+      </div>
       <div className="my-10">
         {open ? (
           <>
@@ -87,10 +104,15 @@ export default function ProfessionalArea() {
               />
               <label htmlFor="username">Edit Professional Area</label>
             </span>
-            <button className=" p-3 bg-gray-600 text-white rounded my-4 text-sm px-10" onClick={renameProfArea}>Save</button>
+            <button
+              className=" p-3 bg-gray-600 text-white rounded my-4 text-sm px-10"
+              onClick={renameProfArea}
+            >
+              Save
+            </button>
           </>
         ) : newArea ? (
-            <>
+          <>
             <span
               data-aos="fade-down"
               data-aos-duration="1000"
@@ -103,23 +125,33 @@ export default function ProfessionalArea() {
               />
               <label htmlFor="username">Create New Professional Area</label>
             </span>
-            <button className=" p-3 bg-gray-600 text-white rounded my-4 text-sm px-10" onClick={createProfArea}>Create New</button>
+            <button
+              className=" p-3 bg-gray-600 text-white rounded my-4 text-sm px-10"
+              onClick={createProfArea}
+            >
+              Create New
+            </button>
           </>
         ) : (
           ""
         )}
       </div>
-      {profArea &&
-        profArea.map((area, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-4 p-10 shadow-lg rounded w-fit"
-          >
-            <div className="card">{area?.area_title}</div>
+      <div className="grid grid-cols-4 gap-4 ">
+        {profArea &&
+          profArea.map((area, i) => (
+            <>
+              <div
+                key={i}
+                className="flex items-center relative text-sm gap-4 p-8 shadow-lg rounded w-fit"
+              >
+                <i className="pi pi-trash absolute !text-xs p-1 w-6 h-6 flex rounded-full text-red-600 cursor-pointer right-0 top-0" onClick={()=> deleteProfArea(area)}></i>
+                <div className="card">{area?.area_title}</div>
 
-            <i className="pi pi-pencil" onClick={() => openEdit(area)}></i>
-          </div>
-        ))}
+                <i className="pi pi-pencil cursor-pointer p-2  !text-xs" onClick={() => openEdit(area)}></i>
+              </div>
+            </>
+          ))}
+      </div>
     </div>
   );
 }

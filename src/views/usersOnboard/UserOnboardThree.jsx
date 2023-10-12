@@ -60,7 +60,6 @@ export default function UserOnboardThree() {
       })
     setReg(payload);
 
-    navigate(`/user-onboard-4/${params.id}`);
   };
 
   const initialValues = {

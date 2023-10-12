@@ -129,7 +129,7 @@ const router = createBrowserRouter([
         element: <MenteeSignup />,
       },
       {
-        path: "/user-onboard/:id",
+        path: "/user-onboard-1/:id",
         element: <UserOnboardOne />,
       },
       {
@@ -141,7 +141,7 @@ const router = createBrowserRouter([
         element: <UserOnboardThree />,
       },
       {
-        path: "/user-onboard-4/:id",
+        path: "/user-onboard/:id",
         element: <UserOnboardFour />,
       },
       {
@@ -199,6 +199,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "/",
     element: <MentorLayout />,

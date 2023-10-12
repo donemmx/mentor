@@ -4,7 +4,7 @@ import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import line from "../../assets/bg/lines.svg";
-import { getProfAreasByWorkSpace, getProfAreasByWorkSpaceAll, getProvinces } from "../../utils/api";
+import { getProfAreaByWorkspaceOwner, getProfAreasByWorkSpace, getProfAreasByWorkSpaceAll, getProvinces } from "../../utils/api";
 import { stage2 } from "../../utils/Validation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
@@ -30,26 +30,16 @@ export default function UserOnboardTwo() {
         }
       }  
       setReg(payload)
-      
-      console.log(params, 'params')
-      console.log(params.id, 'params.id')
-      console.log(user, 'user')
-      console.log(reg, 'reg')
-      console.log(others, 'others')
-      console.log(payload, 'payload')
-      console.log(auth, 'auth')
-      console.log(auth?.sessionID)
-      navigate(`/user-onboard-3/${params.id}`);
+      navigate(`/user-onboard-2/${params.id}`);
     };
   
     const getProAreas = () =>{
       const payload = {
         id:params.id
       }
-      getProfAreasByWorkSpaceAll(payload).then((res)=>{
+      getProfAreaByWorkspaceOwner(payload).then((res)=>{
         setProfessionalArea(res.payload)
       })
-      console.log(professionalArea, ' the professional Area')
     }
   
     useEffect(()=>{
@@ -120,6 +110,8 @@ export default function UserOnboardTwo() {
                       value={values.professionalArea}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      optionLabel="area_title"
+                      optionValue="id"
                       options={professionalArea}
                       className=" !text-black"
                       filter
@@ -182,8 +174,8 @@ export default function UserOnboardTwo() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     />
-                  </span>
                     <label htmlFor="username">Phone Number</label>
+                  </span>
                   {errors.phone && touched.phone && (
                     <p className="error">{errors.phone}</p>
                   )}

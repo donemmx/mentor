@@ -90,8 +90,8 @@ const filteredData = formProperties.map((data)=> {
 
   useEffect(()=>{
     console.log(workspaceData)
-    console.log(userData[0], userData[1], 'the user data\n\n\\n')
-    console.log(auth[0].sessionID, ' the suth for users\n\n\n\nn')
+    // console.log(userData[0], userData[1], 'the user data\n\n\\n')
+    // console.log(auth[0].sessionID, ' the suth for users\n\n\n\nn')
   }, [])
   return (
     <div className="rounded-lg h-[700px] w-full">
