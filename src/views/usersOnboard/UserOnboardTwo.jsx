@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import UserHeader from "./UserHeader";
 import { authState } from "../../atom/authAtom";
+import { MultiSelect } from "primereact/multiselect";
 
 export default function UserOnboardTwo() {
     const [ province, setProvince ] = useState([])
@@ -26,6 +27,7 @@ export default function UserOnboardTwo() {
         ...others,
         user:{
           ...values,
+          professionalAreaIds: professionalArea,
           ...user
         }
       }  
@@ -50,7 +52,6 @@ export default function UserOnboardTwo() {
     }, [])
   
     const initialValues = {
-      professionalArea: "",
       province: "",
       phone: "",
       postalcode: "",
@@ -104,7 +105,7 @@ export default function UserOnboardTwo() {
                     data-aos-duration="1000"
                     className="p-float-label"
                   >
-                    <Dropdown
+                    <MultiSelect
                       id="username"
                       name="professionalArea"
                       value={values.professionalArea}
@@ -113,7 +114,7 @@ export default function UserOnboardTwo() {
                       optionLabel="area_title"
                       optionValue="id"
                       options={professionalArea}
-                      className=" !text-black"
+                      className=" !text-black w-full"
                       filter
                     />
                     <label htmlFor="username">Professionl Areas</label>

@@ -44,6 +44,7 @@ export default function UserOnboardThree() {
         _provinceId: reg.user.province,
         _postalcode: reg.user.postalcode,
         _url: window.location.href,
+        mentee__profAreaIds: ''
         
       };
       createWorkspaceUser(userPayload).then((res)=> {
