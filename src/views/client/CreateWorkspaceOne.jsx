@@ -18,7 +18,6 @@ export default function CreateWorkspaceOne() {
 
   const onSubmit = async (values) => {
     if (values.workspace) {
-      // let pro = values.professionalArea.join(',')
         const payload = {
           ...reg,
           workspace: {
@@ -107,44 +106,6 @@ export default function CreateWorkspaceOne() {
                   <p className="error">{errors.workspace}</p>
                 )}
               
-                {/* <span
-                  data-aos="fade-down"
-                  data-aos-duration="1000"
-                  className="p-float-label"
-                >
-                  <InputText
-                    id="username"
-                    name="professionalArea"
-                    value={values.professionalArea}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <label htmlFor="username">Professional Name</label>
-                </span>
-                {errors.professionalArea && touched.professionalArea && (
-                  <p className="error">{errors.professionalArea}</p>
-                )} */}
-
-                  {/* <span
-                    data-aos="fade-down"
-                    data-aos-duration="1000"
-                    className="my-2 p-float-label"
-                  >
-                    <Chips
-                      name="professionalArea"
-                      value={values.professionalArea}
-                      onChange={handleChange}
-                      separator=","
-                    />
-
-                    <label htmlFor="username">
-                      Enter Professional Area separated by comma (,)
-                    </label>
-                  </span>
-
-                  {errors.professionalArea && touched.professionalArea && (
-                    <p className="error">{errors.professionalArea}</p>
-                  )} */}
 
                 <span
                   data-aos="fade-down"
