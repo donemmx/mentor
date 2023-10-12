@@ -30,7 +30,7 @@ export default function UserOnboardTwo() {
         }
       }  
       setReg(payload)
-      navigate(`/user-onboard-2/${params.id}`);
+      navigate(`/user-onboard-3/${params.id}`);
     };
   
     const getProAreas = () =>{
