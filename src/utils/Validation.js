@@ -34,7 +34,6 @@ const stage1 = yup.object().shape({
 })
 
 const stage2 = yup.object().shape({
-    professionalArea: yup.string().required("Required"),
     province: yup.string().required("Required"),
     postalcode: yup.string().required("Required"),
     phone: yup.string().required("Required"),

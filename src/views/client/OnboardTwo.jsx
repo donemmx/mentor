@@ -26,6 +26,9 @@ export default function OnboardTwo() {
         ...user
       }
     }  
+
+    // createWorkspaceWithPayment()
+
     setReg(payload)
     navigate("/onboard-4");
   };
@@ -110,7 +113,6 @@ export default function OnboardTwo() {
                 {errors.province && touched.province && (
                   <p className="error">{errors.province}</p>
                 )}
-
                 <span
                   data-aos="fade-down"
                   data-aos-duration="1000"

@@ -34,7 +34,7 @@ export default function CreateWorkspaceOne() {
 
   const initialValues = {
     workspace: "",
-    professionalArea: [],
+    professionalArea: '',
     maxMentors: "",
     maxMentees: "",
   };
