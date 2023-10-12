@@ -47,7 +47,6 @@ const userOnboard3 = yup.object().shape({
 
 const workspace1 = yup.object().shape({
     workspace: yup.string().required("Required"),
-    professionalArea: yup.string().required("Required"),
     maxMentors: yup.number().required("Required"),
     maxMentees: yup.number().required("Required"),
 })

@@ -1,16 +1,10 @@
 import { ColorPicker } from "primereact/colorpicker";
 import { useFormik } from "formik";
-import { InputText } from "primereact/inputtext";
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
-import { MultiSelect } from "primereact/multiselect";
 import { useState } from "react";
-import {
-  editRequestWorkspaceUser,
-  getWorkspace,
-  ownerWorkspaceEdit,
-} from "../../utils/api";
+import { ownerWorkspaceEdit } from "../../utils/api";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { workspace1 } from "../../utils/Validation";
@@ -18,20 +12,19 @@ import { Dropdown } from "primereact/dropdown";
 import { user } from "../../atom/userAtom";
 import { authState } from "../../atom/authAtom";
 import { useNavigate } from "react-router-dom";
+import { InputTextarea } from "primereact/inputtextarea";
 
 export default function EditWorkspaceForm() {
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
   const userData = useRecoilValue(user);
   const [numbers, setNumbers] = useState([]);
   const [fileDataURL, setFileDataURL] = useState(null);
-  const [newColor, setNewColor] = useState();
-  //   const [match, setMatches] = useState([]);
+  const [newColor, setNewColor] = useState("#00000");
   const [file, setFile] = useState(null);
   const auth = useRecoilValue(authState);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  console.log('hello world')
+  const [description, setDescription] = useState("");
 
   const matches = [
     "Area of Specilization",
@@ -62,7 +55,7 @@ export default function EditWorkspaceForm() {
 
     const userPayload = {
       _creatorId: userData.id,
-      _description: "",
+      _description: description,
       _maxMentee: values.maxMentees,
       _maxMentor: values.maxMentors,
       id: workspaceData.id,
@@ -74,8 +67,7 @@ export default function EditWorkspaceForm() {
 
     ownerWorkspaceEdit(userPayload).then(() => {
       setLoading(false);
-      navigate('/list-workspace')
-      
+      navigate("/list-workspace");
     });
   };
 
@@ -85,19 +77,13 @@ export default function EditWorkspaceForm() {
     maxMentees: workspaceData._maxMentee,
   };
 
-  const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    validateOnMount: true,
-    initialValues: loadedValues,
-    validationSchema: workspace1,
-    onSubmit,
-  });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      validateOnMount: true,
+      initialValues: loadedValues,
+      validationSchema: workspace1,
+      onSubmit,
+    });
 
   useEffect(() => {
     let fileReader,
@@ -195,6 +181,20 @@ export default function EditWorkspaceForm() {
               <p className="error">{errors.maxMentees}</p>
             )}
 
+            <span
+              data-aos="fade-down"
+              data-aos-duration="1000"
+              className="p-float-label"
+            >
+                <InputTextarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={5}
+                  cols={30}
+                />
+              <label htmlFor="username">Description</label>
+            </span>
+
             <div>
               {fileDataURL !== null ? (
                 <d>
@@ -233,21 +233,10 @@ export default function EditWorkspaceForm() {
                   <label htmlFor="username"> Select a Color </label>
                 </span>
 
-                {/* <span className="p-float-label">
-                  <MultiSelect
-                    id="username"
-                    name="name"
-                    value={match}
-                    options={matches}
-                    className=" !text-black !w-full"
-                    onChange={(e) => setMatches(e.target.value)}
-                  />
-                  <label htmlFor="username">Select a Matching Criteria</label>
-                </span> */}
-
                 <button
+                  type="button"
                   className="primary__btn flex items-center gap-4"
-                  disabled={!newColor || !fileDataURL || loading}
+                  disabled={!newColor || !fileDataURL || loading || !description}
                 >
                   {loading ? <i className="pi pi-spin pi-spinner"></i> : ""}
                   Proceed
