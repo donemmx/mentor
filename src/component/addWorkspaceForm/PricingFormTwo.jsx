@@ -27,6 +27,7 @@ export default function PricingFormTwo() {
     workspace: "",
     maxMentors: "",
     maxMentees: "",
+    professionalArea: ''
   };
 
   const {
@@ -115,11 +116,28 @@ export default function PricingFormTwo() {
                 {errors.maxMentees && touched.maxMentees && (
                   <p className="error">{errors.maxMentees}</p>
                 )}
+                     <span
+                  data-aos="fade-down"
+                  data-aos-duration="1000"
+                  className="p-float-label"
+                >
+                  <InputText
+                    id="username"
+                    name="professionalArea"
+                    value={values.professionalArea}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <label htmlFor="username">Professional Area</label>
+                </span>
+
+                {errors.professionalArea && touched.professionalArea && (
+                  <p className="error">{errors.professionalArea}</p>
+                )}
+
 
                 <button
                   onClick={onSubmit}
-                  data-aos="fade-down"
-                  data-aos-duration="800"
                   className="primary__btn"
                   disabled={!isValid || isSubmitting}
                 >

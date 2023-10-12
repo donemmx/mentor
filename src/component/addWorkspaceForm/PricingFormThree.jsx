@@ -46,6 +46,7 @@ export default function PricingFormThree() {
       _phone: userData.phone,
       _provinceId: userData.province,
       _postalcode: userData.postalcode,
+      _fiirstProfArea: userData.professionalArea,
       _action: "createWithPayment",
       _url: `${window.location.origin}/payments/${addWorkspace.id}`,
     };
