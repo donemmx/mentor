@@ -24,7 +24,7 @@ import PricingFormOne from "../../component/addWorkspaceForm/PricingFormOne";
 import { addWorkSpaceStore } from "../../atom/addWorkspace";
 import PricingFormTwo from "../../component/addWorkspaceForm/PricingFormTwo";
 import PricingFormThree from "../../component/addWorkspaceForm/PricingFormThree";
-import EditWorkspaceForm from "../../component/EditWorkspaceForm/EditWorkspaceForm";
+import EditWorkspaceForm from "../../component/editWorkspaceForm/EditWorkspaceForm";
 import moment from "moment/moment";
 import ClientDynamicForm from "../../component/dynamicForm/ClientDynamicForm";
 import ProfessionalArea from "../../component/professional/ProfessionalArea"
