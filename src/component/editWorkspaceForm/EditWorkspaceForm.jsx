@@ -19,7 +19,7 @@ export default function EditWorkspaceForm() {
   const userData = useRecoilValue(user);
   const [numbers, setNumbers] = useState([]);
   const [fileDataURL, setFileDataURL] = useState(null);
-  const [newColor, setNewColor] = useState("#00000");
+  const [newColor, setNewColor] = useState("#000000");
   const [file, setFile] = useState(null);
   const auth = useRecoilValue(authState);
   const [loading, setLoading] = useState(false);

@@ -14,7 +14,7 @@ import { authState } from "../../atom/authAtom";
 export default function CreateWorkspaceTwo() {
   const navigate = useNavigate();
   const [match, setMatches] = useState([]);
-  const [color, setColor] = useState('#00000');
+  const [color, setColor] = useState('#000000');
   const matches = [
     "Area of Specilization",
     "Province",

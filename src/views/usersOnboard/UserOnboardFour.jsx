@@ -74,8 +74,6 @@ export default function UserOnboardFour() {
                     <label>{data.label}</label>
                     <span
                       key={i}
-                      data-aos="fade-down"
-                      data-aos-duration="1000"
                       className="p-float-label"
                     >
                       <select

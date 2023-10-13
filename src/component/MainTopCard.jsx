@@ -51,8 +51,6 @@ export default function MainTopCard({
       className=" h-[75vh] w-full"
       style={{
         backgroundColor: workspaceData?.color
-          ? `#${workspaceData?.color}`
-          : "black",
       }}
     >
       <div className="p-5 w-[90%] mx-auto">
