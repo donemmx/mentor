@@ -4,7 +4,7 @@ import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import line from "../../assets/bg/lines.svg";
-import { getProfAreaByWorkspaceOwner, getProfAreasByWorkSpace, getProfAreasByWorkSpaceAll, getProvinces } from "../../utils/api";
+import { getProfAreaByWorkspaceOwner, getProvinces } from "../../utils/api";
 import { stage2 } from "../../utils/Validation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
@@ -18,8 +18,6 @@ export default function UserOnboardTwo() {
     const params = useParams()
     const [ reg, setReg ] = useRecoilState(registerUserAtom)
     const navigate = useNavigate();
-    const [ profAreasByWorkSpace, setProfAreasByWorkSpace ] = useState(null)
-    const auth = useRecoilValue(authState)    
 
     const onSubmit = async (values) => {
       const { user, ...others } = reg

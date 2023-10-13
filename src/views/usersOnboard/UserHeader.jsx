@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { user } from "../../atom/userAtom";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { workspaceStore } from "../../atom/workspaceAtom";
-import Logo from "../../component/logo/Logo";
 
 export default function UserHeader() {
   const [auth, setAuth] = useRecoilState(authState);

@@ -3,7 +3,7 @@ import {
   getProfile,
   getWorkspace,
 } from "../../utils/api";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { user } from "../../atom/userAtom";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { authState } from "../../atom/authAtom";
@@ -14,12 +14,9 @@ import TopCard from "../../component/TopCard";
 import ThemeCard from "../../component/themeCard/ThemeCard";
 import WorkspaceListCard from "../../component/workspaceCard/WorkspaceListCard";
 import defaultLogo from "../../assets/bg/welcome-bg.png";
-import { registerUserAtom } from "../../atom/registrationAtom";
 import { useFormik } from "formik";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { createWorkspaceWithPayment, login } from "../../utils/api";
-import { toast } from "react-toastify";
 import PricingFormOne from "../../component/addWorkspaceForm/PricingFormOne";
 import { addWorkSpaceStore } from "../../atom/addWorkspace";
 import PricingFormTwo from "../../component/addWorkspaceForm/PricingFormTwo";
@@ -31,30 +28,21 @@ import ProfessionalArea from "../../component/professional/ProfessionalArea"
 
 export default function ClientWorkspace() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
-  const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
+  const workspaceData = useRecoilValue(workspaceStore);
   const [userData, setUserData] = useRecoilState(user);
-  const navigate = useNavigate();
-  const [numbers, setNumbers] = useState([]);
-
   const [active, setActive] = useState("userForm");
   const [workspace, setWorkspace] = useState([]);
-  const [match, setMatches] = useState([]);
 
   const matches = [
     "Area of Specilization",
     "Province",
     "Years of Professional Experience",
   ];
-  const [color, setColor] = useState();
   const [selectWorkspace, setSelectWorkspace] = useState();
 
-  const [file, setFile] = useState(null);
-  const [reg, setReg] = useRecoilState(registerUserAtom);
   const [auth, setAuth] = useRecoilState(authState);
-  const [visible, setVisible] = useState(false);
   const [invoices, setInvoices] = useState([]);
 
-  const [fileDataURL] = useState(null);
   const [addWorkspace, setAddWorkspace] = useRecoilState(addWorkSpaceStore);
   const initialValues = {
     workspace: "",
@@ -62,63 +50,6 @@ export default function ClientWorkspace() {
     maxMentees: "",
   };
 
-  const onSubmit = async (values) => {
-    console.log(values.workspace);
-    if (values.workspace) {
-      const payload = {
-        ...reg,
-        workspace: {
-          ...values,
-        },
-      };
-      setReg(payload);
-    }
-    console.log(reg);
-    setVisible(true);
-  };
-
-  const getImage = (e) => {
-    const fileData = e.target.files[0];
-    setFile(fileData);
-    console.log(fileData);
-  };
-
-  const edit = () => {
-    const userPayload = {
-      name: reg.workspace.workspace,
-      maxMentors: reg.workspace.maxMentors,
-      maxMentees: reg.workspace.maxMentees,
-      workspaceLogo: fileDataURL,
-      color: color,
-      lastName: reg.user.lastName,
-      firstame: reg.user.firstName,
-      newMail: reg.user.email,
-      mail: reg.user.email,
-      _password: reg.user.confirmPassword,
-      _phone: reg.user.phone,
-      _country: reg.user.country,
-      _provinceId: reg.user.province,
-      _postalcode: reg.user.postalcode,
-      _action: "createWithPayment",
-    };
-    createWorkspaceWithPayment(userPayload).then((res) => {
-      toast.success("successful");
-      const payload = {
-        ...reg,
-        workspace: {
-          ...res.workspace,
-          id: res.result[0].workspaceId,
-          userId: res.result[0].id,
-        },
-      };
-      setReg(payload);
-      const { email, password } = reg?.user;
-      login(email, password).then((res) => {
-        setAuth(res);
-        navigate("/welcome");
-      });
-    });
-  };
 
   const {
     values,

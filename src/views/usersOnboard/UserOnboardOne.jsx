@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
-import ClientHeader from "../client/ClientHeader";
 import line from "../../assets/bg/lines.svg";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";

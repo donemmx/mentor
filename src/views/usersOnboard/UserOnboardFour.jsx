@@ -1,5 +1,4 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import line from "../../assets/bg/lines.svg";
 import { getUserGenericForm } from "../../utils/api";
