@@ -44,6 +44,7 @@ export default function UserOnboardThree() {
         _provinceId: reg.user.province,
         _postalcode: reg.user.postalcode,
         _url: window.location.href,
+        mentee__profAreaIds: ''
         
       };
       createWorkspaceUser(userPayload).then((res)=> {
@@ -60,7 +61,6 @@ export default function UserOnboardThree() {
       })
     setReg(payload);
 
-    navigate(`/user-onboard-4/${params.id}`);
   };
 
   const initialValues = {

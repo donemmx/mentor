@@ -46,7 +46,7 @@ const getMenteesByWorkspaceId = async (payload) => await api.structure('userBywo
 
 // Client 
 const getProfAreasByWorkSpace = async (payload) => await api.structure('professional_areas').getData('getProfAreaByWorkspaceOwner', payload);
-const getProfAreasByWorkSpaceAll = async (payload) => await api.structure('professional_areas').getData('profAreasByWorkSpaceAll', payload);
+const getProfAreaByWorkspaceOwner = async (payload) => await api.structure('professional_areas').getData('getProfAreaByWorkspaceOwner', payload);
 
 const professionalAreaAction = async (payload) => await api.structure('_professional_areasAction').setData('professionalAreaAction', payload);
 
@@ -87,7 +87,7 @@ export {
     getMenteeProfile,
     banUser,
     getProfAreasByWorkSpace,
-    getProfAreasByWorkSpaceAll,
+    getProfAreaByWorkspaceOwner,
     professionalAreaAction,
     workspaceGenericForm,
     getUserGenericForm

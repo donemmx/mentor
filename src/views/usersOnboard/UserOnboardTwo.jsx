@@ -4,12 +4,13 @@ import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import line from "../../assets/bg/lines.svg";
-import { getProfAreasByWorkSpace, getProfAreasByWorkSpaceAll, getProvinces } from "../../utils/api";
+import { getProfAreaByWorkspaceOwner, getProfAreasByWorkSpace, getProfAreasByWorkSpaceAll, getProvinces } from "../../utils/api";
 import { stage2 } from "../../utils/Validation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import UserHeader from "./UserHeader";
 import { authState } from "../../atom/authAtom";
+import { MultiSelect } from "primereact/multiselect";
 
 export default function UserOnboardTwo() {
     const [ province, setProvince ] = useState([])
@@ -26,19 +27,11 @@ export default function UserOnboardTwo() {
         ...others,
         user:{
           ...values,
+          professionalAreaIds: professionalArea,
           ...user
         }
       }  
       setReg(payload)
-      
-      console.log(params, 'params')
-      console.log(params.id, 'params.id')
-      console.log(user, 'user')
-      console.log(reg, 'reg')
-      console.log(others, 'others')
-      console.log(payload, 'payload')
-      console.log(auth, 'auth')
-      console.log(auth?.sessionID)
       navigate(`/user-onboard-3/${params.id}`);
     };
   
@@ -46,10 +39,9 @@ export default function UserOnboardTwo() {
       const payload = {
         id:params.id
       }
-      getProfAreasByWorkSpaceAll(payload).then((res)=>{
+      getProfAreaByWorkspaceOwner(payload).then((res)=>{
         setProfessionalArea(res.payload)
       })
-      console.log(professionalArea, ' the professional Area')
     }
   
     useEffect(()=>{
@@ -60,7 +52,6 @@ export default function UserOnboardTwo() {
     }, [])
   
     const initialValues = {
-      professionalArea: "",
       province: "",
       phone: "",
       postalcode: "",
@@ -114,14 +105,16 @@ export default function UserOnboardTwo() {
                     data-aos-duration="1000"
                     className="p-float-label"
                   >
-                    <Dropdown
+                    <MultiSelect
                       id="username"
                       name="professionalArea"
                       value={values.professionalArea}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      optionLabel="area_title"
+                      optionValue="id"
                       options={professionalArea}
-                      className=" !text-black"
+                      className=" !text-black w-full"
                       filter
                     />
                     <label htmlFor="username">Professionl Areas</label>
@@ -182,8 +175,8 @@ export default function UserOnboardTwo() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     />
-                  </span>
                     <label htmlFor="username">Phone Number</label>
+                  </span>
                   {errors.phone && touched.phone && (
                     <p className="error">{errors.phone}</p>
                   )}
