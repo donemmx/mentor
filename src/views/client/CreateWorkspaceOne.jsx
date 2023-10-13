@@ -89,8 +89,6 @@ export default function CreateWorkspaceOne() {
               </h3>
               <div className="space-y-2 pt-8 w-[60%]">
                 <span
-                  data-aos="fade-down"
-                  data-aos-duration="1000"
                   className="p-float-label"
                 >
                   <InputText
@@ -108,8 +106,6 @@ export default function CreateWorkspaceOne() {
               
 
                 <span
-                  data-aos="fade-down"
-                  data-aos-duration="1000"
                   className="p-float-label"
                 >
                   <InputText
@@ -126,8 +122,6 @@ export default function CreateWorkspaceOne() {
                 )}
 
                 <span
-                  data-aos="fade-down"
-                  data-aos-duration="1000"
                   className="p-float-label"
                 >
                   <Dropdown
@@ -144,8 +138,6 @@ export default function CreateWorkspaceOne() {
                   <p className="error">{errors.maxMentors}</p>
                 )}
                 <span
-                  data-aos="fade-down"
-                  data-aos-duration="1000"
                   className="p-float-label"
                 >
                   <Dropdown
@@ -164,8 +156,6 @@ export default function CreateWorkspaceOne() {
 
                 <button
                   onClick={onSubmit}
-                  data-aos="fade-down"
-                  data-aos-duration="800"
                   className="primary__btn"
                   disabled={!isValid || isSubmitting}
                 >
