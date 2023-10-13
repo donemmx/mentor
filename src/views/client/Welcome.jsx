@@ -9,20 +9,6 @@ export default function Welcome() {
   const [userData, setUserData] = useRecoilState(user);
   const auth = useRecoilValue(authState);
 
-//   const getUserDetail = () => {
-//     const payload = {
-//         sessionID: auth?.sessionID,
-//       };
-
-//     getProfile(payload).then((res)=> {
-//         setUserData(res.payload[0])
-//       })
-//   }
-
-//   useEffect(() => {
-//     getUserDetail();
-//   }, []);
-
   return (
     <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
       <div className="grid h-full w-[90%] mx-auto ">
