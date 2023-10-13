@@ -52,6 +52,13 @@ const workspace1 = yup.object().shape({
     maxMentees: yup.number().required("Required"),
 })
 
+const editWorkspace = yup.object().shape({
+    workspace: yup.string().required("Required"),
+    description: yup.string().required("Required"),
+    maxMentors: yup.number().required("Required"),
+    maxMentees: yup.number().required("Required"),
+})
+
 const userDynamicForm = yup.object().shape({
     label: yup.string().required("Required"),
     options: yup.array().required("Required"),
@@ -82,5 +89,6 @@ export {
     workspace1,
     userDynamicForm,
     userOnboard3,
-    profile
+    profile,
+    editWorkspace
 }

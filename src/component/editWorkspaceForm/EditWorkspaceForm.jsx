@@ -7,24 +7,23 @@ import { useState } from "react";
 import { ownerWorkspaceEdit } from "../../utils/api";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { workspace1 } from "../../utils/Validation";
+import { editWorkspace, workspace1 } from "../../utils/Validation";
 import { Dropdown } from "primereact/dropdown";
 import { user } from "../../atom/userAtom";
 import { authState } from "../../atom/authAtom";
 import { useNavigate } from "react-router-dom";
 import { InputTextarea } from "primereact/inputtextarea";
+import { InputText } from "primereact/inputtext";
 
 export default function EditWorkspaceForm() {
-  const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
+  const workspaceData= useRecoilValue(workspaceStore);
   const userData = useRecoilValue(user);
   const [numbers, setNumbers] = useState([]);
   const [fileDataURL, setFileDataURL] = useState(null);
   const [newColor, setNewColor] = useState("000000");
   const [file, setFile] = useState(null);
   const auth = useRecoilValue(authState);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [description, setDescription] = useState("");
 
   const matches = [
     "Area of Specilization",
@@ -38,24 +37,11 @@ export default function EditWorkspaceForm() {
     console.log(fileData);
   };
 
-  const onSubmit = async (values) => {
-    setLoading(true);
-    // const userPayload = {
-    //   _creatorId: userData.id,
-    //   _description: "",
-    //   _maxMentee: values.maxMentees,
-    //   _maxMentor: values.maxMentors,
-    //   _name: values.workspace,
-    //   id: workspaceData.id,
-    //   logo: fileDataURL,
-    //   maxMentee: values.maxMentors,
-    //   maxMentor: values.maxMentees,
-    //   color: newColor,
-    // };
-
+  const onSubmit =  (values) => {
     const userPayload = {
       _creatorId: userData.id,
-      _description: description,
+      _description: values.description,
+      _name: values.workspace,
       _maxMentee: values.maxMentees,
       _maxMentor: values.maxMentors,
       id: workspaceData.id,
@@ -65,8 +51,10 @@ export default function EditWorkspaceForm() {
       color: newColor,
     };
 
-    ownerWorkspaceEdit(userPayload).then(() => {
-      setLoading(false);
+    console.log(userPayload);
+
+    ownerWorkspaceEdit(userPayload).then((res) => {
+      console.log(res);
       navigate("/list-workspace");
     });
   };
@@ -75,15 +63,24 @@ export default function EditWorkspaceForm() {
     workspace: workspaceData.name,
     maxMentors: workspaceData._maxMentor,
     maxMentees: workspaceData._maxMentee,
+    description: workspaceData?.description,
   };
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      validateOnMount: true,
-      initialValues: loadedValues,
-      validationSchema: workspace1,
-      onSubmit,
-    });
+  const {
+    values,
+    isValid,
+    isSubmitting,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+  } = useFormik({
+    validateOnMount: true,
+    initialValues: loadedValues,
+    validationSchema: editWorkspace,
+    onSubmit,
+  });
 
   useEffect(() => {
     let fileReader,
@@ -138,9 +135,9 @@ export default function EditWorkspaceForm() {
                 onBlur={handleBlur}
               />
               <label htmlFor="username">Workspace name</label>
-            </span>
+            </span> */}
 
-            {errors.workspace && touched.workspace && (
+            {/* {errors.workspace && touched.workspace && (
               <p className="error">{errors.workspace}</p>
             )} */}
 
@@ -186,18 +183,21 @@ export default function EditWorkspaceForm() {
               data-aos-duration="1000"
               className="p-float-label"
             >
-                <InputTextarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={5}
-                  cols={30}
-                />
+              <InputTextarea
+                name="description"
+                value={values.description}
+                onChange={handleChange}
+                rows={5}
+                cols={30}
+              />
               <label htmlFor="username">Description</label>
             </span>
-
+            {errors.description && touched.description && (
+              <p className="error">{errors.description}</p>
+            )}
             <div>
               {fileDataURL !== null ? (
-                <d>
+                <div>
                   <img
                     alt=""
                     src={fileDataURL}
@@ -211,7 +211,7 @@ export default function EditWorkspaceForm() {
                   >
                     Remove Image
                   </div>
-                </d>
+                </div>
               ) : (
                 <div className="flex flex-col gap-3 mt-10">
                   <input
@@ -234,11 +234,19 @@ export default function EditWorkspaceForm() {
                 </span>
 
                 <button
-                  type="button"
                   className="primary__btn flex items-center gap-4"
-                  disabled={!newColor || !fileDataURL || loading || !description}
+                  disabled={
+                    !isValid ||
+                    !newColor ||
+                    !fileDataURL ||
+                    isSubmitting
+                  }
                 >
-                  {loading ? <i className="pi pi-spin pi-spinner"></i> : ""}
+                  {isSubmitting ? (
+                    <i className="pi pi-spin pi-spinner"></i>
+                  ) : (
+                    ""
+                  )}
                   Proceed
                 </button>
               </div>
@@ -247,6 +255,5 @@ export default function EditWorkspaceForm() {
         </div>
       </div>
     </div>
-    // <div>EditWorkspaceForm</div>
   );
 }
