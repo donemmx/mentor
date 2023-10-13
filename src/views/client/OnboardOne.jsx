@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useFormik } from "formik";
-import Logo from "../../component/logo/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
 import ClientHeader from "./ClientHeader";

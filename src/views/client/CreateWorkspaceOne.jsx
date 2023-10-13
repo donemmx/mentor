@@ -8,7 +8,6 @@ import { registerUserAtom } from "../../atom/registrationAtom";
 import { useFormik } from "formik";
 import { workspace1 } from "../../utils/Validation";
 import { useEffect, useState } from "react";
-import { Chips } from "primereact/chips";
 
 export default function CreateWorkspaceOne() {
   const navigate = useNavigate();

@@ -1,6 +1,5 @@
 import { useFormik } from "formik";
 import { loginuser } from "../../utils/Validation";
-import Logo from "../../component/logo/Logo";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate } from "react-router-dom";

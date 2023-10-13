@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import TopCard from "../../component/TopCard";
-import Table from "../../component/Table";
 import { toast } from "react-toastify";
 import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
@@ -8,12 +7,11 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { authState } from "../../atom/authAtom";
-import { getMenteesByWorkspaceId, getWorkspace } from "../../utils/api";
+import { getMenteesByWorkspaceId } from "../../utils/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { profileAccount } from "../../atom/profileAtom";
-import ProfileAccount from "../../component/profileAccount/ProfileAccount";
 
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -24,7 +22,6 @@ export default function ClientMentee() {
   const [ userPass, setUserPass] = useState({});
   const [show, setShow] = useState(false);
 
-  const [workspaceDataApi, setWorkspaceDataApi] = useState([]);
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
   let inviteLink = `${window.location.origin}/mentee-signup/${workspaceData?.id}`;

@@ -1,15 +1,11 @@
 import { useFormik } from "formik";
 import { requestNewPassword } from "../../utils/Validation";
-import Logo from "../../component/logo/Logo";
 import { InputText } from "primereact/inputtext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { requestPasswordChange, resetPassword } from "../../utils/api";
-import { useRecoilState } from "recoil";
-import { authState } from "../../atom/authAtom";
+import { requestPasswordChange } from "../../utils/api";
 
 export default function ClientRequestNewPassword() {
-  const navigate = useNavigate();
   const onSubmit = async (values) => {
     const email = values;
     const payload = {

@@ -1,13 +1,9 @@
 import React from 'react'
 import TopCard from '../../component/TopCard'
-import ProfileAccount from '../../component/profileAccount/ProfileAccount'
 import defaultLogo from "../../assets/bg/welcome-bg.png";
-import { useState } from 'react';
 import { workspaceStore } from '../../atom/workspaceAtom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { user } from '../../atom/userAtom';
+import { useRecoilState } from 'recoil';
 import { profileAccount } from '../../atom/profileAtom';
-import { Link } from 'react-router-dom';
 
 export default function ClientMentorProfile() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];

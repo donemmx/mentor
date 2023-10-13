@@ -2,9 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ClientHeader from "./ClientHeader";
 import { user } from "../../atom/userAtom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getProfile } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
-import { useEffect } from "react";
 
 export default function Welcome() {
   const navigate = useNavigate();

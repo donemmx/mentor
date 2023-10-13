@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Table from "../../component/Table";
 import TopCard from "../../component/TopCard";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -12,7 +11,6 @@ import Column from "antd/es/table/Column";
 import { banUser, getMentorsByWorkspaceId } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
 import { useNavigate, useParams } from "react-router-dom";
-import { user } from "../../atom/userAtom";
 import { profileAccount } from "../../atom/profileAtom";
 
 export default function ClientMentor() {
@@ -23,7 +21,6 @@ export default function ClientMentor() {
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [mentorUsers, setMentorUsers] = useState([]);
-  const params = useParams();
   const [mentorData, setMentorData] = useRecoilState(profileAccount)
   const [ userPass, setUserPass] = useState({});
   
