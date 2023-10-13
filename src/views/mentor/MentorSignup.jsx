@@ -74,6 +74,7 @@ export default function MentorSignup() {
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    toggleMask
                   />
                   <label htmlFor="username">Password</label>
                 </span>
@@ -88,6 +89,8 @@ export default function MentorSignup() {
                     value={values.confirmPassword}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    toggleMask
+
                   />
                   <label htmlFor="username">Confirm Password</label>
                 </span>

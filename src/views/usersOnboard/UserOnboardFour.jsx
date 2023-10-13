@@ -70,6 +70,8 @@ export default function UserOnboardFour() {
               <div className="space-y-2 pt-8 w-[60%]" id="form">
                 {formData &&
                   formData?.map((data, i) => (
+                    <>
+                    <label>{data.label}</label>
                     <span
                       key={i}
                       data-aos="fade-down"
@@ -93,6 +95,7 @@ export default function UserOnboardFour() {
                         </>
                       </select>
                     </span>
+                    </>
                   ))}
                 <button
                   onClick={onSubmit}
