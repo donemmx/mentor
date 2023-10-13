@@ -18,8 +18,6 @@ import { registerUserAtom } from "../../atom/registrationAtom";
 import { useFormik } from "formik";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { ColorPicker } from "primereact/colorpicker";
-import { MultiSelect } from "primereact/multiselect";
 import { createWorkspaceWithPayment, login } from "../../utils/api";
 import { toast } from "react-toastify";
 import PricingFormOne from "../../component/addWorkspaceForm/PricingFormOne";
@@ -29,7 +27,6 @@ import PricingFormThree from "../../component/addWorkspaceForm/PricingFormThree"
 import EditWorkspaceForm from "../../component/editWorkspaceForm/EditWorkspaceForm";
 import moment from "moment/moment";
 import ClientDynamicForm from "../../component/dynamicForm/ClientDynamicForm";
-// import ProfessionalArea from "../../component/professional/professionalArea";
 import ProfessionalArea from "../../component/professional/ProfessionalArea"
 
 export default function ClientWorkspace() {
