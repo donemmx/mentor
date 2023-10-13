@@ -27,12 +27,12 @@ module.exports = function (app) {
         response.json({APP_ID: APP_ID});
     });
 
-    app.use(
-        '/socket.io',
-        createProxyMiddleware({
-            target: API_HOST,
-            changeOrigin: true,
-            ws: true
-        })
-    );
+    // app.use(
+    //     '/socket.io',
+    //     createProxyMiddleware({
+    //         target: API_HOST,
+    //         changeOrigin: true,
+    //         ws: true
+    //     })
+    // );
 };
