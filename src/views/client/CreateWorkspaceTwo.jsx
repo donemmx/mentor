@@ -75,7 +75,10 @@ export default function CreateWorkspaceTwo() {
           setAuth(res);
           navigate("/welcome");
           setReg(null)
-        });
+        }).catch((err)=> {
+          setLoading(false)
+          toast.error(err.response.data.msg);
+        })
       })
       .catch((err) => {
         setLoading(false);
