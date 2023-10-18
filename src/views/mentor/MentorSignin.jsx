@@ -114,9 +114,9 @@ export default function MentorSignin() {
                 )}
                 <button
                   className="primary__btn mt-5"
-                  disabled={!isValid || isSubmitting}
+                  disabled={!isValid || isSubmitting || loading}
                 >
-                  {isSubmitting ? (
+                  {loading ? (
                     <i className="pi pi-spin pi-spinner !text-[20px]"></i>
                   ) : (
                     ""
