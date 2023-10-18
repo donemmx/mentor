@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { login } from "../../utils/api";
+import { checkUserEmailByWorkspace, login } from "../../utils/api";
 import { useRecoilState } from "recoil";
 import { authState } from "../../atom/authAtom";
 import { workspaceStore } from "../../atom/workspaceAtom";
@@ -16,21 +16,38 @@ export default function MenteeSignin() {
   const [auth, setAuth] = useRecoilState(authState);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
   const params = useParams();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values) => {
-    setLoading(true)
+    setLoading(true);
     const { email, password } = values;
-    login(email, password)
+
+    
+    const data = {
+      id: params.id,
+      email: values.email,
+    };
+
+    checkUserEmailByWorkspace(data)
       .then((res) => {
-        setLoading(false)
-        setAuth(res);
-        setWorkspace(params.id)
-        navigate("/mentee-dashboard");
-        toast.success("Signin Successful");
+        setLoading(false);
+        if (res?.payload?.userByworkSpaceStatusId === "ban") {
+          toast.error("User has been banned. Please contact admin");
+        } else {
+          login(email, password)
+            .then((res) => {
+              setAuth(res);
+              setWorkspace(params.id);
+              navigate("/mentor-dashboard");
+              toast.success("Signin Successful");
+            })
+            .catch((err) => {
+              toast.error(err.response.data.msg);
+            });
+        }
       })
       .catch((e) => {
-        setLoading(false)
+        setLoading(false);
         toast.error(e.response.data.msg);
       });
   };
