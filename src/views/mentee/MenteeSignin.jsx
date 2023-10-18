@@ -22,7 +22,7 @@ export default function MenteeSignin() {
     setLoading(true);
     const { email, password } = values;
 
-    
+
     const data = {
       id: params.id,
       email: values.email,
@@ -31,19 +31,24 @@ export default function MenteeSignin() {
     checkUserEmailByWorkspace(data)
       .then((res) => {
         setLoading(false);
-        if (res?.payload?.userByworkSpaceStatusId === "ban") {
-          toast.error("User has been banned. Please contact admin");
-        } else {
-          login(email, password)
-            .then((res) => {
-              setAuth(res);
-              setWorkspace(params.id);
-              navigate("/mentor-dashboard");
-              toast.success("Signin Successful");
-            })
-            .catch((err) => {
-              toast.error(err.response.data.msg);
-            });
+        if(res.payload.length === 1){
+          if (res?.payload?.userByworkSpaceStatusId === "ban") {
+            toast.error("User has been banned. Please contact admin");
+          } else  {
+            login(email, password)
+              .then((res) => {
+                setAuth(res);
+                setWorkspace(params.id);
+                navigate("/mentor-dashboard");
+                toast.success("Signin Successful");
+              })
+              .catch((err) => {
+                toast.error(err.response.data.msg);
+              });
+          }
+        }
+        else{
+          toast.error("User does not exist on this workspace. Please Signup");
         }
       })
       .catch((e) => {
