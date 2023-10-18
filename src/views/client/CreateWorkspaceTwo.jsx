@@ -8,13 +8,14 @@ import { createWorkspaceWithPayment, login } from "../../utils/api";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
-import { ColorPicker } from 'primereact/colorpicker';
+import { ColorPicker } from "primereact/colorpicker";
 import { authState } from "../../atom/authAtom";
-        
+
 export default function CreateWorkspaceTwo() {
   const navigate = useNavigate();
   const [match, setMatches] = useState([]);
-  const [color, setColor] = useState('000000');
+  const [color, setColor] = useState("000000");
+  const [loading, setLoading] = useState(false);
   const matches = [
     "Area of Specilization",
     "Province",
@@ -33,54 +34,53 @@ export default function CreateWorkspaceTwo() {
     console.log(color);
   };
 
+  const register = () => {
+    setLoading(true);
+    const userPayload = {
+      name: reg.workspace.workspace,
+      maxMentors: reg.workspace.maxMentors,
+      maxMentees: reg.workspace.maxMentees,
+      workspaceLogo: fileDataURL,
+      color: color,
+      lastName: reg.user.lastName,
+      firstame: reg.user.firstName,
+      newMail: reg.user.email,
+      mail: reg.user.email,
+      _fiirstProfArea: reg.workspace.professionalArea,
+      _password: reg.user.confirmPassword,
+      _phone: reg.user.phone,
+      _country: reg.user.country,
+      _provinceId: reg.user.province,
+      _postalcode: reg.user.postalcode,
+      _action: "createWithPayment",
+      _url: `${window.location.origin}/payments/${reg.workspace.id}`,
+    };
+    console.log(color);
 
-  
-  const register = ()=>{
-      const userPayload = {
-        name: reg.workspace.workspace,
-        maxMentors: reg.workspace.maxMentors,
-        maxMentees: reg.workspace.maxMentees,
-        workspaceLogo: fileDataURL, 
-        color: color,
-        lastName: reg.user.lastName,
-        firstame: reg.user.firstName,
-        newMail: reg.user.email,
-        mail: reg.user.email,
-        _fiirstProfArea: reg.workspace.professionalArea,
-        _password: reg.user.confirmPassword,
-        _phone: reg.user.phone,
-        _country: reg.user.country,
-        _provinceId: reg.user.province,
-        _postalcode: reg.user.postalcode,
-        _action: "createWithPayment",
-        _url: `${window.location.origin}/payments/${reg.workspace.id}`
-
+    createWorkspaceWithPayment(userPayload).then((res) => {
+      setLoading(false)
+      toast.success("successful");
+      const payload = {
+        ...reg,
+        workspace: {
+          ...res.workspace,
+          id: res.result[0].workspaceId,
+          userId: res.result[0].id,
+        },
       };
-      console.log(color)
-
-      createWorkspaceWithPayment(userPayload).then((res) => {
-        toast.success("successful");
-        const payload = {
-          ...reg,
-          workspace: {
-            ...res.workspace,
-            id: res.result[0].workspaceId,
-            userId: res.result[0].id,
-          },
-        };
-        setReg(payload);
-        const { email, password } = reg?.user;
-        login(email, password).then((res)=> {
-          setAuth(res)
-          navigate("/welcome");
-        })
+      setReg(payload);
+      const { email, password } = reg?.user;
+      login(email, password).then((res) => {
+        setAuth(res);
+        navigate("/welcome");
       });
-    }
-  
-      
+    }).catch((err)=> [
+
+    ])
+  };
 
   useEffect(() => {
-    console.log(color)
+    console.log(color);
     let fileReader,
       isCancel = false;
     if (file) {
@@ -151,16 +151,18 @@ export default function CreateWorkspaceTwo() {
                 </div>
               )}
 
-              
               <div className="space-y-2 pt-8 w-[60%]">
-              <span
+                <span
                   data-aos="fade-down"
                   data-aos-duration="1000"
                   className=" flex items-center gap-2 mb-5"
                 >
-              <ColorPicker value={color} onChange={(e)=> setColor(e.value)} />
-              <label htmlFor="username"> Select a Color </label>
-              </span>
+                  <ColorPicker
+                    value={color}
+                    onChange={(e) => setColor(e.value)}
+                  />
+                  <label htmlFor="username"> Select a Color </label>
+                </span>
 
                 <span
                   data-aos="fade-down"
@@ -182,9 +184,10 @@ export default function CreateWorkspaceTwo() {
                   data-aos="fade-down"
                   data-aos-duration="800"
                   className="primary__btn"
-                  disabled={!color || !file || matches.length === 0}
+                  disabled={!color || !file || matches.length === 0 || loading}
                   onClick={register}
                 >
+                 {loading ? <i className="pi pi-spin pi-spinner"></i> : ''}
                   Proceed
                 </button>
               </div>
