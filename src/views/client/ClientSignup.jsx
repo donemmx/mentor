@@ -29,7 +29,6 @@ export default function ClientSignup() {
     };
     checkIfUserExist(data).then((res) => {
       setLoading(false);
-      console.log(res.payload.length);
       if (res.payload.length === 1) {
         toast.error("User already exists. Please login");
       } else {
