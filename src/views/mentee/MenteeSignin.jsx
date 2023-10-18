@@ -5,11 +5,11 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { checkUserEmailByWorkspace, login } from "../../utils/api";
+import { checkUserEmailByWorkspace, getUserWorkspace, login } from "../../utils/api";
 import { useRecoilState } from "recoil";
 import { authState } from "../../atom/authAtom";
 import { workspaceStore } from "../../atom/workspaceAtom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function MenteeSignin() {
   const navigate = useNavigate();
@@ -76,6 +76,16 @@ export default function MenteeSignin() {
     validationSchema: loginuser,
     onSubmit,
   });
+
+  useEffect(() => {
+    const payload = {
+      id: params.id,
+    };
+    getUserWorkspace(payload).then((res) => {
+      setWorkspace(res.payload[0]);
+    });
+  }, []);
+
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
       <div className="grid md:grid-cols-2 h-full w-full ">
