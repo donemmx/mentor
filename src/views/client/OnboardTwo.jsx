@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 
 export default function OnboardTwo() {
   const [province, setProvince] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState(null);
   const [reg, setReg] = useRecoilState(registerUserAtom);
   const navigate = useNavigate();
 
@@ -26,8 +25,6 @@ export default function OnboardTwo() {
         ...user,
       },
     };
-
-    // createWorkspaceWithPayment()
 
     setReg(payload);
     navigate("/onboard-4");
