@@ -19,6 +19,8 @@ export default function MenteeSignup() {
   const navigate = useNavigate();
   const params = useParams();
   const onSubmit = async (values) => {
+    setLoading(true);
+
     const payload = {
       user: {
         ...values,
@@ -128,9 +130,9 @@ export default function MenteeSignup() {
                 )}
                 <button
                   className="primary__btn mt-5"
-                  disabled={!isValid || isSubmitting}
+                  disabled={!isValid || loading}
                 >
-                  {isSubmitting ? (
+                  {loading ? (
                     <i className="pi pi-spin pi-spinner !text-[20px]"></i>
                   ) : (
                     ""
