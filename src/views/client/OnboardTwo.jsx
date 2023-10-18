@@ -9,43 +9,45 @@ import { getProvinces } from "../../utils/api";
 import { stage2 } from "../../utils/Validation";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
+import { toast } from "react-toastify";
 
 export default function OnboardTwo() {
-  const [ province, setProvince ] = useState([])
-  const [ selectedProvince, setSelectedProvince ] = useState(null)
-  const [ reg, setReg ] = useRecoilState(registerUserAtom)
+  const [province, setProvince] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [reg, setReg] = useRecoilState(registerUserAtom);
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
-    const { user, ...others } = reg
+    const { user, ...others } = reg;
     const payload = {
       ...others,
-      user:{
+      user: {
         ...values,
-        ...user
-      }
-    }  
+        ...user,
+      },
+    };
 
     // createWorkspaceWithPayment()
 
-    setReg(payload)
+    setReg(payload);
     navigate("/onboard-4");
   };
 
-
-
-  useEffect(()=>{
-    getProvinces().then((res)=>{
-      setProvince(res.payload)
-    })
-  }, [])
-
+  useEffect(() => {
+    getProvinces()
+      .then((res) => {
+        setProvince(res.payload);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.msg);
+      });
+  }, []);
 
   const initialValues = {
     province: "",
     phone: "",
     postalcode: "",
-  }
+  };
 
   const {
     values,
@@ -58,8 +60,8 @@ export default function OnboardTwo() {
     handleSubmit,
   } = useFormik({
     validateOnMount: true,
-    initialValues:initialValues,
-    validationSchema:stage2,
+    initialValues: initialValues,
+    validationSchema: stage2,
     onSubmit,
   });
 
@@ -117,12 +119,12 @@ export default function OnboardTwo() {
                   data-aos-duration="1000"
                   className="p-float-label"
                 >
-                  <InputText 
-                  id="username" 
-                  name="phone" 
-                  value={values.phone}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  <InputText
+                    id="username"
+                    name="phone"
+                    value={values.phone}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
                   <label htmlFor="username">Phone Number</label>
                 </span>
@@ -134,12 +136,12 @@ export default function OnboardTwo() {
                   data-aos-duration="1000"
                   className="p-float-label"
                 >
-                  <InputText 
-                  id="username" 
-                  name="postalcode" 
-                  value={values.postalcode}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  <InputText
+                    id="username"
+                    name="postalcode"
+                    value={values.postalcode}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
                   <label htmlFor="username">Postal Code</label>
                 </span>
