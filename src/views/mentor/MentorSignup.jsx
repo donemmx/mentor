@@ -6,14 +6,16 @@ import Logo from "../../component/logo/Logo";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
-import { checkIfUserExist, checkUserEmailByWorkspace } from "../../utils/api";
-import { useState } from "react";
+import { checkUserEmailByWorkspace, getUserWorkspace } from "../../utils/api";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { workspaceStore } from "../../atom/workspaceAtom";
 
 
 export default function MentorSignup() {
   const [ reg, setReg ] = useRecoilState(registerUserAtom)
   const [loading, setLoading] = useState(false);
+  const [workspace, setWorkspace] = useRecoilState(workspaceStore);
 
   const navigate = useNavigate()
   const params = useParams()
@@ -63,12 +65,21 @@ export default function MentorSignup() {
     validationSchema: registerUser,
     onSubmit,
   });
+
+  useEffect(() => {
+    const payload = {
+      id: params.id,
+    };
+    getUserWorkspace(payload).then((res) => {
+      setWorkspace(res.payload[0]);
+    });
+  }, []);
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
       <div className="grid md:grid-cols-2 h-full w-full ">
         <div className=" p-5 flex items-center justify-center">
           <div className="w-full flex flex-col justify-center">
-            <Logo />
+          <Logo image={workspace?.logo} id={params.id} />
             <div className="w-[95%] md:w-[90%] lg:w-[60%] mx-auto">
               <h3 className=" font-black text-[20px] lg:text-[30px] leading-[1.1]">
                 Let`s create your mentor account

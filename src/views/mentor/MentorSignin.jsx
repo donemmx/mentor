@@ -78,7 +78,7 @@ export default function MentorSignin() {
       <div className="grid md:grid-cols-2 h-full w-full ">
         <div className=" p-5 flex items-center justify-center">
           <div className="w-full flex flex-col justify-center">
-            <Logo />
+          <Logo image={workspace?.logo} id={params.id} />
             <div className="w-[95%] md:w-[90%] lg:w-[60%] mx-auto">
               <h3 className=" font-black text-[20px] lg:text-[30px] leading-[1.1]">
                 Hello Mentor 👋, <br /> Welcome back
