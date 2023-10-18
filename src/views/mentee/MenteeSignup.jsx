@@ -34,7 +34,7 @@ export default function MenteeSignup() {
     checkUserEmailByWorkspace(data).then((res) => {
       setLoading(false);
       if (res.payload.length === 1) {
-        toast.error("Mentee already exists. Please login");
+        toast.error("User already exists. Please login");
       } else {
         setReg(payload);
         navigate(`/user-onboard/${params.id}`);
