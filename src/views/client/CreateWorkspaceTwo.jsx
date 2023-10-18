@@ -73,8 +73,8 @@ export default function CreateWorkspaceTwo() {
         const { email, password } = reg?.user;
         login(email, password).then((res) => {
           setAuth(res);
-          navigate("/welcome");
           setReg(null)
+          navigate("/welcome");
         }).catch((err)=> {
           setLoading(false)
           toast.error(err.response.data.msg);
