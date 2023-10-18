@@ -37,7 +37,10 @@ export default function MentorSignup() {
         setReg(payload);
         navigate(`/user-onboard/${params.id}`);
       }
-    });
+    }).catch((e)=> {
+      setLoading(false)
+      toast.error(e.response.data.msg);
+    })
 };
   const {
     values,
@@ -115,9 +118,9 @@ export default function MentorSignup() {
                 )}
               <button
                 className="primary__btn mt-5"
-                disabled={!isValid || isSubmitting}
+                disabled={!isValid || loading}
               >
-                {isSubmitting ? (
+                {loading ? (
                   <i className="pi pi-spin pi-spinner !text-[20px]"></i>
                 ) : (
                   ""
