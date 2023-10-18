@@ -6,7 +6,7 @@ import Logo from "../../component/logo/Logo";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
-import { checkIfUserExist } from "../../utils/api";
+import { checkIfUserExist, checkUserEmailByWorkspace } from "../../utils/api";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -27,9 +27,11 @@ export default function MentorSignup() {
     }
 
     const data = {
+      id: params.id,
       email: values.email,
     };
-    checkIfUserExist(data).then((res) => {
+    
+    checkUserEmailByWorkspace(data).then((res) => {
       setLoading(false);
       if (res.payload.length === 1) {
         toast.error("User already exists. Please login");

@@ -6,14 +6,17 @@ import Logo from "../../component/logo/Logo";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
-import { useEffect } from "react";
-import { getUserWorkspace } from "../../utils/api";
+import { useEffect, useState } from "react";
+import { checkUserEmailByWorkspace, getUserWorkspace } from "../../utils/api";
 import { workspaceStore } from "../../atom/workspaceAtom";
+import { toast } from "react-toastify";
 
 export default function MenteeSignup() {
   const [reg, setReg] = useRecoilState(registerUserAtom);
+  const [loading, setLoading] = useState(false);
+
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
-  const location = useNavigate();
+  const navigate = useNavigate();
   const params = useParams();
   const onSubmit = async (values) => {
     const payload = {
@@ -22,8 +25,24 @@ export default function MenteeSignup() {
         role: "mentee",
       },
     };
-    setReg(payload);
-    location(`/user-onboard/${params.id}`);
+
+    const data = {
+      id: params.id,
+      email: values.email,
+    };
+    
+    checkUserEmailByWorkspace(data).then((res) => {
+      setLoading(false);
+      if (res.payload.length === 1) {
+        toast.error("User already exists. Please login");
+      } else {
+        setReg(payload);
+        navigate(`/user-onboard/${params.id}`);
+      }
+    }).catch((e)=> {
+      setLoading(false)
+      toast.error(e.response.data.msg);
+    })
   };
   const {
     values,
@@ -50,7 +69,7 @@ export default function MenteeSignup() {
       id: params.id,
     };
     getUserWorkspace(payload).then((res) => {
-      setWorkspace(res.payload[0])
+      setWorkspace(res.payload[0]);
     });
   }, []);
   return (

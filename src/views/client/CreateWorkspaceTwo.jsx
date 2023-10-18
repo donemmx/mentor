@@ -55,7 +55,6 @@ export default function CreateWorkspaceTwo() {
       _action: "createWithPayment",
       _url: `${window.location.origin}/payments/${reg.workspace.id}`,
     };
-    console.log(color);
 
     createWorkspaceWithPayment(userPayload)
       .then((res) => {

@@ -9,6 +9,8 @@ const logout = async (payload) =>  await api.auth.logout(payload);
 
 const checkIfUserExist = async (payload) => await api.structure('WebUser').getData('checkEmail', payload)
 
+const checkUserEmailByWorkspace = async (payload) => await api.structure('userByworkSpace').getData('checkUserEmailByWorkspace', payload)
+
 const resetPassword = async (payload) => await api.structure('reset_password_inputs').setData('resetPassword', payload)
 
 const requestPasswordChange = async (payload) => await api.structure('ResetPasswordRequest').setData('requestPasswordChange', payload)
@@ -94,5 +96,6 @@ export {
     professionalAreaAction,
     workspaceGenericForm,
     getUserGenericForm,
-    checkIfUserExist
+    checkIfUserExist,
+    checkUserEmailByWorkspace
 }
