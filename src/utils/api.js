@@ -4,7 +4,10 @@ const api = new Directual({apiHost: '/'});
 
 const login = async (username, password) =>  await api.auth.login(username, password);
 
+
 const logout = async (payload) =>  await api.auth.logout(payload);
+
+const checkIfUserExist = async (payload) => await api.structure('WebUser').getData('checkEmail', payload)
 
 const resetPassword = async (payload) => await api.structure('reset_password_inputs').setData('resetPassword', payload)
 
@@ -90,5 +93,6 @@ export {
     getProfAreaByWorkspaceOwner,
     professionalAreaAction,
     workspaceGenericForm,
-    getUserGenericForm
+    getUserGenericForm,
+    checkIfUserExist
 }

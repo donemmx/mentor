@@ -6,23 +6,37 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
+import { checkIfUserExist } from "../../utils/api";
+import { data } from "autoprefixer";
+import { toast } from "react-toastify";
 
 export default function ClientSignup() {
   const [reg, setReg] = useRecoilState(registerUserAtom);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const params = useParams();
 
   const onSubmit = async (values) => {
-    setLoading(true)
+    setLoading(true);
     const payload = {
       user: {
         ...values,
       },
     };
-    setReg(payload);
-    navigate(`/pricing`);
+    const data = {
+      email: values.email,
+    };
+    checkIfUserExist(data).then((res) => {
+      setLoading(false);
+      console.log(res.payload.length);
+      if (res.payload.length === 1) {
+        toast.error("User already exists. Please login");
+      } else {
+        setReg(payload);
+        navigate(`/pricing`);
+      }
+    });
   };
   const {
     values,
