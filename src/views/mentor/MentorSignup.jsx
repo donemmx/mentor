@@ -6,22 +6,38 @@ import Logo from "../../component/logo/Logo";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
+import { checkIfUserExist } from "../../utils/api";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 
 export default function MentorSignup() {
   const [ reg, setReg ] = useRecoilState(registerUserAtom)
+  const [loading, setLoading] = useState(false);
 
-  const location = useNavigate()
+  const navigate = useNavigate()
   const params = useParams()
   const onSubmit = async (values) => {
+    setLoading(true);
     const payload = {
       user: {
         ...values,
         role: 'mentor'
       }
     }
-    setReg(payload)
-    location(`/user-onboard/${params.id}`)
+
+    const data = {
+      email: values.email,
+    };
+    checkIfUserExist(data).then((res) => {
+      setLoading(false);
+      if (res.payload.length === 1) {
+        toast.error("User already exists. Please login");
+      } else {
+        setReg(payload);
+        navigate(`/user-onboard/${params.id}`);
+      }
+    });
 };
   const {
     values,
