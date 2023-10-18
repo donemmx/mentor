@@ -29,19 +29,23 @@ export default function MentorSignin() {
     checkUserEmailByWorkspace(data)
       .then((res) => {
         setLoading(false);
-        if (res?.payload?.userByworkSpaceStatusId === "ban") {
-          toast.error("User has been banned. Please contact admin");
+        if (res.payload.length === 1) {
+          if (res?.payload?.userByworkSpaceStatusId === "ban") {
+            toast.error("User has been banned. Please contact admin");
+          } else {
+            login(email, password)
+              .then((res) => {
+                setAuth(res);
+                setWorkspace(params.id);
+                navigate("/mentor-dashboard");
+                toast.success("Signin Successful");
+              })
+              .catch((err) => {
+                toast.error(err.response.data.msg);
+              });
+          }
         } else {
-          login(email, password)
-            .then((res) => {
-              setAuth(res);
-              setWorkspace(params.id);
-              navigate("/mentor-dashboard");
-              toast.success("Signin Successful");
-            })
-            .catch((err) => {
-              toast.error(err.response.data.msg);
-            });
+          toast.error("User does not exist on this workspace. Please Signup");
         }
       })
       .catch((e) => {
