@@ -9,23 +9,30 @@ import { login } from "../../utils/api";
 import { useRecoilState } from "recoil";
 import { authState } from "../../atom/authAtom";
 import { workspaceStore } from "../../atom/workspaceAtom";
+import { useState } from "react";
 
 export default function MenteeSignin() {
   const navigate = useNavigate();
   const [auth, setAuth] = useRecoilState(authState);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
   const params = useParams();
+  const [loading, setLoading] = useState(false)
 
   const onSubmit = async (values) => {
+    setLoading(true)
     const { email, password } = values;
     login(email, password)
       .then((res) => {
+        setLoading(false)
         setAuth(res);
         setWorkspace(params.id)
         navigate("/mentee-dashboard");
         toast.success("Signin Successful");
       })
-      .catch((err) => console.log(err));
+      .catch((e) => {
+        setLoading(false)
+        toast.error(e.response.data.msg);
+      });
   };
 
   const {
@@ -88,9 +95,9 @@ export default function MenteeSignin() {
                 )}
                 <button
                   className="primary__btn mt-5"
-                  disabled={!isValid || isSubmitting}
+                  disabled={!isValid || isSubmitting || loading}
                 >
-                  {isSubmitting ? (
+                  {loading ? (
                     <i className="pi pi-spin pi-spinner !text-[20px]"></i>
                   ) : (
                     ""
