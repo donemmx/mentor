@@ -74,6 +74,7 @@ export default function CreateWorkspaceTwo() {
         login(email, password).then((res) => {
           setAuth(res);
           navigate("/welcome");
+          setReg(null)
         });
       })
       .catch((err) => {
