@@ -57,26 +57,29 @@ export default function CreateWorkspaceTwo() {
     };
     console.log(color);
 
-    createWorkspaceWithPayment(userPayload).then((res) => {
-      setLoading(false)
-      toast.success("successful");
-      const payload = {
-        ...reg,
-        workspace: {
-          ...res.workspace,
-          id: res.result[0].workspaceId,
-          userId: res.result[0].id,
-        },
-      };
-      setReg(payload);
-      const { email, password } = reg?.user;
-      login(email, password).then((res) => {
-        setAuth(res);
-        navigate("/welcome");
+    createWorkspaceWithPayment(userPayload)
+      .then((res) => {
+        setLoading(false);
+        toast.success("successful");
+        const payload = {
+          ...reg,
+          workspace: {
+            ...res.workspace,
+            id: res.result[0].workspaceId,
+            userId: res.result[0].id,
+          },
+        };
+        setReg(payload);
+        const { email, password } = reg?.user;
+        login(email, password).then((res) => {
+          setAuth(res);
+          navigate("/welcome");
+        });
+      })
+      .catch((err) => {
+        setLoading(false);
+        toast.error(err.response.data.msg);
       });
-    }).catch((err)=> [
-
-    ])
   };
 
   useEffect(() => {
@@ -187,7 +190,7 @@ export default function CreateWorkspaceTwo() {
                   disabled={!color || !file || matches.length === 0 || loading}
                   onClick={register}
                 >
-                 {loading ? <i className="pi pi-spin pi-spinner"></i> : ''}
+                  {loading ? <i className="pi pi-spin pi-spinner"></i> : ""}
                   Proceed
                 </button>
               </div>
