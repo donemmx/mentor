@@ -8,8 +8,8 @@ import ClientLayout from "./layout/ClientLayout";
 import ClientSignup from "./views/client/ClientSignup";
 import ClientSignin from "./views/client/ClientSignin";
 import OnboardOne from "./views/client/OnboardOne";
-import OnboardTwo from "./views/client/OnboardTwo";
-import OnboardThree from "./views/client/OnboardThree";
+import OnboardTwo from "./views/client/OnboardThree";
+import OnboardThree from "./views/client/OnboardTwo";
 import OnboardFour from "./views/client/OnboardFour";
 import ClientDashboard from "./views/client/ClientDashboard";
 import GeneralSignup from "./views/GeneralSignup";
@@ -153,11 +153,11 @@ const router = createBrowserRouter([
         element: <OnboardOne />,
       },
       {
-        path: "/onboard-3",
+        path: "/onboard-2",
         element: <OnboardTwo />,
       },
       {
-        path: "/onboard-2",
+        path: "/onboard-3",
         element: <OnboardThree />,
       },
       {
