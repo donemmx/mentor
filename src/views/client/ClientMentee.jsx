@@ -41,11 +41,8 @@ export default function ClientMentee() {
     
     getMenteesByWorkspaceId(payload).then((res) => {
       setMenteeUsers(res.payload);
-      console.log(res)
-  }).catch((err) => console.log(err))
-      console.log(menteeUsers)
       setBanned(res.payload)
-      console.log(res.payload, "Mentee users ");
+  }).catch((err) => console.log(err))
   };
 
   const activateBanUser = () =>{
@@ -59,7 +56,7 @@ export default function ClientMentee() {
 
     banUserByWorkspace(payload).then((res) => {
       console.log(res)
-      toast.error('User Banned!!!')
+      toast.error('User has been banned!!!')
       navigate("/mentors");
       }).catch((err)=> 
       console.log(err)
