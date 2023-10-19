@@ -48,7 +48,6 @@ export default function ClientMentee() {
   const activateBanUser = () =>{
     const action = "banOfAccountByOwner";
     const payload = {
-      // sessionID: auth[0]?.sessionID,
       _action: action,
       _creatorId: ownerData.id,
       _userByworkSpace: userPass.id
