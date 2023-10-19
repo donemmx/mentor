@@ -42,7 +42,7 @@ export default function UserOnboardThree() {
       mentor__profAreaIds : reg.user.professionalArea,
       mail: reg.user.email,
       workspaceId: params.id,
-      acceptanceCriteria : reg.form,
+      // acceptanceCriteria : reg.form,
     }
 
     createWorkspaceUser(newPayload).then((res)=> {
