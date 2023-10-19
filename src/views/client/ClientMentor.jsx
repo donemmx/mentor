@@ -9,7 +9,11 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { DataTable } from "primereact/datatable";
 import Column from "antd/es/table/Column";
-import { banUser, banUserByWorkspace, getMentorsByWorkspaceId } from "../../utils/api";
+import {
+  banUser,
+  banUserByWorkspace,
+  getMentorsByWorkspaceId,
+} from "../../utils/api";
 import { authState } from "../../atom/authAtom";
 import { useNavigate, useParams } from "react-router-dom";
 import { user } from "../../atom/userAtom";
@@ -17,131 +21,148 @@ import { profileAccount } from "../../atom/profileAtom";
 
 export default function ClientMentor() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
-  const workspaceData = useRecoilValue(workspaceStore)
-  const ownerData = useRecoilValue(user)
+  const workspaceData = useRecoilValue(workspaceStore);
+  const ownerData = useRecoilValue(user);
   const auth = useRecoilState(authState);
   // const auth = useRecoilValue(authState);
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
-  const [ unBanUser, setUnbanUser] = useState(false);
+  const [unBanUser, setUnbanUser] = useState(false);
   const [mentorUsers, setMentorUsers] = useState([]);
-  const [ Banned, setBanned ] = useState()
+  const [Banned, setBanned] = useState();
   const params = useParams();
-  const [mentorData, setMentorData] = useRecoilState(profileAccount)
-  const [ userPass, setUserPass] = useState({});
-  
+  const [mentorData, setMentorData] = useRecoilState(profileAccount);
+  const [userPass, setUserPass] = useState({});
+
   let inviteLink = `${window.location.origin}/mentor-signup/${workspaceData?.id}`;
 
   const sendInvite = () => {
-    setVisible(!visible)
-    toast.success('Invite Sent Successfully')
-  }
+    setVisible(!visible);
+    toast.success("Invite Sent Successfully");
+  };
 
   const listMyMentorsUser = () => {
     const payload = {
       sessionID: auth[0]?.sessionID,
       id: workspaceData.id,
     };
-    getMentorsByWorkspaceId(payload).then((res) => {
-      setMentorUsers(res.payload);
-      // setBanned(res.payload.isBanned)
-      console.log(res.payload, "Mentor Users");
-    }).catch((err)=> 
-      console.log(err)
-    )
+    getMentorsByWorkspaceId(payload)
+      .then((res) => {
+        setMentorUsers(res.payload);
+        // setBanned(res.payload.isBanned)
+        console.log(res.payload, "Mentor Users");
+      })
+      .catch((err) => console.log(err));
   };
-  console.log("h")
+  console.log("h");
 
   // id: auth?.sessionID,
-  
-  const activateBanUser = () =>{
+
+  const activateBanUser = () => {
     const action = "banOfAccountByOwner";
     const payload = {
       // sessionID: auth[0]?.sessionID,
       _action: action,
       _creatorId: ownerData.id,
-      _userByworkSpace: userPass.id
+      _userByworkSpace: userPass.id,
     };
-
-    banUserByWorkspace(payload).then((res) => {
-      toast.error('User has ben banned!!!')
-      listMyMentorsUser()
-      }).catch((err)=> 
-      console.log(err)
-    )
+    setShow(!show);
+    banUserByWorkspace(payload)
+      .then((res) => {
+        toast.error("User has ben banned!!!");
+        listMyMentorsUser();
+      })
+      .catch((err) => console.log(err));
   };
-  const DeactivateBanUser  = () =>{
+  const DeactivateBanUser = () => {
+    setUnbanUser(!unBanUser);
     const action = "unbanOfAccountByOwner";
     const payload = {
       // sessionID: auth[0]?.sessionID,
       _action: action,
       _creatorId: ownerData.id,
-      _userByworkSpace: userPass.id
+      _userByworkSpace: userPass.id,
     };
 
-    banUserByWorkspace(payload).then((res) => {
-      toast.success('User has been unbanned!!!')
-      listMyMentorsUser()
-      }).catch((err)=> 
-      console.log(err)
-    )
+    banUserByWorkspace(payload)
+      .then((res) => {
+        toast.success("User has been unbanned!!!");
+        listMyMentorsUser();
+      })
+      .catch((err) => console.log(err));
   };
 
-  
-  const closureBanUser = () =>{
+  const closureBanUser = () => {
     const action = "closureOfAccountByOwner";
     const userPayload = {
-      sessionID : auth?.sessionID,
-      _action : action,
-      _creatorId : ownerData.id,
-      _userByworkSpace : userPass.id
+      sessionID: auth?.sessionID,
+      _action: action,
+      _creatorId: ownerData.id,
+      _userByworkSpace: userPass.id,
     };
 
-    banUserByWorkspace(userPayload).then((res) => {
-      console.log(res)
-      toast.error('User Account Closure!!!')
-      navigate("/list-workspace");
-      }).catch((err)=> 
-      console.log(err)
-    )
-    setShow(!show)
+    banUserByWorkspace(userPayload)
+      .then((res) => {
+        console.log(res);
+        toast.error("User Account Closure!!!");
+        navigate("/list-workspace");
+      })
+      .catch((err) => console.log(err));
+    setShow(!show);
   };
 
   const passUserData = (data) => {
-    setUserPass(data)
-    setShow(!show)
-  } 
+    setUserPass(data);
+    setShow(!show);
+  };
   const passUserData2 = (data) => {
-    setUserPass(data)
-    setUnbanUser(!unBanUser)
-  } 
+    setUserPass(data);
+    setUnbanUser(!unBanUser);
+  };
 
-  const view = (item) =>{
-    setMentorData(item)
+  const view = (item) => {
+    setMentorData(item);
     navigate(`/mentor-account/${item.id}`);
-  }
-// console.log('created view to another page, ban as pop up')
-  
-    const actionBodyTemplate = (rowItem) => {
-      return <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" onClick={() => view(rowItem)}>
-        view
-      </button>;
+  };
+  // console.log('created view to another page, ban as pop up')
+
+  const actionBodyTemplate = (rowItem) => {
+    return (
+      <div className="flex items-center gap-4">
+        <button
+          className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out"
+          onClick={() => view(rowItem)}
+        >
+          view
+        </button>
+        
+        {rowItem.isBanned ? (
+          <button
+            className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
+            onClick={() => passUserData2(rowItem)}
+          >
+            Activate User
+          </button>
+        ) : (
+          <button
+            className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
+            onClick={() => passUserData(rowItem)}
+          >
+            Ban User
+          </button>
+        )}
+      </div>
+    );
   };
 
-    const banActionBodyTemplate = (rowItem) => {
-      return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => passUserData(rowItem)}>
-        Ban User
-      </button>;
+  const banActionBodyTemplate = (rowItem) => {
+    return;
   };
 
-    const unbanTheUser = (rowItem) => {
-      return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => passUserData2(rowItem)}>
-        Unban User Account
-      </button>;
+  const unbanTheUser = (rowItem) => {
+    return;
   };
-  
-  
 
   useEffect(() => {
     listMyMentorsUser();
@@ -151,8 +172,8 @@ export default function ClientMentor() {
     <div>
       <TopCard
         links={mylinks}
-        homeLink={'/dashboard'}
-        base={'signin'}
+        homeLink={"/dashboard"}
+        base={"signin"}
         title={"List all mentors"}
         subtitle={"Track and manage your users"}
       />
@@ -165,28 +186,43 @@ export default function ClientMentor() {
             Invite user
           </button>
         </div>
-        <DataTable value={mentorUsers} tableStyle={{ minWidth: "50rem" }} className="!text-sm">
-            {/* <Column className=" text-sm"  ></Column> */}
-            <Column className=" text-sm" field="email" header="Email"></Column>
-            <Column className=" text-sm" field="firstName" header="First Name"></Column>
-            <Column className=" text-sm" field="lastName" header="Last Name"></Column>
-            <Column className=" text-sm" field="phone" header="Phone"></Column>
-            <Column className=" text-sm" field="gender" header="Gender"></Column>
-            <Column className=" text-sm" field="isBanned" header="Status"></Column>
-            {/* body={Banned !== true ? "User Banned" : "Active" } */}
-            {/* body={"isBanned" == "true" ? "User Banned" : "Active" } */}
-            <Column header="Action" body={actionBodyTemplate}></Column>
-            <Column header="Action" body={banActionBodyTemplate}></Column>
-            <Column header="Action" body={unbanTheUser}></Column>
+        <DataTable
+          value={mentorUsers}
+          tableStyle={{ minWidth: "50rem" }}
+          className="!text-sm"
+        >
+          {/* <Column className=" text-sm"  ></Column> */}
+          <Column className=" text-sm" field="email" header="Email"></Column>
+          <Column
+            className=" text-sm"
+            field="firstName"
+            header="First Name"
+          ></Column>
+          <Column
+            className=" text-sm"
+            field="lastName"
+            header="Last Name"
+          ></Column>
+          <Column className=" text-sm" field="phone" header="Phone"></Column>
+          <Column className=" text-sm" field="gender" header="Gender"></Column>
+          <Column
+            className=" text-sm"
+            field="isBanned"
+            header="Status"
+          ></Column>
+          {/* body={Banned !== true ? "User Banned" : "Active" } */}
+          {/* body={"isBanned" == "true" ? "User Banned" : "Active" } */}
+          <Column header="Action" body={actionBodyTemplate}></Column>
         </DataTable>
       </div>
       <Dialog
-        header="Invite user"s
+        header="Invite user"
+        s
         visible={visible}
         onHide={() => setVisible(false)}
         className="w-[90%] lg:w-[35vw]"
       >
-           <div className="user  flex flex-col justify-center items-center w-[65%] lg:w-[20%] mx-auto mt-[5vh]">
+        <div className="user  flex flex-col justify-center items-center w-[65%] lg:w-[20%] mx-auto mt-[5vh]">
           <h4 className=" font-bold pt-3">Mentor's </h4>
           <p className="text-sm text-center text-[#666666]">Invite Link</p>
           <CopyToClipboard
@@ -214,11 +250,13 @@ export default function ClientMentor() {
           <p className="text-xs mt-4">Click to copy</p>
         </div>
         <div className="w-[80%] mx-auto py-5">
-        <span className="p-float-label">
-          <InputText id="username" name="email" />
-          <label htmlFor="username">Email</label>
-        </span>
-        <button className="primary__btn  mt-5" onClick={sendInvite}>Send Invite</button>
+          <span className="p-float-label">
+            <InputText id="username" name="email" />
+            <label htmlFor="username">Email</label>
+          </span>
+          <button className="primary__btn  mt-5" onClick={sendInvite}>
+            Send Invite
+          </button>
         </div>
       </Dialog>
       <Dialog
@@ -227,20 +265,22 @@ export default function ClientMentor() {
         onHide={() => setShow(false)}
         className="w-[90%] lg:w-[35vw]"
       >
-           <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
-              <h4 className=" font-bold pt-3">Ban {userPass?.firstName} {userPass?.lastName} ?</h4>
-              <br /><br />
-            </div>
-            <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
-              <button
-                onClick={activateBanUser}
-                className="h-[45px] w-[150px] bg-[#F56B3F] mx-auto text-center rounded text-white"
-              >Proceed to Ban
-              </button>
-            </div>
-        <div className="w-[80%] mx-auto py-5">
-        
+        <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
+          <h4 className=" font-bold pt-3">
+            Ban {userPass?.firstName} {userPass?.lastName} ?
+          </h4>
+          <br />
+          <br />
         </div>
+        <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
+          <button
+            onClick={activateBanUser}
+            className="h-[45px] w-[150px] bg-[#F56B3F] mx-auto text-center rounded text-white"
+          >
+            Proceed to Ban
+          </button>
+        </div>
+        <div className="w-[80%] mx-auto py-5"></div>
       </Dialog>
       <Dialog
         header="Close User Account"
@@ -248,20 +288,22 @@ export default function ClientMentor() {
         onHide={() => setUnbanUser(false)}
         className="w-[90%] lg:w-[35vw]"
       >
-           <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
-              <h4 className=" font-bold pt-3">Unban {userPass?.firstName} {userPass?.lastName}'s account' ?</h4>
-              <br /><br />
-            </div>
-            <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
-              <button
-                onClick={DeactivateBanUser}
-                className="h-[45px] w-[250px] bg-[#F56B3F] mx-auto text-center rounded text-white"
-              >Confirm to unban account
-              </button>
-            </div>
-        <div className="w-[80%] mx-auto py-5">
-        
+        <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
+          <h4 className=" font-bold pt-3">
+            Unban {userPass?.firstName} {userPass?.lastName}'s account' ?
+          </h4>
+          <br />
+          <br />
         </div>
+        <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
+          <button
+            onClick={DeactivateBanUser}
+            className="h-[45px] w-[250px] bg-[#F56B3F] mx-auto text-center rounded text-white"
+          >
+            Confirm to unban account
+          </button>
+        </div>
+        <div className="w-[80%] mx-auto py-5"></div>
       </Dialog>
     </div>
   );
