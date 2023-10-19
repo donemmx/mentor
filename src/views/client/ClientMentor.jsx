@@ -156,13 +156,6 @@ export default function ClientMentor() {
     );
   };
 
-  const banActionBodyTemplate = (rowItem) => {
-    return;
-  };
-
-  const unbanTheUser = (rowItem) => {
-    return;
-  };
 
   useEffect(() => {
     listMyMentorsUser();

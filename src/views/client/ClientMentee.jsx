@@ -24,6 +24,7 @@ export default function ClientMentee() {
   const [show, setShow] = useState(false);
   const ownerData = useRecoilValue(user)
   const [ banned, setBanned ] = useState()
+  const [unBanUser, setUnbanUser] = useState(false);
 
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
@@ -44,22 +45,57 @@ export default function ClientMentee() {
       setBanned(res.payload)
   }).catch((err) => console.log(err))
   };
-  console.log("h")
-  const activateBanUser = () =>{
+  const activateBanUser = () => {
     const action = "banOfAccountByOwner";
     const payload = {
+      // sessionID: auth[0]?.sessionID,
       _action: action,
       _creatorId: ownerData.id,
-      _userByworkSpace: userPass.id
+      _userByworkSpace: userPass.id,
+    };
+    setShow(!show);
+    banUserByWorkspace(payload)
+      .then((res) => {
+        toast.error("User has ben banned!!!");
+        listMyMenteesUser();
+      })
+      .catch((err) => console.log(err));
+  };
+  const DeactivateBanUser = () => {
+    setUnbanUser(!unBanUser);
+    const action = "unbanOfAccountByOwner";
+    const payload = {
+      // sessionID: auth[0]?.sessionID,
+      _action: action,
+      _creatorId: ownerData.id,
+      _userByworkSpace: userPass.id,
     };
 
-    banUserByWorkspace(payload).then((res) => {
-      toast.error('User banned!!')
-      navigate("/mentees");
-      }).catch((err)=> 
-      console.log(err)
-    )
-    listMyMenteesUser()
+    banUserByWorkspace(payload)
+      .then((res) => {
+        toast.success("User has been unbanned!!!");
+        listMyMenteesUser();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const closureBanUser = () => {
+    const action = "closureOfAccountByOwner";
+    const userPayload = {
+      sessionID: auth?.sessionID,
+      _action: action,
+      _creatorId: ownerData.id,
+      _userByworkSpace: userPass.id,
+    };
+
+    banUserByWorkspace(userPayload)
+      .then((res) => {
+        console.log(res);
+        toast.error("User Account Closure!!!");
+        navigate("/list-workspace");
+      })
+      .catch((err) => console.log(err));
+    setShow(!show);
   };
 
   useEffect(() => {
@@ -71,23 +107,44 @@ export default function ClientMentee() {
     navigate(`/mentor-account/${item.id}`);
   }
 
-
   const passUserData = (data) => {
-    setUserPass(data)
-    setShow(!show)
-  } 
-// console.log('created view to another page, ban as pop up')
-  const actionBodyTemplate = (rowItem) => {
-    return <button className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out" onClick={() => view(rowItem)}>
-      view
-    </button>;
-};
-const banActionBodyTemplate = (rowItem) => {
-  return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => passUserData(rowItem)}>
-    Ban User
-  </button>;
-};
+    setUserPass(data);
+    setShow(!show);
+  };
+  const passUserData2 = (data) => {
+    setUserPass(data);
+    setUnbanUser(!unBanUser);
+  };
 
+// console.log('created view to another page, ban as pop up')
+const actionBodyTemplate = (rowItem) => {
+  return (
+    <div className="flex items-center gap-4">
+      <button
+        className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out"
+        onClick={() => view(rowItem)}
+      >
+        view
+      </button>
+      
+      {rowItem.isBanned ? (
+        <button
+          className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
+          onClick={() => passUserData2(rowItem)}
+        >
+          Activate User
+        </button>
+      ) : (
+        <button
+          className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
+          onClick={() => passUserData(rowItem)}
+        >
+          Ban User
+        </button>
+      )}
+    </div>
+  );
+};
   return (
     <div>
       <TopCard
@@ -116,7 +173,6 @@ const banActionBodyTemplate = (rowItem) => {
           <Column className=" text-sm" field="gender" header="Gender"></Column>
           <Column className=" text-sm" field={"isBanned"} header="Status"></Column>
           <Column body={actionBodyTemplate}></Column>
-          <Column header="Action" body={banActionBodyTemplate}></Column>
         </DataTable>
       </div>
 
@@ -170,20 +226,45 @@ const banActionBodyTemplate = (rowItem) => {
         onHide={() => setShow(false)}
         className="w-[90%] lg:w-[35vw]"
       >
-           <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
-              <h4 className=" font-bold pt-3">Ban {userPass?.firstName} {userPass?.lastName} ?</h4>
-              <br /><br />
-            </div>
-            <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
-              <button
-                onClick={activateBanUser}
-                className="h-[45px] w-[150px] bg-[#F56B3F] mx-auto text-center rounded text-white"
-              >Proceed to Ban
-              </button>
-            </div>
-        <div className="w-[80%] mx-auto py-5">
-        
+        <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
+          <h4 className=" font-bold pt-3">
+            Ban {userPass?.firstName} {userPass?.lastName} ?
+          </h4>
+          <br />
+          <br />
         </div>
+        <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
+          <button
+            onClick={activateBanUser}
+            className="h-[45px] w-[150px] bg-[#F56B3F] mx-auto text-center rounded text-white"
+          >
+            Proceed to Ban
+          </button>
+        </div>
+        <div className="w-[80%] mx-auto py-5"></div>
+      </Dialog>
+      <Dialog
+        header="Close User Account"
+        visible={unBanUser}
+        onHide={() => setUnbanUser(false)}
+        className="w-[90%] lg:w-[35vw]"
+      >
+        <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
+          <h4 className=" font-bold pt-3">
+            Unban {userPass?.firstName} {userPass?.lastName}'s account' ?
+          </h4>
+          <br />
+          <br />
+        </div>
+        <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
+          <button
+            onClick={DeactivateBanUser}
+            className="h-[45px] w-[250px] bg-[#F56B3F] mx-auto text-center rounded text-white"
+          >
+            Confirm to unban account
+          </button>
+        </div>
+        <div className="w-[80%] mx-auto py-5"></div>
       </Dialog>
       
     </div>
