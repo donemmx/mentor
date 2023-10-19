@@ -27,36 +27,38 @@ export default function UserOnboardThree() {
         ...user,
       },
     };
-    const userPayload = {
-        gender: values.gender,
-        lastName: reg.user.lastName,
-        firstame: reg.user.firstName,
-        _role_input: reg.user.role === 'mentor'? true: false,
-        mail: reg.user.email,
-        workspaceId: params.id,
-        _yearsofprofessionalinterest: values.yearsOfExperience,
-        _password: reg.user.confirmPassword,
-        _phone: reg.user.phone,
-        _provinceId: reg.user.province,
-        _postalcode: reg.user.postalcode,
-        _url: window.location.href,
-        mentee__profAreaIds: ''
-        
-      };
-      createWorkspaceUser(userPayload).then((res)=> {
-        toast.success("successful");
-        const { email, password } = reg?.user;
-        login(email, password).then((res)=> {
-          const payload = {
-            workspaceId: params.id,
-            res,
-          }
-          setAuth(payload)
-          navigate(`/${reg.user.role}-signin/${params.id}`);
-        })
-      })
-    setReg(payload);
+    const newPayload = {
+      _password : reg.user.confirmPassword,
+      _phone : reg.user.phone,
+      _postalcode : reg.user.postalcode,
+      _provinceId : reg.user.province,
+      _role_input :  reg.user.role === 'mentor'? true: false,
+      _url : window.location.href,
+      _yearsofprofessionalinterest : values.yearsOfExperience,
+      firstame: reg.user.firstName,
+      gender: values.gender,
+      lastName: reg.user.lastName,
+      mentee__profAreaIds : reg.user.professionalArea,
+      mentor__profAreaIds : reg.user.professionalArea,
+      mail: reg.user.email,
+      workspaceId: params.id,
+      acceptanceCriteria : reg.form[0],
+    }
 
+    createWorkspaceUser(newPayload).then((res)=> {
+      toast.success("successful");
+      const { email, password } = reg?.user;
+      login(email, password).then((res)=> {
+        const payload = {
+          workspaceId: params.id,
+          res,
+        }
+        setAuth(payload)
+        navigate(`/${reg.user.role}-signin/${params.id}`);
+      })
+    })
+    setReg(newPayload);
+    console.log(newPayload)
   };
 
   const initialValues = {

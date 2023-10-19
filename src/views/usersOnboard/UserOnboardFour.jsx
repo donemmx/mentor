@@ -19,7 +19,7 @@ export default function UserOnboardFour() {
       selectedValues.push(res);
     });
     const payload = {
-      form: selectedValues,
+      form: selectedValues[0],
       ...reg,
     };
     setReg(payload);

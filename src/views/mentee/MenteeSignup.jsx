@@ -39,7 +39,7 @@ export default function MenteeSignup() {
         toast.error("User already exists. Please login");
       } else {
         setReg(payload);
-        navigate(`/user-onboard/${params.id}`);
+        navigate(`/user-onboard-1/${params.id}`);
       }
     }).catch((e)=> {
       setLoading(false)

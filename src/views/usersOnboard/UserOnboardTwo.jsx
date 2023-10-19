@@ -25,11 +25,13 @@ export default function UserOnboardTwo() {
         ...others,
         user:{
           ...values,
-          professionalAreaIds: professionalArea,
+          // professionalAreaIds: professionalArea,
+          // newProfessionalArea: professionalArea,
           ...user
         }
       }  
       setReg(payload)
+      console.log(payload, "The main payload")
       navigate(`/user-onboard-3/${params.id}`);
     };
   

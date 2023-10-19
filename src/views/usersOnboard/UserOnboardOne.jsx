@@ -21,7 +21,7 @@ export default function UserOnboardOne() {
         }
       }
       setReg(payload)
-      navigate(`/user-onboard-2/${params.id}`);
+      navigate(`/user-onboard/${params.id}`);
     };
   
     const initialValues = {

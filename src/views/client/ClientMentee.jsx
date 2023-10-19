@@ -38,7 +38,9 @@ export default function ClientMentee() {
     
     getMenteesByWorkspaceId(payload).then((res) => {
       setMenteeUsers(res.payload);
-    }).catch((err) => console.log(err))
+      console.log(res)
+  }).catch((err) => console.log(err))
+    console.log(menteeUsers)
   };
 
   useEffect(() => {
