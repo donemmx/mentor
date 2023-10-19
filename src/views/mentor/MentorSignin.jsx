@@ -37,7 +37,7 @@ export default function MentorSignin() {
               .then((res) => {
                 setAuth(res);
                 setWorkspace(params.id);
-                navigate(`/mentor-dashboard/${params.id}`);
+                navigate(`/mentor-dashboard`);
                 toast.success("Signin Successful");
               })
               .catch((err) => {
