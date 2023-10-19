@@ -39,7 +39,7 @@ export default function MenteeSignin() {
               .then((res) => {
                 setAuth(res);
                 setWorkspace(params.id);
-                navigate("/mentor-dashboard");
+                navigate(`/mentee-dashboard/${params.id}`);
                 toast.success("Signin Successful");
               })
               .catch((err) => {
