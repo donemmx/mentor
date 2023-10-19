@@ -24,7 +24,7 @@ export default function ClientMentor() {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
-  const [ viewClosure, setViewClosure] = useState(false);
+  const [ unBanUser, setUnbanUser] = useState(false);
   const [mentorUsers, setMentorUsers] = useState([]);
   const [ Banned, setBanned ] = useState()
   const params = useParams();
@@ -51,6 +51,7 @@ export default function ClientMentor() {
       console.log(err)
     )
   };
+  console.log("h")
 
   // id: auth?.sessionID,
   
@@ -65,6 +66,24 @@ export default function ClientMentor() {
 
     banUserByWorkspace(payload).then((res) => {
       toast.error('User Banned!!!')
+      navigate("/mentors");
+      }).catch((err)=> 
+      console.log(err)
+    )
+    listMyMentorsUser()
+    setShow(!show)
+  };
+  const UnactivateBanUser  = () =>{
+    const action = "unbanOfAccountByOwner";
+    const payload = {
+      // sessionID: auth[0]?.sessionID,
+      _action: action,
+      _creatorId: ownerData.id,
+      _userByworkSpace: userPass.id
+    };
+
+    banUserByWorkspace(payload).then((res) => {
+      toast.info('User Banned!!!')
       navigate("/mentors");
       }).catch((err)=> 
       console.log(err)
@@ -99,7 +118,7 @@ export default function ClientMentor() {
   } 
   const passUserData2 = (data) => {
     setUserPass(data)
-    setViewClosure(!viewClosure)
+    setUnbanUser(!unBanUser)
   } 
 
   const view = (item) =>{
@@ -120,9 +139,9 @@ export default function ClientMentor() {
       </button>;
   };
 
-    const closureActionBodyTemplate = (rowItem) => {
+    const unbanTheUser = (rowItem) => {
       return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => passUserData2(rowItem)}>
-        Close User Account
+        Unban User Account
       </button>;
   };
   
@@ -157,11 +176,12 @@ export default function ClientMentor() {
             <Column className=" text-sm" field="lastName" header="Last Name"></Column>
             <Column className=" text-sm" field="phone" header="Phone"></Column>
             <Column className=" text-sm" field="gender" header="Gender"></Column>
-            <Column className=" text-sm" field="isBanned" header="Status" 
-            body={Banned !== true ? "User Banned" : "Active" }></Column>
-{/*  body={"isBanned" == "true" ? "User Banned" : "Active" } */}
+            <Column className=" text-sm" field="isBanned" header="Status"></Column>
+            {/* body={Banned !== true ? "User Banned" : "Active" } */}
+            {/* body={"isBanned" == "true" ? "User Banned" : "Active" } */}
             <Column header="Action" body={actionBodyTemplate}></Column>
             <Column header="Action" body={banActionBodyTemplate}></Column>
+            <Column header="Action" body={unbanTheUser}></Column>
         </DataTable>
       </div>
       <Dialog
@@ -228,19 +248,19 @@ export default function ClientMentor() {
       </Dialog>
       <Dialog
         header="Close User Account"
-        visible={viewClosure}
-        onHide={() => setViewClosure(false)}
+        visible={unBanUser}
+        onHide={() => setUnbanUser(false)}
         className="w-[90%] lg:w-[35vw]"
       >
            <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
-              <h4 className=" font-bold pt-3">Close {userPass?.firstName} {userPass?.lastName}'s account' ?</h4>
+              <h4 className=" font-bold pt-3">Unban {userPass?.firstName} {userPass?.lastName}'s account' ?</h4>
               <br /><br />
             </div>
             <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
               <button
-                onClick={closureBanUser}
+                onClick={UnactivateBanUser}
                 className="h-[45px] w-[250px] bg-[#F56B3F] mx-auto text-center rounded text-white"
-              >Confirm to close account
+              >Confirm to unban account
               </button>
             </div>
         <div className="w-[80%] mx-auto py-5">

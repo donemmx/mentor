@@ -23,7 +23,7 @@ export default function ClientMentee() {
   const [ userPass, setUserPass] = useState({});
   const [show, setShow] = useState(false);
   const ownerData = useRecoilValue(user)
-  const [ Banned, setBanned ] = useState()
+  const [ banned, setBanned ] = useState()
 
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
@@ -42,12 +42,13 @@ export default function ClientMentee() {
     getMenteesByWorkspaceId(payload).then((res) => {
       setMenteeUsers(res.payload);
       console.log(res)
-  }).catch((err) => console.log(err))
-      console.log(menteeUsers)
       setBanned(res.payload)
       console.log(res.payload, "Mentee users ");
+  }).catch((err) => console.log(err))
+      console.log(menteeUsers)
+      console.log(banned);
   };
-
+  console.log("h")
   const activateBanUser = () =>{
     const action = "banOfAccountByOwner";
     const payload = {
@@ -59,7 +60,7 @@ export default function ClientMentee() {
 
     banUserByWorkspace(payload).then((res) => {
       console.log(res)
-      toast.error('User Banned!!!')
+      toast.error('User banned!!')
       navigate("/mentors");
       }).catch((err)=> 
       console.log(err)
@@ -120,8 +121,7 @@ const banActionBodyTemplate = (rowItem) => {
           <Column className=" text-sm" field="lastName" header="Last Name"></Column>
           <Column className=" text-sm" field="phone" header="Phone"></Column>
           <Column className=" text-sm" field="gender" header="Gender"></Column>
-          <Column className=" text-sm" field="isBanned" header="Status"
-           body={"isBanned" == "true" ? "User Banned" : "Active" }></Column>
+          <Column className=" text-sm" field={"isBanned"} header="Status"></Column>
           <Column body={actionBodyTemplate}></Column>
           <Column header="Action" body={banActionBodyTemplate}></Column>
         </DataTable>
