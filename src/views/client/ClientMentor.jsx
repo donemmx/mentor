@@ -65,14 +65,13 @@ export default function ClientMentor() {
     };
 
     banUserByWorkspace(payload).then((res) => {
-      toast.error('User Banned!!!')
-      navigate("/mentors");
+      toast.error('User has ben banned!!!')
+      listMyMentorsUser()
       }).catch((err)=> 
       console.log(err)
     )
-    listMyMentorsUser()
   };
-  const UnactivateBanUser  = () =>{
+  const DeactivateBanUser  = () =>{
     const action = "unbanOfAccountByOwner";
     const payload = {
       // sessionID: auth[0]?.sessionID,
@@ -82,12 +81,11 @@ export default function ClientMentor() {
     };
 
     banUserByWorkspace(payload).then((res) => {
-      toast.info('User Banned!!!')
-      navigate("/mentors");
+      toast.success('User has been unbanned!!!')
+      listMyMentorsUser()
       }).catch((err)=> 
       console.log(err)
     )
-    listMyMentorsUser()
   };
 
   
@@ -256,7 +254,7 @@ export default function ClientMentor() {
             </div>
             <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
               <button
-                onClick={UnactivateBanUser}
+                onClick={DeactivateBanUser}
                 className="h-[45px] w-[250px] bg-[#F56B3F] mx-auto text-center rounded text-white"
               >Confirm to unban account
               </button>

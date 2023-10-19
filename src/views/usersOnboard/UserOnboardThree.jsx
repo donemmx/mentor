@@ -17,7 +17,7 @@ export default function UserOnboardThree() {
   const [auth, setAuth] = useRecoilState(authState);
   
   const navigate = useNavigate();
-  const genders = ["male", "female"];
+  const genders = ["male", "female", "others"];
   const onSubmit = async (values) => {
     const { user, ...others } = reg;
     const payload = {
