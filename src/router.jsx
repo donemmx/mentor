@@ -193,10 +193,6 @@ const router = createBrowserRouter([
         path: "/mentee-message",
         element: <MenteeMessages />,
       },
-      {
-        path: "/mentee-dashboard",
-        element: <MenteeDashboard />,
-      },
     ],
   },
 
@@ -219,10 +215,6 @@ const router = createBrowserRouter([
       {
         path: "/mentor-message",
         element: <MentorMessages />,
-      },
-      {
-        path: "/mentor-dashboard",
-        element: <MentorDashboard />,
       },
      
     ],

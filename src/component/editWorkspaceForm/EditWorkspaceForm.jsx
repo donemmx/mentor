@@ -122,7 +122,7 @@ export default function EditWorkspaceForm() {
       <div className="">
         <div className="">
           <form onSubmit={handleSubmit} className="space-y-2 pt-8 w-[60%]">
-            <span
+            {/* <span
               data-aos="fade-down"
               data-aos-duration="1000"
               className="p-float-label"
@@ -139,11 +139,9 @@ export default function EditWorkspaceForm() {
 
             {errors.workspace && touched.workspace && (
               <p className="error">{errors.workspace}</p>
-            )}
+            )} */}
 
             <span
-              data-aos="fade-down"
-              data-aos-duration="1000"
               className="p-float-label"
             >
               <Dropdown
@@ -160,8 +158,6 @@ export default function EditWorkspaceForm() {
               <p className="error">{errors.maxMentors}</p>
             )}
             <span
-              data-aos="fade-down"
-              data-aos-duration="1000"
               className="p-float-label"
             >
               <Dropdown
@@ -179,8 +175,6 @@ export default function EditWorkspaceForm() {
             )}
 
             <span
-              data-aos="fade-down"
-              data-aos-duration="1000"
               className="p-float-label"
             >
               <InputTextarea
