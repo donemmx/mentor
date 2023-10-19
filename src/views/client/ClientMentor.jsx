@@ -71,7 +71,6 @@ export default function ClientMentor() {
       console.log(err)
     )
     listMyMentorsUser()
-    setShow(!show)
   };
   const UnactivateBanUser  = () =>{
     const action = "unbanOfAccountByOwner";
@@ -89,7 +88,6 @@ export default function ClientMentor() {
       console.log(err)
     )
     listMyMentorsUser()
-    setShow(!show)
   };
 
   

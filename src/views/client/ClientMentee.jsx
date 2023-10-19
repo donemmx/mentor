@@ -64,7 +64,6 @@ export default function ClientMentee() {
       console.log(err)
     )
     listMyMenteesUser()
-    setShow(!show)
   };
 
   useEffect(() => {
