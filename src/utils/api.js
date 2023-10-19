@@ -59,7 +59,7 @@ const professionalAreaAction = async (payload) => await api.structure('_professi
 // Mentees 
 const getMenteeProfile = async (payload) => await api.structure('WebUser').getData('getMenteeProfile', payload);
 
-const banUser = async (payload) => await api.structure('userByworkSpace').setData('banUser', payload);
+const banUserByWorkspace = async (payload) => await api.structure('_userByworkSpace').setData('banUserByWorkspace', payload);
 
 // Form
 const workspaceGenericForm = async (payload) => await api.structure('workspace').setData('workspaceGenericForm', payload)
@@ -90,7 +90,7 @@ export {
     ownerWorkspaceEdit,
     getInvoiceByWorkspace,
     getMenteeProfile,
-    banUser,
+    banUserByWorkspace,
     getProfAreasByWorkSpace,
     getProfAreaByWorkspaceOwner,
     professionalAreaAction,

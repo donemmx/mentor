@@ -201,9 +201,7 @@ export default function ClientWorkspace() {
                     {workspaceData?.name}
                   </div>
 
-                  <div className="text-xs py-2 ">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Accusantium, sapiente?
+                  <div className="text-xs py-2 ">{workspaceData?.description}
                   </div>
                 </div>
                 <button className="h-[40px] w-full bg-gray-700 text-white flex items-center justify-center gap-2 rounded mt-auto text-sm ">

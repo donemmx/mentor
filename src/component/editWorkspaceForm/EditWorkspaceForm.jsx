@@ -122,7 +122,7 @@ export default function EditWorkspaceForm() {
       <div className="">
         <div className="">
           <form onSubmit={handleSubmit} className="space-y-2 pt-8 w-[60%]">
-            {/* <span
+            <span
               data-aos="fade-down"
               data-aos-duration="1000"
               className="p-float-label"
@@ -135,11 +135,11 @@ export default function EditWorkspaceForm() {
                 onBlur={handleBlur}
               />
               <label htmlFor="username">Workspace name</label>
-            </span> */}
+            </span>
 
-            {/* {errors.workspace && touched.workspace && (
+            {errors.workspace && touched.workspace && (
               <p className="error">{errors.workspace}</p>
-            )} */}
+            )}
 
             <span
               data-aos="fade-down"

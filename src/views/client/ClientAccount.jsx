@@ -33,6 +33,8 @@ export default function ClientAccount() {
   const [ chgPwd, setChgPwd ] = useState(false)
   const [ viewAction, setViewAction ] = useState([])
 
+  const [ page, setPage ] = useState("")
+
   
   const setTab = (data) => {
     setActive(data);
@@ -84,6 +86,7 @@ export default function ClientAccount() {
     }
     editOwnerProfile(payload).then((res)=>{
       setUserData(res.payload)
+      console.log(res, 'the response from posting');
     })
   };
 
@@ -122,7 +125,7 @@ export default function ClientAccount() {
 
 
   const changeEditButton= () => {
-    setEdit(!edit)
+    setEdit(true)
   }
 
   const dealPassword = () => {
@@ -131,10 +134,12 @@ export default function ClientAccount() {
   }
   
   var getGender = ['Male', 'Female']
+
   useEffect(()=> {
     getProfileData()
     setGender(getGender);
     getInvoices()
+    setPage('Profile')
     
     getProvinces().then((res)=>{
       setProvince(res.payload)
@@ -194,9 +199,39 @@ export default function ClientAccount() {
                     ? "font-bold cursor-pointer"
                     : "cursor-pointer"
                 }
-                onClick={() => setTab("profile")}
+                onClick={() => (setTab("profile"))}
               >
                 Personal Profile
+              </div>
+              <div
+                className={
+                  active === "editProfile"
+                    ? "font-bold cursor-pointer"
+                    : "cursor-pointer"
+                }
+                onClick={() => (setTab("editProfile"))}
+              >
+                Edit Profile
+              </div>
+              <div
+                className={
+                  active === "changePassword"
+                    ? "font-bold cursor-pointer"
+                    : "cursor-pointer"
+                }
+                onClick={() => (setTab("changePassword"))}
+              >
+                Change Password
+              </div>
+              <div
+                className={
+                  active === "invoice"
+                    ? "font-bold cursor-pointer"
+                    : "cursor-pointer"
+                }
+                onClick={() => (setTab("invoice"), getInvoices())}
+              >
+                Invoice
               </div>
               {/* <div
                 className={
@@ -211,261 +246,249 @@ export default function ClientAccount() {
             </div>
 
             <div className="">
+              <h2 className="font-black text-xl">My Account</h2>
               {active === "profile" ? (
                 <div className="">
-                  <h2 className="font-black text-xl">My Account</h2>
 
-                    {edit === false ? 
-                    (
-                    <div className="">
-                      <button className="buttons text-white rounded px-3 py-1 bg-[#F56B3F]" onClick={dealPassword}>Change Password</button>
-                      <ProfileAccount />
                   
-                    </div>
-                    )
-                      :  (
-                          // ""
-        <form onSubmit={handleSubmit} className="pb-[200px] mx-a h-[150%] w-[400px]">
-        <div className="">
-          <div className=" mx-auto">
-            <div className="space-y-2 pt-8 w-[80%]">
-              <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                <InputText
-                  id="username"
-                  name="firstName"
-                  value={values.firstName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <label htmlFor="username">First name</label>
-              </span>
-
-              {errors.firstName && touched.firstName && (
-                <p className="error">{errors.firstName}</p>
-              )}
-
-              <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                <InputText
-                  id="username"
-                  name="lastName"
-                  value={values.lastName}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">Last name</label>
-              </span>
-
-              {errors.lastName && touched.lastName && (
-                <p className="error">{errors.lastName}</p>
-              )}
-              <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                  {/* Dropdown */}
-                <InputText
-                  id="username"
-                  name="gender"
-                  value={values.gender}
-                  options={gender}
-                  // onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">Gender</label>
-              </span>
-
-              {errors.gender && touched.gender && (
-                <p className="error">{errors.gender}</p>
-              )}
-              
-              <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                <InputText
-                  id="username"
-                  name="phone"
-                  value={values.phone}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">Phone</label>
-              </span>
-
-              {errors.phone && touched.phone && (
-                <p className="error">{errors.phone}</p>
-              )}
-              
-              <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                <InputText
-                  id="username"
-                  name="linkedin"
-                  value={values.linkedin}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">LinkedIn</label>
-              </span>
-
-              {errors.linkedin && touched.linkedin && (
-                <p className="error">{errors.linkedin}</p>
-              )}
-
-              <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                <InputText
-                  id="username"
-                  name="city"
-                  value={values.city}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">City</label>
-              </span>
-              
-              <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                <InputText
-                  id="username"
-                  name="postalcode"
-                  value={values.postalcode}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">Postal Code</label>
-              </span>
-
-              {errors.postalcode && touched.postalcode && (
-                <p className="error">{errors.postalcode}</p>
-              )}
-              
-              <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                <InputText
-                  id="username"
-                  name="profilesummary"
-                  value={values.profilesummary}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">Profile Summary</label>
-              </span>
-
-              {errors.profilesummary && touched.profilesummary && (
-                <p className="error">{errors.profilesummary}</p>
-              )}
-
-              {errors.city && touched.city && (
-                <p className="error">{errors.city}</p>
-              )}
-
-<span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
+                  <div className="">  
+                    {/* <button className="buttons text-white rounded px-3 py-1 bg-[#F56B3F]" onClick={dealPassword}>Change Password</button> */}
+                    <ProfileAccount />
                 
-                {/* Dropdown */}
-                {/* <Dropdown
-                    id="username"
-                    name="province"
-                    value={values.province}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    options={province}
-                    optionLabel="Province"
-                    optionValue="Province"
-                    className=" !text-black"
-                    filter
-                  /> */}
-                <InputText
-                  id="username"
-                  name="province"
-                  value={values.province}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">Province</label>
-              </span>
-
-              {errors.province && touched.province && (
-                <p className="error">{errors.province}</p>
-              )}
-                
-              
-                <span
-                data-aos="fade-down"
-                data-aos-duration="1000"
-                className="p-float-label"
-              >
-                <InputText
-                  id="username"
-                  name="yearsofprofessionalinterest"
-                  value={values.yearsofprofessionalinterest}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                <label htmlFor="username">Years of Professional Interest</label>
-              </span>
-
-              {errors.yearsofprofessionalinterest && touched.yearsofprofessionalinterest && (
-                <p className="error">{errors.yearsofprofessionalinterest}</p>
-              )}
-
-              <button
-                onClick={onSubmit}
-                data-aos="fade-down"
-                data-aos-duration="800"
-                className="primary__btn"
-                // disabled={!isValid || isSubmitting}
-              >
-                Proceed
-              </button>
-            </div>
-          </div>
-          <div className="absolute top-0 right-0 z-0  h-[70vh]">
-            <img className=" h-full w-full object-cover" src={"line"} alt="" />
-          </div>
-        </div>
-      </form>
-                     )
-                    }
-
-                    {chgPwd === true ? (
-                        <ChangePasswordInProfile />
-                      ) :
-                      ""
-                      }
-
+                  </div>
                 </div>
-              ) : (
-                ""
-              )}
+                ) : active === "editProfile" ? (
 
-              {active === "invoice" ? (
+                    <form onSubmit={handleSubmit} className="pb-[200px] mx-a h-[150%] w-[400px]">
+                    <div className="">
+                      <div className=" mx-auto">
+                        <div className="space-y-2 pt-8 w-[80%]">
+                          <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            <InputText
+                              id="username"
+                              name="firstName"
+                              value={values.firstName}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                            <label htmlFor="username">First name</label>
+                          </span>
+
+                          {errors.firstName && touched.firstName && (
+                            <p className="error">{errors.firstName}</p>
+                          )}
+
+                          <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            <InputText
+                              id="username"
+                              name="lastName"
+                              value={values.lastName}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">Last name</label>
+                          </span>
+
+                          {errors.lastName && touched.lastName && (
+                            <p className="error">{errors.lastName}</p>
+                          )}
+                          <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                              {/* Dropdown */}
+                            <InputText
+                              id="username"
+                              name="gender"
+                              value={values.gender}
+                              options={gender}
+                              // onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">Gender</label>
+                          </span>
+
+                          {errors.gender && touched.gender && (
+                            <p className="error">{errors.gender}</p>
+                          )}
+                          
+                          <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            <InputText
+                              id="username"
+                              name="phone"
+                              value={values.phone}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">Phone</label>
+                          </span>
+
+                          {errors.phone && touched.phone && (
+                            <p className="error">{errors.phone}</p>
+                          )}
+                          
+                          <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            <InputText
+                              id="username"
+                              name="linkedin"
+                              value={values.linkedin}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">LinkedIn</label>
+                          </span>
+
+                          {errors.linkedin && touched.linkedin && (
+                            <p className="error">{errors.linkedin}</p>
+                          )}
+
+                          <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            <InputText
+                              id="username"
+                              name="city"
+                              value={values.city}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">City</label>
+                          </span>
+                          
+                          <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            <InputText
+                              id="username"
+                              name="postalcode"
+                              value={values.postalcode}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">Postal Code</label>
+                          </span>
+
+                          {errors.postalcode && touched.postalcode && (
+                            <p className="error">{errors.postalcode}</p>
+                          )}
+                          
+                          <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            <InputText
+                              id="username"
+                              name="profilesummary"
+                              value={values.profilesummary}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">Profile Summary</label>
+                          </span>
+
+                          {errors.profilesummary && touched.profilesummary && (
+                            <p className="error">{errors.profilesummary}</p>
+                          )}
+
+                          {errors.city && touched.city && (
+                            <p className="error">{errors.city}</p>
+                          )}
+
+            <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            
+                            {/* Dropdown */}
+                            {/* <Dropdown
+                                id="username"
+                                name="province"
+                                value={values.province}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                options={province}
+                                optionLabel="Province"
+                                optionValue="Province"
+                                className=" !text-black"
+                                filter
+                              /> */}
+                            <InputText
+                              id="username"
+                              name="province"
+                              value={values.province}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">Province</label>
+                          </span>
+
+                          {errors.province && touched.province && (
+                            <p className="error">{errors.province}</p>
+                          )}
+                            
+                          
+                            <span
+                            data-aos="fade-down"
+                            data-aos-duration="1000"
+                            className="p-float-label"
+                          >
+                            <InputText
+                              id="username"
+                              name="yearsofprofessionalinterest"
+                              value={values.yearsofprofessionalinterest}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            />
+                            <label htmlFor="username">Years of Professional Interest</label>
+                          </span>
+
+                          {errors.yearsofprofessionalinterest && touched.yearsofprofessionalinterest && (
+                            <p className="error">{errors.yearsofprofessionalinterest}</p>
+                          )}
+
+                          <button
+                            onClick={onSubmit}
+                            data-aos="fade-down"
+                            data-aos-duration="800"
+                            className="primary__btn"
+                            // disabled={!isValid || isSubmitting}
+                          >
+                            Proceed
+                          </button>
+                        </div>
+                      </div>
+                      <div className="absolute top-0 right-0 z-0  h-[70vh]">
+                        <img className=" h-full w-full object-cover" src={"line"} alt="" />
+                      </div>
+                    </div>
+                  </form>
+                ) : active === "changePassword" ? (
+                      <ChangePasswordInProfile />
+
+                ) : active === "invoice" ? (
                 <div className="rounded-lg h-[700px] w-full">
                   <div className="">
                     <div className="">

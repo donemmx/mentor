@@ -28,7 +28,7 @@ export default function ChangePasswordInProfile() {
         repeat_new_password : values.repeat_new_password,
         old_password : values.old_password,
         user_id : userData.id,
-        sessionID : auth.sessionID,
+        // sessionID : auth?.sessionID,
       };
 
       console.log(' Newww about ressetttttttttttttpassword in porfile ')

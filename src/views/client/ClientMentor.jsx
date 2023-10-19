@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Table from "../../component/Table";
 import TopCard from "../../component/TopCard";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -8,24 +9,29 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { DataTable } from "primereact/datatable";
 import Column from "antd/es/table/Column";
-import { banUser, getMentorsByWorkspaceId } from "../../utils/api";
+import { banUser, banUserByWorkspace, getMentorsByWorkspaceId } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
 import { useNavigate, useParams } from "react-router-dom";
+import { user } from "../../atom/userAtom";
 import { profileAccount } from "../../atom/profileAtom";
 
 export default function ClientMentor() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const workspaceData = useRecoilValue(workspaceStore)
-  const auth = useRecoilValue(authState);
+  const ownerData = useRecoilValue(user)
+  const auth = useRecoilState(authState);
+  // const auth = useRecoilValue(authState);
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
+  const [ viewClosure, setViewClosure] = useState(false);
   const [mentorUsers, setMentorUsers] = useState([]);
+  const [ Banned, setBanned ] = useState()
+  const params = useParams();
   const [mentorData, setMentorData] = useRecoilState(profileAccount)
   const [ userPass, setUserPass] = useState({});
   
   let inviteLink = `${window.location.origin}/mentor-signup/${workspaceData?.id}`;
-
 
   const sendInvite = () => {
     setVisible(!visible)
@@ -34,25 +40,52 @@ export default function ClientMentor() {
 
   const listMyMentorsUser = () => {
     const payload = {
-      sessionID: auth?.sessionID,
+      sessionID: auth[0]?.sessionID,
       id: workspaceData.id,
     };
     getMentorsByWorkspaceId(payload).then((res) => {
       setMentorUsers(res.payload);
+      // setBanned(res.payload.isBanned)
+      console.log(res.payload, "Mentor Users");
     }).catch((err)=> 
       console.log(err)
     )
   };
 
+  // id: auth?.sessionID,
   
   const activateBanUser = () =>{
-    const userPayload = {
-      isDeasctivated: true,
-      id: userPass?.id
+    const action = "banOfAccountByOwner";
+    const payload = {
+      // sessionID: auth[0]?.sessionID,
+      _action: action,
+      _creatorId: ownerData.id,
+      _userByworkSpace: userPass.id
     };
-    console.log(userPayload)
-    banUser(userPayload).then((res) => {
+
+    banUserByWorkspace(payload).then((res) => {
       toast.error('User Banned!!!')
+      navigate("/mentors");
+      }).catch((err)=> 
+      console.log(err)
+    )
+    listMyMentorsUser()
+    setShow(!show)
+  };
+
+  
+  const closureBanUser = () =>{
+    const action = "closureOfAccountByOwner";
+    const userPayload = {
+      sessionID : auth?.sessionID,
+      _action : action,
+      _creatorId : ownerData.id,
+      _userByworkSpace : userPass.id
+    };
+
+    banUserByWorkspace(userPayload).then((res) => {
+      console.log(res)
+      toast.error('User Account Closure!!!')
       navigate("/list-workspace");
       }).catch((err)=> 
       console.log(err)
@@ -62,8 +95,11 @@ export default function ClientMentor() {
 
   const passUserData = (data) => {
     setUserPass(data)
-    console.log(data)
     setShow(!show)
+  } 
+  const passUserData2 = (data) => {
+    setUserPass(data)
+    setViewClosure(!viewClosure)
   } 
 
   const view = (item) =>{
@@ -81,6 +117,12 @@ export default function ClientMentor() {
     const banActionBodyTemplate = (rowItem) => {
       return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => passUserData(rowItem)}>
         Ban User
+      </button>;
+  };
+
+    const closureActionBodyTemplate = (rowItem) => {
+      return <button className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out" onClick={() => passUserData2(rowItem)}>
+        Close User Account
       </button>;
   };
   
@@ -109,14 +151,17 @@ export default function ClientMentor() {
           </button>
         </div>
         <DataTable value={mentorUsers} tableStyle={{ minWidth: "50rem" }} className="!text-sm">
-        <Column className=" text-sm"  ></Column>
-          <Column className=" text-sm" field="email" header="Email"></Column>
-          <Column className=" text-sm"field="firstName" header="First Name"></Column>
-          <Column className=" text-sm" field="lastName" header="Last Name"></Column>
-          <Column className=" text-sm" field="phone" header="Phone"></Column>
-          <Column className=" text-sm" field="gender" header="Gender"></Column>
-          <Column body={actionBodyTemplate}></Column>
-          <Column body={banActionBodyTemplate}></Column>
+            {/* <Column className=" text-sm"  ></Column> */}
+            <Column className=" text-sm" field="email" header="Email"></Column>
+            <Column className=" text-sm" field="firstName" header="First Name"></Column>
+            <Column className=" text-sm" field="lastName" header="Last Name"></Column>
+            <Column className=" text-sm" field="phone" header="Phone"></Column>
+            <Column className=" text-sm" field="gender" header="Gender"></Column>
+            <Column className=" text-sm" field="isBanned" header="Status" 
+            body={Banned !== true ? "User Banned" : "Active" }></Column>
+{/*  body={"isBanned" == "true" ? "User Banned" : "Active" } */}
+            <Column header="Action" body={actionBodyTemplate}></Column>
+            <Column header="Action" body={banActionBodyTemplate}></Column>
         </DataTable>
       </div>
       <Dialog
@@ -161,7 +206,7 @@ export default function ClientMentor() {
         </div>
       </Dialog>
       <Dialog
-        header="Ban User"s
+        header="Ban User"
         visible={show}
         onHide={() => setShow(false)}
         className="w-[90%] lg:w-[35vw]"
@@ -175,6 +220,27 @@ export default function ClientMentor() {
                 onClick={activateBanUser}
                 className="h-[45px] w-[150px] bg-[#F56B3F] mx-auto text-center rounded text-white"
               >Proceed to Ban
+              </button>
+            </div>
+        <div className="w-[80%] mx-auto py-5">
+        
+        </div>
+      </Dialog>
+      <Dialog
+        header="Close User Account"
+        visible={viewClosure}
+        onHide={() => setViewClosure(false)}
+        className="w-[90%] lg:w-[35vw]"
+      >
+           <div className="user flex flex-col justify-center items-center w-[65%] lg:w-[80%] mx-auto mt-[2vh]">
+              <h4 className=" font-bold pt-3">Close {userPass?.firstName} {userPass?.lastName}'s account' ?</h4>
+              <br /><br />
+            </div>
+            <div className="buttons mx-auto flex items-cente justify-end gap-6 py-5">
+              <button
+                onClick={closureBanUser}
+                className="h-[45px] w-[250px] bg-[#F56B3F] mx-auto text-center rounded text-white"
+              >Confirm to close account
               </button>
             </div>
         <div className="w-[80%] mx-auto py-5">
