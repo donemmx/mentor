@@ -7,23 +7,27 @@ export default function MentorLayout() {
   let auth = useRecoilValue(authState);
   const navigate = useNavigate();
   const params = useParams()
-
   return (
     <div className="">
-    {params.id !== undefined ? 
-    <>
-      {auth && auth?.role === 'mentor' ? (
-      <div>
-        <Outlet />
-      </div>
-    ) : (
+      {params.id === undefined ? 
+        <>
+          {auth && auth?.role === 'mentor' ? (
+            <div>
+              <Outlet />
+            </div>
+          ) : (
+            <>
+              {navigate(`/mentor-signin/${params.id}`)}
+            </>
+          )}
+        </>
+      :
       <>
-        {navigate(`/mentor-signin/${params.id}`)}
+          <div>
+            <Outlet />
+          </div>
       </>
-    )}
-    </>:
-      <NotFound />
-    }
+      }
   
   </div>
   );

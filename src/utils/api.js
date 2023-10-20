@@ -59,6 +59,9 @@ const professionalAreaAction = async (payload) => await api.structure('_professi
 // Mentees 
 const getMenteeProfile = async (payload) => await api.structure('WebUser').getData('getMenteeProfile', payload);
 
+// Mentees 
+const getMentorProfile = async (payload) => await api.structure('WebUser').getData('getMentorProfile_copy', payload);
+
 const banUserByWorkspace = async (payload) => await api.structure('_userByworkSpace').setData('banUserByWorkspace', payload);
 
 // Form
@@ -97,5 +100,6 @@ export {
     workspaceGenericForm,
     getUserGenericForm,
     checkIfUserExist,
-    checkUserEmailByWorkspace
+    checkUserEmailByWorkspace,
+    getMentorProfile,
 }

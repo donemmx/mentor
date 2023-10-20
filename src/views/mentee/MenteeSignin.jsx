@@ -38,7 +38,7 @@ export default function MenteeSignin() {
             login(email, password)
               .then((res) => {
                 setAuth(res);
-                navigate(`/mentee-dashboard`);
+                navigate('/mentee-dashboard');
                 toast.success("Signin Successful");
               })
               .catch((err) => {
