@@ -8,8 +8,8 @@ import { createWorkspaceWithPayment, login } from "../../utils/api";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
-import { ColorPicker } from "primereact/colorpicker";
 import { authState } from "../../atom/authAtom";
+import { ColorPicker } from "antd";
 
 export default function CreateWorkspaceTwo() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function CreateWorkspaceTwo() {
       maxMentors: reg.workspace.maxMentors,
       maxMentees: reg.workspace.maxMentees,
       workspaceLogo: fileDataURL,
-      color: color,
+      color: color.split('#')[1],
       lastName: reg.user.lastName,
       firstame: reg.user.firstName,
       newMail: reg.user.email,
@@ -163,9 +163,11 @@ export default function CreateWorkspaceTwo() {
                   data-aos-duration="1000"
                   className=" flex items-center gap-2 mb-5"
                 >
-                  <ColorPicker
+                   <ColorPicker
                     value={color}
-                    onChange={(e) => setColor(e.value)}
+                    onChange={(value, color) => setColor(color)}
+                    allowClear
+                    disabledAlpha
                   />
                   <label htmlFor="username"> Select a Color </label>
                 </span>

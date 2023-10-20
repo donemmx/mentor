@@ -156,6 +156,14 @@ export default function ClientMentor() {
     );
   };
 
+  const statusTemplate = (rowItem) => {
+    return (
+      <div>
+        
+      </div>
+    )
+  }
+
 
   useEffect(() => {
     listMyMentorsUser();
@@ -202,6 +210,7 @@ export default function ClientMentor() {
             className=" text-sm"
             field="isBanned"
             header="Status"
+            body={statusTemplate}
           ></Column>
           {/* body={Banned !== true ? "User Banned" : "Active" } */}
           {/* body={"isBanned" == "true" ? "User Banned" : "Active" } */}

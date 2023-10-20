@@ -1,4 +1,3 @@
-import { ColorPicker } from "primereact/colorpicker";
 import { useFormik } from "formik";
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -14,9 +13,10 @@ import { authState } from "../../atom/authAtom";
 import { useNavigate } from "react-router-dom";
 import { InputTextarea } from "primereact/inputtextarea";
 import { InputText } from "primereact/inputtext";
+import { ColorPicker } from "antd";
 
 export default function EditWorkspaceForm() {
-  const workspaceData= useRecoilValue(workspaceStore);
+  const workspaceData = useRecoilValue(workspaceStore);
   const userData = useRecoilValue(user);
   const [numbers, setNumbers] = useState([]);
   const [fileDataURL, setFileDataURL] = useState(null);
@@ -37,7 +37,7 @@ export default function EditWorkspaceForm() {
     console.log(fileData);
   };
 
-  const onSubmit =  (values) => {
+  const onSubmit = (values) => {
     const userPayload = {
       _creatorId: userData.id,
       _description: values.description,
@@ -48,7 +48,7 @@ export default function EditWorkspaceForm() {
       logo: fileDataURL,
       maxMentee: values.maxMentors,
       maxMentor: values.maxMentees,
-      color: newColor,
+      color: newColor.split('#')[1],
     };
 
     console.log(userPayload);
@@ -141,9 +141,7 @@ export default function EditWorkspaceForm() {
               <p className="error">{errors.workspace}</p>
             )} */}
 
-            <span
-              className="p-float-label"
-            >
+            <span className="p-float-label">
               <Dropdown
                 id="username"
                 name="maxMentors"
@@ -157,9 +155,7 @@ export default function EditWorkspaceForm() {
             {errors.maxMentors && touched.maxMentors && (
               <p className="error">{errors.maxMentors}</p>
             )}
-            <span
-              className="p-float-label"
-            >
+            <span className="p-float-label">
               <Dropdown
                 id="username"
                 name="maxMentees"
@@ -174,9 +170,7 @@ export default function EditWorkspaceForm() {
               <p className="error">{errors.maxMentees}</p>
             )}
 
-            <span
-              className="p-float-label"
-            >
+            <span className="p-float-label">
               <InputTextarea
                 name="description"
                 value={values.description}
@@ -222,7 +216,9 @@ export default function EditWorkspaceForm() {
                 <span className=" flex items-center gap-2 mb-5">
                   <ColorPicker
                     value={newColor}
-                    onChange={(e) => setNewColor(e.value)}
+                    onChange={(value, color) => setNewColor(color)}
+                    allowClear
+                    disabledAlpha
                   />
                   <label htmlFor="username"> Select a Color </label>
                 </span>
@@ -230,10 +226,7 @@ export default function EditWorkspaceForm() {
                 <button
                   className="primary__btn flex items-center gap-4"
                   disabled={
-                    !isValid ||
-                    !newColor ||
-                    !fileDataURL ||
-                    isSubmitting
+                    !isValid || !newColor || !fileDataURL || isSubmitting
                   }
                 >
                   {isSubmitting ? (
