@@ -13,6 +13,7 @@ import { Column } from "primereact/column";
 import { useNavigate } from "react-router-dom";
 import { profileAccount } from "../../atom/profileAtom";
 import { user } from "../../atom/userAtom";
+import { Divider, Space, Tag } from "antd";
 
 export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -73,7 +74,7 @@ export default function ClientMentee() {
 
     banUserByWorkspace(payload)
       .then((res) => {
-        toast.success("User has been unbanned!!!");
+        toast.success("User has been activated!!!");
         listMyMenteesUser();
       })
       .catch((err) => console.log(err));
@@ -145,6 +146,20 @@ const actionBodyTemplate = (rowItem) => {
     </div>
   );
 };
+
+const statusTemplate = (rowItem) => {
+  return (
+    <div>
+     { rowItem.isBanned ? <Tag bordered={false} color="volcano">
+          Banned
+      </Tag>
+      :
+      <Tag bordered={false} color="green">
+         Active
+      </Tag>}
+    </div>
+  );
+};
   return (
     <div>
       <TopCard
@@ -171,7 +186,12 @@ const actionBodyTemplate = (rowItem) => {
           <Column className=" text-sm" field="lastName" header="Last Name"></Column>
           <Column className=" text-sm" field="phone" header="Phone"></Column>
           <Column className=" text-sm" field="gender" header="Gender"></Column>
-          <Column className=" text-sm" field={"isBanned"} header="Status"></Column>
+          <Column
+            className=" text-sm"
+            field="isBanned"
+            header="Status"
+            body={statusTemplate}
+          ></Column>
           <Column body={actionBodyTemplate}></Column>
         </DataTable>
       </div>

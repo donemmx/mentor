@@ -18,6 +18,7 @@ import { authState } from "../../atom/authAtom";
 import { useNavigate, useParams } from "react-router-dom";
 import { user } from "../../atom/userAtom";
 import { profileAccount } from "../../atom/profileAtom";
+import { Divider, Space, Tag } from "antd";
 
 export default function ClientMentor() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
@@ -87,7 +88,7 @@ export default function ClientMentor() {
 
     banUserByWorkspace(payload)
       .then((res) => {
-        toast.success("User has been unbanned!!!");
+        toast.success("User has been activated!!!");
         listMyMentorsUser();
       })
       .catch((err) => console.log(err));
@@ -136,7 +137,7 @@ export default function ClientMentor() {
         >
           view
         </button>
-        
+
         {rowItem.isBanned ? (
           <button
             className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
@@ -159,11 +160,16 @@ export default function ClientMentor() {
   const statusTemplate = (rowItem) => {
     return (
       <div>
-        
+       { rowItem.isBanned ? <Tag bordered={false} color="volcano">
+            Banned
+        </Tag>
+        :
+        <Tag bordered={false} color="green">
+           Active
+        </Tag>}
       </div>
-    )
-  }
-
+    );
+  };
 
   useEffect(() => {
     listMyMentorsUser();
@@ -212,8 +218,6 @@ export default function ClientMentor() {
             header="Status"
             body={statusTemplate}
           ></Column>
-          {/* body={Banned !== true ? "User Banned" : "Active" } */}
-          {/* body={"isBanned" == "true" ? "User Banned" : "Active" } */}
           <Column header="Action" body={actionBodyTemplate}></Column>
         </DataTable>
       </div>
