@@ -35,12 +35,8 @@ export default function MentorDashboard() {
       // role: "mentor",
       // email: auth.username,
       sessionId: auth
-    };
-      console.log(payload, 'the payload 00')
-      getProfile(auth).then((res) => {
-
-        console.log(payload, 'the payload')
-        console.log(res, 'the response main')
+    }; 
+      getProfile(auth).then((res) => { 
         setUserData(res.payload[0])
     });
   }, []);

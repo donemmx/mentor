@@ -13,19 +13,16 @@ export default function MenteeLayout() {
         <>
           {auth && auth?.role === "mentee" ? (
             <div>
-              <h1>Hello world</h1>
               <Outlet />
             </div>
           ) : (
             <>
-              <h1>Hello world</h1>
               {navigate(`/mentee-signin/${params.id}`)}
             </>
           )}
         </>
       ) : (
         <>
-          <h1>Hello world</h1>
           <NotFound />
           <div>
             <Outlet />

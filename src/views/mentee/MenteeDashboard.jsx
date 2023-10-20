@@ -47,22 +47,12 @@ export default function MenteeDashboard() {
   useEffect(()=> {
     const payload = {
       sessionID: auth?.sessionID,
-    }
-    getMenteeProfile(payload).then((res)=> {
-      console.log(res);
-      const data = {
-        ...res.payload[0],
-        ...res.status
-    }
-      if (res.status === "OK"){
-        console.log('Response OK')
-      }
-    setUserData(data)
+    } 
+    getProfile(auth).then((res) => { 
+      setUserData(res.payload[0])
     }).catch((err)=> console.log(err))
   }, [])
-  console.log(userData, 'As user data')
-  console.log('Reach out')
-  
+   
   return (
     <div>
       <MenteeSidebar 
@@ -78,7 +68,7 @@ export default function MenteeDashboard() {
         </div>
         <div className="mt-5 p-6">
           <div className="mb-5">Recent Connections</div>
-          <Table users={users} />
+          {/* <Table users={users} /> */}
         </div>
       </div>
     </div>
