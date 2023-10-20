@@ -30,8 +30,6 @@ export default function CreateWorkspaceTwo() {
   const getImage = (e) => {
     const fileData = e.target.files[0];
     setFile(fileData);
-    console.log(fileData);
-    console.log(color);
   };
 
   const register = () => {
