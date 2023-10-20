@@ -9,18 +9,28 @@ export default function MenteeLayout() {
   const params = useParams();
   return (
     <div className="">
-      {params.id !== undefined ? (
+      {params.id === undefined ? (
         <>
           {auth && auth?.role === "mentee" ? (
             <div>
+              <h1>Hello world</h1>
               <Outlet />
             </div>
           ) : (
-            <>{navigate(`/mentee-signin/${params.id}`)}</>
+            <>
+              <h1>Hello world</h1>
+              {navigate(`/mentee-signin/${params.id}`)}
+            </>
           )}
         </>
       ) : (
-        <NotFound />
+        <>
+          <h1>Hello world</h1>
+          <NotFound />
+          <div>
+            <Outlet />
+          </div>
+        </>
       )}
     </div>
   );

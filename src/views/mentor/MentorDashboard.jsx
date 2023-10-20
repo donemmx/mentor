@@ -15,8 +15,9 @@ export default function MentorDashboard() {
   const auth = useRecoilValue(authState);
   const [userData, setUserData] = useRecoilState(user);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
+  // const [auth, setAuth] = useRecoilState(authState);
   const navigate = useNavigate();
-
+  const sessionIdFromAuth = auth.sessionID
   // const getWorkspace = () => {
   //   const payload = {
   //     sessionID: auth?.sessionID,
@@ -29,23 +30,21 @@ export default function MentorDashboard() {
 
   
   useEffect(() => {
-    // getWorkspace();
     const payload = {
-      id: auth.username,
-      role: "mentor"
+      // id: auth.username,
+      // role: "mentor",
+      // email: auth.username,
+      sessionId: auth
     };
-    getMentorProfile(payload).then((res) => {
-      // const data ={
-      //   ...res.payload[0], workspace, 
-      // }
-      console.log(payload)
-      console.log(res)
-      // setWorkspace(data)
+      console.log(payload, 'the payload 00')
+      getProfile(auth).then((res) => {
+
+        console.log(payload, 'the payload')
+        console.log(res, 'the response main')
+        setUserData(res.payload[0])
     });
   }, []);
-  
-  console.log(auth)
-  console.log(userData)
+  console.log(userData, 'The finals')
   const usersx = [
     {
       name: "Emmanuel Idusuyi",
@@ -86,44 +85,3 @@ export default function MentorDashboard() {
     </div>
   );
 }
-
-// import RecentRequest from "../../component/RecentRequest";
-// import Table from "../../component/Table";
-// import MentorSidebar from "./MentorSidebar";
-
-// export default function MentorDashboard() {
-//   const users = [
-//     {
-//       name: "Emmanuel Idusuyi",
-//       email: "Emmanuelidus@gmail.com",
-//       category: "Mentee",
-//     },
-//     {
-//       name: "John Kate",
-//       email: "kate21@gmail.com",
-//       category: "Mentee",
-//     },
-//     {
-//       name: "Folmi Akaja",
-//       email: "Fuka2@gmail.com",
-//       category: "Mentee",
-//     },
-//   ];
-//   return (
-//     <div>
-//       <MentorSidebar />
-//       <div className="w-[90%] mx-auto flex gap-10">
-//         <div className=" mt-5 space-y-7 border broder-gray-100 p-6 w-fit rounded">
-//           <div className="">Recent Notifications</div>
-//           <RecentRequest />
-//           <RecentRequest />
-//           <RecentRequest />
-//         </div>
-//         <div className="mt-5 p-6">
-//           <div className="mb-5">Recent Connections</div>
-//           <Table users={users} />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

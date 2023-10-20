@@ -13,8 +13,7 @@ import { useEffect, useState } from "react";
 
 export default function MentorSignin() {
   const navigate = useNavigate();
-  const [auth, 
-  ] = useRecoilState(authState);
+  const [auth, setAuth] = useRecoilState(authState);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
   const params = useParams();
   const [loading, setLoading] = useState(false);
@@ -36,6 +35,7 @@ export default function MentorSignin() {
           } else {
             login(email, password)
               .then((res) => {
+                setAuth(res);
                 navigate('/mentor-dashboard');
                 toast.success("Signin Successful");
               })
