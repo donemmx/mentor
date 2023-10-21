@@ -15,57 +15,21 @@ export default function MentorDashboard() {
   const auth = useRecoilValue(authState);
   const [userData, setUserData] = useRecoilState(user);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
-  // const [auth, setAuth] = useRecoilState(authState);
-  const navigate = useNavigate();
-  const sessionIdFromAuth = auth.sessionID
-  // const getWorkspace = () => {
-  //   const payload = {
-  //     sessionID: auth?.sessionID,
-  //   };
-  //   getProfile(payload).then((res) => {
-  //     setUserData(res.payload[0]);
-  //   });
-  // };  
 
 
-  
   useEffect(() => {
     const payload = {
-      // id: auth.username,
-      // role: "mentor",
-      // email: auth.username,
-      sessionId: auth
+      sessionId: auth,
     };
-      console.log(payload, 'the payload 00')
-      getProfile(auth).then((res) => {
-
-        console.log(payload, 'the payload')
-        console.log(res, 'the response main')
-        setUserData(res.payload[0])
+    console.log(payload, "the payload 00");
+    getProfile(auth).then((res) => {
+      setUserData(res.payload[0]);
     });
   }, []);
-  console.log(userData, 'The finals')
-  const usersx = [
-    {
-      name: "Emmanuel Idusuyi",
-      email: "Emmanuelidus@gmail.com",
-      category: "Mentee",
-    },
-
-    {
-      name: "John Kate",
-      email: "kate21@gmail.com",
-      category: "Mentee",
-    },
-    {
-      name: "Folmi Akaja",
-      email: "Fuka2@gmail.com",
-      category: "Mentee",
-    },
-  ];
+  const usersx = [];
   return (
     <div>
-      <MentorSidebar 
+      <MentorSidebar
         firstname={userData?.firstName}
         lastname={userData?.lastName}
         email={auth.username}
@@ -73,9 +37,7 @@ export default function MentorDashboard() {
       <div className="w-[90%] mx-auto flex gap-10">
         <div className=" mt-5 space-y-7 border broder-gray-100 p-6 w-fit rounded">
           <div className="">Recent Notifications</div>
-          <RecentRequest />
-          <RecentRequest />
-          <RecentRequest />
+          {/* <RecentRequest /> */}
         </div>
         <div className="mt-5 p-6">
           <div className="mb-5">Recent Connections</div>
