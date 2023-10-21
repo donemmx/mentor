@@ -15,18 +15,8 @@ export default function MentorDashboard() {
   const auth = useRecoilValue(authState);
   const [userData, setUserData] = useRecoilState(user);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
-  // const [auth, setAuth] = useRecoilState(authState);
   const navigate = useNavigate();
   const sessionIdFromAuth = auth.sessionID
-  // const getWorkspace = () => {
-  //   const payload = {
-  //     sessionID: auth?.sessionID,
-  //   };
-  //   getProfile(payload).then((res) => {
-  //     setUserData(res.payload[0]);
-  //   });
-  // };  
-
 
   
   useEffect(() => {

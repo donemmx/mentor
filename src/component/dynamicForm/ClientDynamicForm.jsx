@@ -5,7 +5,7 @@ import { useState } from "react";
 import { userDynamicForm, workspace1 } from "../../utils/Validation";
 import { Chips } from "primereact/chips";
 import { Dropdown } from "primereact/dropdown";
-import { workspaceGenericForm } from "../../utils/api";
+import { getUserGenericForm, workspaceGenericForm } from "../../utils/api";
 import { Dialog } from "primereact/dialog";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { useRecoilState } from "recoil";
@@ -13,11 +13,14 @@ import { workspaceStore } from "../../atom/workspaceAtom";
 import { toast } from "react-toastify";
 import { user } from "../../atom/userAtom";
 import { authState } from "../../atom/authAtom";
+import { DataTable } from "primereact/datatable";
+import Column from "antd/es/table/Column";
 
 export default function ClientDynamicForm() {
   const [formProperties, setFormProperties] = useState([]);
   const [select, setsSelect] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [createdForm, setCreatedForm] = useState({});
 //   const workspace = useRecoilState()
   const workspaceData = useRecoilState(workspaceStore);
   const userData = useRecoilState(user);
@@ -39,10 +42,10 @@ export default function ClientDynamicForm() {
     for (let value = 0; value<formProperties.length; value++) {
         acceptedValueList.push(formProperties[value].acceptedValue,)
     }
-const filteredData = formProperties.map((data)=> {
+    const filteredData = formProperties.map((data)=> {
     const {acceptedValue, ...others} = data
     return others
-})
+    })
 
     const payload = {
         sessionID: auth?.sessionID,
@@ -89,13 +92,42 @@ const filteredData = formProperties.map((data)=> {
   });
 
   useEffect(()=>{
-    console.log(workspaceData)
-    // console.log(userData[0], userData[1], 'the user data\n\n\\n')
-    // console.log(auth[0].sessionID, ' the suth for users\n\n\n\nn')
+    const payload = {
+      id : workspaceData[0].id
+    }
+    getUserGenericForm(payload).then((res)=>{
+      setCreatedForm(JSON.parse(res.payload[0]['generic_forms']))
+    })
   }, [])
+  if (createdForm[0]){
+    console.log(createdForm[0], 'insdide if')
+    for(let i = 0; i<createdForm[0]["options"].length; i++){
+    console.log(createdForm[0]['options'][i], 'inside loop')
+    }
+  }
   return (
     <div className="rounded-lg h-[700px] w-full">
-      <h2 className="font-black text-xl">Create Form</h2>
+      <div className="">
+        <h2 className="font-blac text-xl">Created Form</h2>
+        <div className="table">
+          { createdForm[0] ? (
+          <table className="my-3">
+            <thead>
+              <td className="font-black text-xl my-1">{createdForm[0]["label"]}</td>
+            </thead>
+            <tbody>
+              {createdForm[0]["options"].map((option, i) => (
+                <tr>
+                  <td>{i+1}</td>
+                  <td key={i}>{option}</td>
+                </tr>
+              ) )}
+            </tbody>
+
+          </table>
+          ) : " "}
+        </div>
+      </div>
       <div className="">
         {/* fixed */}
         {formProperties ? (
@@ -136,13 +168,27 @@ const filteredData = formProperties.map((data)=> {
                   </div>
                 </div>
               ))}
+              {createdForm & createdForm[0] ? (
+                <DataTable
+                  value={createdForm[0]['options']}
+                  tableStyle={{ minWidth: "50rem" }}
+                  className="!text-sm"
+                >
+                  <Column
+                    className=" text-sm"
+                    field="label"
+                    header="First Name"
+                  ></Column>
+                 </DataTable>
+              ) : '' }
+
 
               <div className=" flex items-center gap-4">
                 <button
                   onClick={addForm}
                   className="primary__btn flex items-center gap-4"
                 >
-                  <i className="pi pi-plus"></i> Add Form
+                  {createdForm[0] && createdForm[0]['label'] ? (<> <i className="pi pi-file-edit"></i> Edit Form </>) : (<><i className="pi pi-plus"></i> Add Form</> ) }
                 </button>
                 {formProperties.length > 0 ? (
                   <button
