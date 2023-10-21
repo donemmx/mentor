@@ -9,7 +9,7 @@ let stripePromose;
 
 const getStripe = () => {
   if (!stripePromose) {
-    stripePromose = loadStripe("pk_test_Cd6WYEcPGB0GTHgEST8dkWqK");
+    stripePromose = loadStripe("pk_test_51HRIZqDoWKb7BmRRjL8Ofnng8GSc5DF7XkVwdUVPyz0ZIrAdl4LsIoewiN124pxVWA0sKgpLRyrBOUyVNOZXSXzj00OssQyy9Q");
   }
   return stripePromose;
 };
@@ -37,9 +37,9 @@ export default function PricingCard({
   const checkoutOptions = {
     lineItems: [
       {
-        price: price,
+        price: 'price_1HRv4uDoWKb7BmRRPznasD98',
         quantity: 1,
-        // customer_email: reg?.user.email,
+        customer_email: reg?.user.email,
       },
     ],
     mode: "payment",

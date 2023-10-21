@@ -35,6 +35,7 @@ export default function ClientMentor() {
   const params = useParams();
   const [mentorData, setMentorData] = useRecoilState(profileAccount);
   const [userPass, setUserPass] = useState({});
+  const [loading, setLoaded] = useState(false);
 
   let inviteLink = `${window.location.origin}/mentor-signup/${workspaceData?.id}`;
 
@@ -44,6 +45,7 @@ export default function ClientMentor() {
   };
 
   const listMyMentorsUser = () => {
+    setLoaded(true);
     const payload = {
       sessionID: auth[0]?.sessionID,
       id: workspaceData.id,
@@ -51,6 +53,7 @@ export default function ClientMentor() {
     getMentorsByWorkspaceId(payload)
       .then((res) => {
         setMentorUsers(res.payload);
+        setLoaded(false);
         // setBanned(res.payload.isBanned)
         console.log(res.payload, "Mentor Users");
       })
@@ -63,7 +66,6 @@ export default function ClientMentor() {
   const activateBanUser = () => {
     const action = "banOfAccountByOwner";
     const payload = {
-      // sessionID: auth[0]?.sessionID,
       _action: action,
       _creatorId: ownerData.id,
       _userByworkSpace: userPass.id,
@@ -80,7 +82,6 @@ export default function ClientMentor() {
     setUnbanUser(!unBanUser);
     const action = "unbanOfAccountByOwner";
     const payload = {
-      // sessionID: auth[0]?.sessionID,
       _action: action,
       _creatorId: ownerData.id,
       _userByworkSpace: userPass.id,
@@ -196,6 +197,7 @@ export default function ClientMentor() {
         <DataTable
           value={mentorUsers}
           tableStyle={{ minWidth: "50rem" }}
+          loading={loading}
           className="!text-sm"
         >
           {/* <Column className=" text-sm"  ></Column> */}

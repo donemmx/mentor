@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 
-import { useRecoilState } from "recoil";
-import { registerUserAtom } from "../../atom/registrationAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { addWorkSpaceStore } from "../../atom/addWorkspace";
+import { user } from "../../atom/userAtom";
 
 let stripePromose;
 
 const getStripe = () => {
   if (!stripePromose) {
-    stripePromose = loadStripe("pk_test_Cd6WYEcPGB0GTHgEST8dkWqK");
+    stripePromose = loadStripe("pk_test_51HRIZqDoWKb7BmRRjL8Ofnng8GSc5DF7XkVwdUVPyz0ZIrAdl4LsIoewiN124pxVWA0sKgpLRyrBOUyVNOZXSXzj00OssQyy9Q");
   }
   return stripePromose;
 };
@@ -22,6 +22,7 @@ export default function PricingCard({
   features,
   fullData,
 }) {
+  const userData = useRecoilValue(user)
   const [addWorkspace, setAddworkspace] = useRecoilState(addWorkSpaceStore);
   const navigate = useNavigate();
   const formatPrice = (data) => {
@@ -38,14 +39,13 @@ export default function PricingCard({
   const checkoutOptions = {
     lineItems: [
       {
-        price: price,
+        price: 'price_1HRv4uDoWKb7BmRRPznasD98',
         quantity: 1,
-        // customer_email: reg?.user.email,
       },
     ],
     mode: "payment",
-    successUrl: `${window.location.origin}`,
-    cancelUrl: `${window.location.origin}`,
+    successUrl: `${window.location.origin}/success`,
+    cancelUrl: `${window.location.origin}/workspace`,
   };
 
   const redirectToCheckout = async () => {
@@ -55,13 +55,14 @@ export default function PricingCard({
   };
 
   const payWithStripe = async (data) => {
-    const payload = {
-      ...data,
-      step: 1,
-    };
-    setAddworkspace(payload);
-    // redirectToCheckout().then((res) => {
-    // });
+    // const payload = {
+    //   ...data,
+    //   step: 1,
+    // };
+    // setAddworkspace(payload);
+    redirectToCheckout().then((res) => {
+      console.log(res);
+    });
   };
   return (
     <div className=" w-[250px] h-full">

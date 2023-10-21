@@ -20,7 +20,6 @@ import ClientUsers from "./views/client/ClientMentor";
 import ClientMentee from "./views/client/ClientMentee";
 import ClientAccount from "./views/client/ClientAccount";
 import ClientAccountTwo from "./views/workspace/ClientAccountTwo";
-import ClientSetup from "./views/client/ClientSetup";
 import PricingStageOne from "./views/PricingStageOne";
 import PricingStageTwo from "./views/PricingStageTwo";
 import PricingStageThree from "./views/PricingStageThree";
@@ -50,6 +49,7 @@ import ClientMentorProfile from "./views/client/ClientMentorProfile";
 import ClientForgotten from "./views/client/ClientForgotPassword";
 import ClientRequestNewPassword from "./views/client/ClientRequestNewPassword";
 import UserOnboardFour from "./views/usersOnboard/UserOnboardFour";
+import Success from "./component/successful/Success";
 
 const router = createBrowserRouter([
   {
@@ -258,6 +258,10 @@ const router = createBrowserRouter([
       {
         path: "/welcome",
         element: <Welcome />,
+      },
+      {
+        path: "/success",
+        element: <Success />,
       },
       {
         path: "/list-workspace",
