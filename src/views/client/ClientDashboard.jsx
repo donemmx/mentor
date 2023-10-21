@@ -20,7 +20,7 @@ export default function ClientDashboard() {
       id: workspace.id,
     };
     getMenteesByWorkspaceId(payload).then((res) => {
-      setMentees(res.payload.length)
+      setMentees(res.payload?.length)
   }).catch((err) => console.log(err))
 
   };
@@ -32,7 +32,7 @@ export default function ClientDashboard() {
     };
     getMentorsByWorkspaceId(payload)
       .then((res) => {
-        setMentors(res.payload.length);
+        setMentors(res.payload?.length);
       })
       .catch((err) => console.log(err));
   };
