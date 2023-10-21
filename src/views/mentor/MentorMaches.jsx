@@ -15,7 +15,7 @@ export default function MentorMaches() {
         subtitle={"Manage your account"}
       />
         <div className=" w-[90%] mx-auto my-[10vh]">
-        <div className="grid grid-cols-5 gap-3 ">
+        <div className="flex items-center justify-center flex-wrap gap-3 ">
         {[1,2,4,5,6,7,8,6,7,8].map((res)=> (
             <RequestCard type={'mentee'} key={res}/>
         )) }
