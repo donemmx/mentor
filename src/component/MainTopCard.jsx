@@ -22,6 +22,8 @@ export default function MainTopCard({
   type,
   workspaceColor,
   invites,
+  mentorsCount,
+  menteeCount
 }) {
   const [auth, setAuth] = useRecoilState(authState);
   const [userData, setUserData] = useRecoilState(user);
@@ -129,7 +131,7 @@ export default function MainTopCard({
                   </div>
                   <div className="">
                     <p className="text-sm">No. of Mentors</p>
-                    <div className="measure text-[30px]">24</div>
+                    <div className="measure text-[30px]">{mentorsCount}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -144,7 +146,7 @@ export default function MainTopCard({
                   </div>
                   <div className="">
                     <p className="text-sm">No. of Mentees</p>
-                    <div className="measure text-[30px]">4</div>
+                    <div className="measure text-[30px]">{menteeCount}</div>
                   </div>
                 </div>
               </div>

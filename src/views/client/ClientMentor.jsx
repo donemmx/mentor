@@ -63,7 +63,6 @@ export default function ClientMentor() {
   const activateBanUser = () => {
     const action = "banOfAccountByOwner";
     const payload = {
-      // sessionID: auth[0]?.sessionID,
       _action: action,
       _creatorId: ownerData.id,
       _userByworkSpace: userPass.id,
@@ -80,7 +79,6 @@ export default function ClientMentor() {
     setUnbanUser(!unBanUser);
     const action = "unbanOfAccountByOwner";
     const payload = {
-      // sessionID: auth[0]?.sessionID,
       _action: action,
       _creatorId: ownerData.id,
       _userByworkSpace: userPass.id,
