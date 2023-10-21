@@ -19,13 +19,14 @@ export default function ClientMentee() {
   const mylinks = ["mentors", "mentees", "account", "workspace"];
   const [visible, setVisible] = useState(false);
   const auth = useRecoilValue(authState);
-  const [mentorData, setMentorData] = useRecoilState(profileAccount)
+  const [mentorData, setMentorData] = useRecoilState(profileAccount);
   const navigate = useNavigate();
-  const [ userPass, setUserPass] = useState({});
+  const [userPass, setUserPass] = useState({});
   const [show, setShow] = useState(false);
-  const ownerData = useRecoilValue(user)
-  const [ banned, setBanned ] = useState()
+  const ownerData = useRecoilValue(user);
+  const [banned, setBanned] = useState();
   const [unBanUser, setUnbanUser] = useState(false);
+  const [loading, setLoaded] = useState(false);
 
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
@@ -36,15 +37,19 @@ export default function ClientMentee() {
   };
 
   const listMyMenteesUser = () => {
+    setLoaded(true);
     const payload = {
       sessionID: auth?.sessionID,
       id: workspaceData.id,
     };
-    
-    getMenteesByWorkspaceId(payload).then((res) => {
-      setMenteeUsers(res.payload);
-      setBanned(res.payload)
-  }).catch((err) => console.log(err))
+
+    getMenteesByWorkspaceId(payload)
+      .then((res) => {
+        setMenteeUsers(res.payload);
+        setBanned(res.payload);
+        setLoaded(false);
+      })
+      .catch((err) => console.log(err));
   };
   const activateBanUser = () => {
     const action = "banOfAccountByOwner";
@@ -102,11 +107,11 @@ export default function ClientMentee() {
   useEffect(() => {
     listMyMenteesUser();
   }, []);
-  
-  const view = (item) =>{
-    setMentorData(item)
+
+  const view = (item) => {
+    setMentorData(item);
     navigate(`/mentor-account/${item.id}`);
-  }
+  };
 
   const passUserData = (data) => {
     setUserPass(data);
@@ -117,49 +122,51 @@ export default function ClientMentee() {
     setUnbanUser(!unBanUser);
   };
 
-// console.log('created view to another page, ban as pop up')
-const actionBodyTemplate = (rowItem) => {
-  return (
-    <div className="flex items-center gap-4">
-      <button
-        className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out"
-        onClick={() => view(rowItem)}
-      >
-        view
-      </button>
-      
-      {rowItem.isBanned ? (
+  // console.log('created view to another page, ban as pop up')
+  const actionBodyTemplate = (rowItem) => {
+    return (
+      <div className="flex items-center gap-4">
         <button
-          className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
-          onClick={() => passUserData2(rowItem)}
+          className=" text-sm p-1 bg-gray-100 border-[1px] border-gray-200 px-4 rounded hover:bg-gray-800 hover:text-white transition-all 350ms ease-in-out"
+          onClick={() => view(rowItem)}
         >
-          Activate User
+          view
         </button>
-      ) : (
-        <button
-          className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
-          onClick={() => passUserData(rowItem)}
-        >
-          Ban User
-        </button>
-      )}
-    </div>
-  );
-};
 
-const statusTemplate = (rowItem) => {
-  return (
-    <div>
-     { rowItem.isBanned ? <Tag bordered={false} color="volcano">
-          Banned
-      </Tag>
-      :
-      <Tag bordered={false} color="green">
-         Active
-      </Tag>}
-    </div>
-  );
-};
+        {rowItem.isBanned ? (
+          <button
+            className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
+            onClick={() => passUserData2(rowItem)}
+          >
+            Activate User
+          </button>
+        ) : (
+          <button
+            className=" text-sm p-1 text-white bg-[#F56B3F] border-gray-200 px-4 rounded hover:bg-[#FF9900] hover:text-white transition-all 350ms ease-in-out"
+            onClick={() => passUserData(rowItem)}
+          >
+            Ban User
+          </button>
+        )}
+      </div>
+    );
+  };
+
+  const statusTemplate = (rowItem) => {
+    return (
+      <div>
+        {rowItem.isBanned ? (
+          <Tag bordered={false} color="volcano">
+            Banned
+          </Tag>
+        ) : (
+          <Tag bordered={false} color="green">
+            Active
+          </Tag>
+        )}
+      </div>
+    );
+  };
   return (
     <div>
       <TopCard
@@ -171,19 +178,31 @@ const statusTemplate = (rowItem) => {
       />
       <div className="w-[80%] mx-auto mt-5 p-6">
         <div className="buttons flex items-cente justify-end gap-6 py-5">
-
           <button
             onClick={() => setVisible(!visible)}
             className="h-[40px] w-[118px] bg-[#FF9900] rounded text-white text-xs"
           >
-          {/* F56B3F */}
+            {/* F56B3F */}
             Invite user
           </button>
         </div>
-        <DataTable value={menteeUsers} tableStyle={{ minWidth: "50rem" }} className="!text-sm">
+        <DataTable
+          value={menteeUsers}
+          tableStyle={{ minWidth: "50rem" }}
+          loading={loading}
+          className="!text-sm"
+        >
           <Column className=" text-sm" field="email" header="Email"></Column>
-          <Column className=" text-sm"field="firstName" header="First Name"></Column>
-          <Column className=" text-sm" field="lastName" header="Last Name"></Column>
+          <Column
+            className=" text-sm"
+            field="firstName"
+            header="First Name"
+          ></Column>
+          <Column
+            className=" text-sm"
+            field="lastName"
+            header="Last Name"
+          ></Column>
           <Column className=" text-sm" field="phone" header="Phone"></Column>
           <Column className=" text-sm" field="gender" header="Gender"></Column>
           <Column
@@ -286,7 +305,6 @@ const statusTemplate = (rowItem) => {
         </div>
         <div className="w-[80%] mx-auto py-5"></div>
       </Dialog>
-      
     </div>
   );
 }
