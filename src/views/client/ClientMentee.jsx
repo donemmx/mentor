@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { authState } from "../../atom/authAtom";
-import { banUserByWorkspace, getMenteesByWorkspaceId } from "../../utils/api";
+import { banUserByWorkspace, getMenteesByWorkspaceId, getUserGenericForm } from "../../utils/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useNavigate } from "react-router-dom";
@@ -27,13 +27,30 @@ export default function ClientMentee() {
   const [banned, setBanned] = useState();
   const [unBanUser, setUnbanUser] = useState(false);
   const [loading, setLoaded] = useState(false);
+  const [ userForm, setUserForm] = useState({})
 
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
   let inviteLink = `${window.location.origin}/mentee-signup/${workspaceData?.id}`;
+
+  const getUserForm = () => {
+    const payload = {
+      id : workspaceData.id
+    }
+    getUserGenericForm(payload).then((res)=>{
+      if (res?.payload[0]['generic_forms']) {
+        setUserForm(JSON.parse(res?.payload[0]['generic_forms']))
+      }
+    }).catch((err)=> console.log(err))
+  }
   const sendInvite = () => {
-    setVisible(!visible);
-    toast.success("Invite Sent Successfully");
+    if (userForm.length > 0 ){
+      setVisible(!visible);
+      toast.success("Invite Sent Successfully");
+    } else {
+      toast.error("Invite Not Sent, Create Mentee Signup Form In Workspace");
+      
+    }
   };
 
   const listMyMenteesUser = () => {
@@ -96,7 +113,7 @@ export default function ClientMentee() {
 
     banUserByWorkspace(userPayload)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         toast.error("User Account Closure!!!");
         navigate("/list-workspace");
       })
@@ -106,6 +123,7 @@ export default function ClientMentee() {
 
   useEffect(() => {
     listMyMenteesUser();
+    getUserForm();
   }, []);
 
   const view = (item) => {

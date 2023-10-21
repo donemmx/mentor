@@ -21,6 +21,7 @@ export default function ClientDynamicForm() {
   const [select, setsSelect] = useState([]);
   const [visible, setVisible] = useState(false);
   const [createdForm, setCreatedForm] = useState({});
+  const [ acceptanceValue, setAcceptacevalue] = useState([])
 //   const workspace = useRecoilState()
   const workspaceData = useRecoilState(workspaceStore);
   const userData = useRecoilState(user);
@@ -62,6 +63,10 @@ export default function ClientDynamicForm() {
   const addForm = () => {
     setVisible(!visible);
   };
+  // const patchedValue = {
+  //   label : createdForm[0]['label'],
+  //   // options
+  // }
 
   const loadedValues = {
     label: "",
@@ -96,35 +101,58 @@ export default function ClientDynamicForm() {
       id : workspaceData[0].id
     }
     getUserGenericForm(payload).then((res)=>{
-      setCreatedForm(JSON.parse(res.payload[0]['generic_forms']))
-    })
+      if (res?.payload[0]['generic_forms']) {
+        setCreatedForm(JSON.parse(res?.payload[0]['generic_forms']))
+        setAcceptacevalue(res?.payload[0]['acceptance_criteria'])
+      }
+    }).catch((err)=> console.log(err))
   }, [])
-  if (createdForm[0]){
-    console.log(createdForm[0], 'insdide if')
-    for(let i = 0; i<createdForm[0]["options"].length; i++){
-    console.log(createdForm[0]['options'][i], 'inside loop')
-    }
-  }
+
+  // if (createdForm[0]){
+  //   console.log(createdForm[0], 'insdide if')
+  //   for(let i = 0; i<createdForm[0]["options"].length; i++){
+  //   console.log(createdForm[0]['options'][i], 'inside loop')
+  //   }
+  // }
   return (
     <div className="rounded-lg h-[700px] w-full">
       <div className="">
         <h2 className="font-blac text-xl">Created Form</h2>
         <div className="table">
           { createdForm[0] ? (
-          <table className="my-3">
-            <thead>
-              <td className="font-black text-xl my-1">{createdForm[0]["label"]}</td>
-            </thead>
-            <tbody>
-              {createdForm[0]["options"].map((option, i) => (
-                <tr>
-                  <td>{i+1}</td>
-                  <td key={i}>{option}</td>
-                </tr>
-              ) )}
-            </tbody>
-
-          </table>
+            <>
+          {createdForm.map((question, i)=>(
+          <div
+                  className="flex items-center justify-between gap-4"
+                  key={i}
+                >
+                  <Accordion className="!w-full !p-1 !text-sm !outline-none !shadow-none">
+                    <AccordionTab header={`Question ${i + 1} - ${question.label}`}>
+                      <div className="">
+                        <div className="font-black">Options</div>
+                          {question.options.map((options, i) => (
+                            <div className="flex gap-2">
+                              <p className="">{i + 1}.</p>
+                              <li key={i} className=" list-none">
+                                {" "}
+                                {options}
+                              </li>
+                            </div>
+                          ))}
+                          <div className="font-black my-4">Accepted Value</div>
+                          <div className="text-md ">{acceptanceValue[i]} </div>
+                      </div>
+                    </AccordionTab>
+                  </Accordion>
+                  <div className="">
+                    <i
+                      className="pi pi-trash"
+                      onClick={() => removeData(i)}
+                    ></i>
+                  </div>
+                </div>
+          ))}
+            </>
           ) : " "}
         </div>
       </div>

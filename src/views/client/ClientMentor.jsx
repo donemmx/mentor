@@ -13,6 +13,7 @@ import {
   banUser,
   banUserByWorkspace,
   getMentorsByWorkspaceId,
+  getUserGenericForm,
 } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
 import { useNavigate, useParams } from "react-router-dom";
@@ -36,13 +37,37 @@ export default function ClientMentor() {
   const [mentorData, setMentorData] = useRecoilState(profileAccount);
   const [userPass, setUserPass] = useState({});
   const [loading, setLoaded] = useState(false);
+  const [ userForm, setUserForm] = useState({})
 
   let inviteLink = `${window.location.origin}/mentor-signup/${workspaceData?.id}`;
 
+
+
+  const getUserForm = () => {
+    const payload = {
+      id : workspaceData.id
+    }
+    getUserGenericForm(payload).then((res)=>{
+      if (res?.payload[0]['generic_forms']) {
+        setUserForm(JSON.parse(res?.payload[0]['generic_forms']))
+      }
+    }).catch((err)=> console.log(err))
+  }
+
   const sendInvite = () => {
-    setVisible(!visible);
-    toast.success("Invite Sent Successfully");
+    if (userForm.length > 0 ){
+      setVisible(!visible);
+      toast.success("Invite Sent Successfully");
+    } else {
+      toast.error("Invite Not Sent, Create Mentor Signup Form In Workspace");
+      
+    }
   };
+
+  // const sendInvite = () => {
+  //   setVisible(!visible);
+  //   toast.success("Invite Sent Successfully");
+  // };
 
   const listMyMentorsUser = () => {
     setLoaded(true);
@@ -174,6 +199,7 @@ export default function ClientMentor() {
 
   useEffect(() => {
     listMyMentorsUser();
+    getUserForm();
   }, []);
 
   return (
