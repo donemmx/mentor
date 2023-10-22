@@ -46,10 +46,8 @@ export default function ClientMentee() {
   const sendInvite = () => {
     if (userForm.length > 0 ){
       setVisible(!visible);
-      toast.success("Invite Sent Successfully");
     } else {
-      toast.error("Invite Not Sent, Create Mentee Signup Form In Workspace");
-      
+      toast.error("Please create acceptance criteria form in workspace first");
     }
   };
 
@@ -197,7 +195,7 @@ export default function ClientMentee() {
       <div className="w-[80%] mx-auto mt-5 p-6">
         <div className="buttons flex items-cente justify-end gap-6 py-5">
           <button
-            onClick={() => setVisible(!visible)}
+            onClick={sendInvite}
             className="h-[40px] w-[118px] bg-[#FF9900] rounded text-white text-xs"
           >
             {/* F56B3F */}
