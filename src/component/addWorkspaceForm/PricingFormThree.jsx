@@ -22,6 +22,7 @@ export default function PricingFormThree() {
 
   const [file, setFile] = useState(null);
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useRecoilState(authState);
 
   const [fileDataURL, setFileDataURL] = useState(null);
@@ -33,6 +34,7 @@ export default function PricingFormThree() {
 
   const navigate = useNavigate();
   const register = () => {
+    setLoading(true);
     const userPayload = {
       name: addWorkspace.workspace.workspace,
       maxMentors: addWorkspace.workspace.maxMentors,
@@ -51,12 +53,12 @@ export default function PricingFormThree() {
       _url: `${window.location.origin}/payments/${addWorkspace.id}`,
     };
     createWorkspaceWithPayment(userPayload).then((res) => {
-      const payload = {
-        step: 0,
-      };
       toast.success("successful");
-      navigate('/list-workspace')
-    });
+      setLoading(false);
+      navigate("/list-workspace");
+    }).catch((e)=> {
+      toast.error(e.response.data.msg);
+    })
   };
 
   useEffect(() => {
@@ -142,9 +144,10 @@ export default function PricingFormThree() {
               data-aos="fade-down"
               data-aos-duration="800"
               className="primary__btn"
-              disabled={!file || matches.length === 0 || !color}
+              disabled={!file || matches.length === 0 || !color || loading}
               onClick={register}
             >
+              {loading ? <i className="pi pi-spin pi-spinner" ></i> : ''}
               Proceed
             </button>
           </div>

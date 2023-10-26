@@ -1,63 +1,34 @@
 import { useFormik } from "formik";
-import { loginuser } from "../../utils/Validation";
+import { loginuser, otpverification } from "../utils/Validation";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { generateOtp, getOtpValidation, login, validateOtp } from "../../utils/api";
-import { useRecoilState } from "recoil";
-import { authState } from "../../atom/authAtom";
-import { useState } from "react";
+import { generateOtp, login } from "../utils/api";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { authState } from "../atom/authAtom";
+import { useEffect, useState } from "react";
 
-export default function ClientSignin() {
-  const [auth, setAuth] = useRecoilState(authState);
-  const [loading, setLoading] = useState(false);
+export default function OtpVerification() {
+  const auth = useRecoilValue(authState);
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
+
+  console.log('this is the otp page');
   const onSubmit = async (values) => {
-    setLoading(true);
+    setLoading(true)
     const { email, password } = values;
-    login(email, password)
-      .then((res) => {
-        console.log(res, "this is the sign in into response");
-        const resPayload = {
-          id: res.username,
-          sessionID: res.sessionID,
-          role: res.role,
-          email: res.username,
-        };
-        setAuth(res);
-        setLoading(false);
-        toast.success("Signin Successful");
-        navigate("/list-workspace");
-        
-        // getOtpValidation(resPayload).then((OtpRes) => {
-        //   if (OtpRes.payload[0]?.email && OtpRes.payload[0]?.isVerified === true) {
-        //     setAuth(res);
-        //     setLoading(false);
-        //     toast.success("Signin Successful");
-        //     navigate("/list-workspace");
-        //     console.log(OtpRes, "this is the OTP2222");
-        //   } else if (OtpRes.payload[0]?.email !== null && OtpRes.payload[0]?.isVerified === false){
-        //     console.log("the res from else if");
-        //     navigate("/otpverification");
-        //     } else {
-        //     generateOtp({email:res.username, isVerified:false}).then((genRes) => {
-        //       console.log('the generate otp remaining');
-        //       console.log(genRes, "the res from validate");
-        //     });
-        //     console.log(OtpRes, "this is the OTP2222 in else");
-        //     console.log(
-        //       OtpRes?.payload[0]?.isVerified,
-        //       "this is verified the OTP2222 0 in else"
-        //     );
-        //     navigate("/otpverification");
-        //   }
-        // });
-      })
-      .catch((e) => {
-        setLoading(false);
-        toast.error(e.response.data.msg);
-      });
+    // login(email, password)
+    //   .then((res) => {
+    //     setAuth(res);
+    //     navigate("/list-workspace");
+    //     toast.success("Signin Successful");
+    //     setLoading(false)
+    //   })
+    //   .catch((e) => {
+    //     setLoading(false)
+    //     toast.error(e.response.data.msg);
+    //   });
   };
 
   const {
@@ -72,19 +43,24 @@ export default function ClientSignin() {
   } = useFormik({
     validateOnMount: true,
     initialValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
+      otp: "",
     },
-    validationSchema: loginuser,
+    validationSchema: otpverification,
     onSubmit,
   });
+
+  useEffect(()=>{
+    generateOtp(auth.username).then((res)=>{
+        console.log(res, 'the res from validate')
+    })
+
+  }, [])
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
       <div className="grid md:grid-cols-2 h-full w-full ">
         <div className=" p-5 flex items-center justify-center">
           <div className="w-full flex flex-col justify-center">
-            <Link to="/" className="absolute top-6 font-black  text-[16px]">
+            <Link to='/' className="absolute top-6 font-black  text-[16px]">
               <span className=" bg-black text-white px-3 py-2 rounded mr-2">
                 M
               </span>
@@ -93,11 +69,12 @@ export default function ClientSignin() {
 
             <div className="w-[95%] md:w-[90%] lg:w-[60%] mx-auto">
               <h3 className=" font-black text-[20px] lg:text-[30px] leading-[1.1]">
-                Welcome back
+              OTP - Verification page
               </h3>
-              <p className="pt-2">Lorem ipsum dolor sit amet. </p>
+              {/* <p className="pt-3 text-2x font-bold">OTP - Verification page</p> */}
+              <p className="pt-2">Check your email for OTP sent. </p>
               <form onSubmit={handleSubmit} className="space-y-2  pt-10">
-                <span className="p-float-label">
+                {/* <span className="p-float-label">
                   <InputText
                     id="username"
                     name="email"
@@ -109,21 +86,21 @@ export default function ClientSignin() {
                 </span>
                 {errors.email && touched.email && (
                   <p className="error">{errors.email}</p>
-                )}
+                )} */}
                 <span className="p-float-label">
                   <Password
                     id="username"
-                    name="password"
+                    name="otp"
                     feedback={false}
-                    value={values.password}
+                    value={values.otp}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     toggleMask
                   />
-                  <label htmlFor="username">Password</label>
+                  <label htmlFor="username">Enter OTP</label>
                 </span>
-                {errors.password && touched.password && (
-                  <p className="error">{errors.password}</p>
+                {errors.otp && touched.otp && (
+                  <p className="error">{errors.otp}</p>
                 )}
                 <button
                   className="primary__btn mt-5"
@@ -144,18 +121,18 @@ export default function ClientSignin() {
                     to="/anonym/request-change-password"
                     className=" cursor-pointer font-bold text-[#F56B3F] "
                   >
-                    Forgot password?
+                    Log Out?
                   </Link>
                 </p>
-                <p className=" pt-5 text-sm">
-                  Don`t have an account?{" "}
+                {/* <p className=" pt-5 text-sm">
+                  Click here to ?{" "}
                   <Link
                     to="/register"
                     className=" cursor-pointer font-bold text-blue-700"
                   >
                     Sign up
-                  </Link>
-                </p>
+                  </Link> 
+                </p> */}
               </div>
             </div>
           </div>

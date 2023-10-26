@@ -11,6 +11,9 @@ const loginuser = yup.object().shape({
     email: yup.string().email("Please enter a valid email").required("Required"),
     password: yup.string().required("Required"),
 })
+const otpverification = yup.object().shape({
+    otp: yup.string().required("Required"),
+})
 
 const forgotPassword = yup.object().shape({
     email: yup.string().required("Required"),
@@ -81,6 +84,7 @@ const profile = yup.object().shape({
 export {
     registerUser,
     loginuser,
+    otpverification,
     forgotPassword,
     reforgotPassword,
     requestNewPassword,

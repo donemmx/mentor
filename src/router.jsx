@@ -50,6 +50,7 @@ import ClientForgotten from "./views/client/ClientForgotPassword";
 import ClientRequestNewPassword from "./views/client/ClientRequestNewPassword";
 import UserOnboardFour from "./views/usersOnboard/UserOnboardFour";
 import Success from "./component/successful/Success";
+import OtpVerification from "./views/OtpVerification";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
       {
         path: "/signin",
         element: <ClientSignin />,
+      },
+      {
+        path: "/otpverification",
+        element: <OtpVerification />,
       },
       {
         path: "/anonym/forgot-password/",

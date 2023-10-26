@@ -11,6 +11,10 @@ const checkIfUserExist = async (payload) => await api.structure('WebUser').getDa
 
 const checkUserEmailByWorkspace = async (payload) => await api.structure('userByworkSpace').getData('checkUserEmailByWorkspace', payload)
 
+const generateOtp = async (payload) => await api.structure('uservalidation').setData('generateOtp', payload)
+
+const getOtpValidation = async (payload) => await api.structure('uservalidation').getData('getOtpValidation', payload)
+
 const resetPassword = async (payload) => await api.structure('reset_password_inputs').setData('resetPassword', payload)
 
 const requestPasswordChange = async (payload) => await api.structure('ResetPasswordRequest').setData('requestPasswordChange', payload)
@@ -101,5 +105,7 @@ export {
     getUserGenericForm,
     checkIfUserExist,
     checkUserEmailByWorkspace,
+    generateOtp,
+    getOtpValidation,
     getMentorProfile,
 }
