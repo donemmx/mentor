@@ -27,6 +27,8 @@ export default function UserPricingOtp() {
       .then((res) => {
         if (res.payload.length === 0) {
           toast.error("Invalid OTP");
+          setLoading(false);
+          
         } else {
           const userPayload = {
             id: reg.user.email,
@@ -97,7 +99,10 @@ export default function UserPricingOtp() {
                   <InputText
                     id="username"
                     name="otp"
+                    keyfilter="int" 
+                    className=" !tracking-[20px] !text-center !font-bold !text-4xl"
                     value={values.otp}
+                    maxLength={4}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />

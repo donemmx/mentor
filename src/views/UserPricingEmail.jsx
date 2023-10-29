@@ -50,11 +50,13 @@ export default function UserPricingEmail() {
               }
             })
             .catch((err) => {
+              setLoading(false);
               toast.error(err.response.data.msg);
             });
         }
       })
       .catch((err) => {
+        setLoading(false);
         toast.error(err.response.data.msg);
       });
   };
@@ -119,9 +121,9 @@ export default function UserPricingEmail() {
                   data-aos="fade-down"
                   data-aos-duration="800"
                   className="primary__btn"
-                  disabled={!isValid || isSubmitting}
+                  disabled={!isValid || isSubmitting || loading}
                 >
-                  {isSubmitting ? (
+                  {loading ? (
                     <i className="pi pi-spin pi-spinner !text-[20px]"></i>
                   ) : (
                     ""
