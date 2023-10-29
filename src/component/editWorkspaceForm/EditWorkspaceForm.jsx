@@ -38,25 +38,27 @@ export default function EditWorkspaceForm() {
   };
 
   const onSubmit = (values) => {
+ 
     const userPayload = {
+      name: values.workspace,
       _creatorId: userData.id,
-      _description: values.description,
-      _name: values.workspace,
+      description: values.description,
       _maxMentee: values.maxMentees,
       _maxMentor: values.maxMentors,
       id: workspaceData.id,
       logo: fileDataURL,
       maxMentee: values.maxMentors,
       maxMentor: values.maxMentees,
-      color: newColor.split('#')[1],
+      color: newColor.split("#")[1],
     };
 
-    console.log(userPayload);
-
-    ownerWorkspaceEdit(userPayload).then((res) => {
-      console.log(res);
-      navigate("/list-workspace");
-    });
+    ownerWorkspaceEdit(userPayload)
+      .then((res) => {
+        navigate("/list-workspace");
+      })
+      .catch((err) => {
+        toast.error(err.response.data.msg);
+      });
   };
 
   const loadedValues = {
@@ -121,8 +123,12 @@ export default function EditWorkspaceForm() {
       <h2 className="font-black text-xl">Edit Your Workspace</h2>
       <div className="">
         <div className="">
-          <form onSubmit={handleSubmit} className="space-y-2 pt-8 w-[60%]">
-            {/* <span
+          <form
+            encType="multipart/form-data"
+            onSubmit={handleSubmit}
+            className="space-y-2 pt-8 w-[60%]"
+          >
+            <span
               data-aos="fade-down"
               data-aos-duration="1000"
               className="p-float-label"
@@ -139,7 +145,7 @@ export default function EditWorkspaceForm() {
 
             {errors.workspace && touched.workspace && (
               <p className="error">{errors.workspace}</p>
-            )} */}
+            )}
 
             <span className="p-float-label">
               <Dropdown

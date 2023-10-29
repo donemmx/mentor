@@ -30,9 +30,11 @@ export default function CreateWorkspaceTwo() {
   const getImage = (e) => {
     const fileData = e.target.files[0];
     setFile(fileData);
+ 
   };
 
   const register = () => {
+
     setLoading(true);
     const userPayload = {
       name: reg.workspace.workspace,
@@ -41,7 +43,7 @@ export default function CreateWorkspaceTwo() {
       workspaceLogo: fileDataURL,
       color: color.split('#')[1],
       invoice: reg.id,
-      description: '',
+      description: 'test',
       lastName: reg.user.lastName,
       firstame: reg.user.firstName,
       newMail: reg.user.email,
@@ -110,7 +112,7 @@ export default function CreateWorkspaceTwo() {
     <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
       <div className="grid h-full w-[90%] mx-auto ">
         <ClientHeader />
-        <div className=" flex">
+        <form encType="multipart/form-data" className=" flex">
           <div className="">
             <div className=" mx-auto">
               <div className="absolute top-[15%] flex gap-3">
@@ -204,7 +206,7 @@ export default function CreateWorkspaceTwo() {
               <img className=" h-full w-full object-cover" src={line} alt="" />
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
