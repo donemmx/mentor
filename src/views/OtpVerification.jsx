@@ -4,32 +4,51 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { generateOtp, login } from "../utils/api";
+import { generateOtp, generateOtp2, login, validateOtp, validateUser } from "../utils/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../atom/authAtom";
 import { useEffect, useState } from "react";
+import { registerUserAtom } from "../atom/registrationAtom";
 
 export default function OtpVerification() {
   const auth = useRecoilValue(authState);
+  const reg = useRecoilValue(registerUserAtom)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
-  console.log('this is the otp page');
   const onSubmit = async (values) => {
     setLoading(true)
-    const { email, password } = values;
-    // login(email, password)
-    //   .then((res) => {
-    //     setAuth(res);
-    //     navigate("/list-workspace");
-    //     toast.success("Signin Successful");
-    //     setLoading(false)
-    //   })
-    //   .catch((e) => {
-    //     setLoading(false)
-    //     toast.error(e.response.data.msg);
-    //   });
-  };
+    const payload = {
+        otp: values.otp,
+        id: reg.user.email
+      }
+
+      validateOtp(payload).then((res)=>{
+        if (res.payload.length === 0 ){
+          toast.error('Invalid OTP')
+        } else {
+          const userPayload = {
+        id: reg.user.email
+          }
+          validateUser(userPayload).then((res)=>{
+            toast.success("OTP validation successful")
+            navigate("/pricing-stage-1");
+          })
+        }
+      setLoading(false)
+    
+  })};
+  const regenerateOtp = ()=>{
+    setLoading(true);
+    const payload = {
+      email:reg.user.email
+    }
+    generateOtp(payload).then((res) => {
+      toast.success('Check your email for new OTP')
+      // navigate("/otpverification");
+    });
+    setLoading(false);
+  }
 
   const {
     values,
@@ -50,9 +69,9 @@ export default function OtpVerification() {
   });
 
   useEffect(()=>{
-    generateOtp(auth.username).then((res)=>{
-        console.log(res, 'the res from validate')
-    })
+    // generateOtp2(auth.username).then((res)=>{
+    //     console.log(res, 'the res from validate')
+    // })
 
   }, [])
   return (
@@ -111,7 +130,7 @@ export default function OtpVerification() {
                   ) : (
                     ""
                   )}
-                  Login
+                  Validate OTP
                 </button>
               </form>
               <div className="flex flex-wrap justify-between">
@@ -121,18 +140,18 @@ export default function OtpVerification() {
                     to="/anonym/request-change-password"
                     className=" cursor-pointer font-bold text-[#F56B3F] "
                   >
-                    Log Out?
+                    Sign In?
                   </Link>
                 </p>
-                {/* <p className=" pt-5 text-sm">
-                  Click here to ?{" "}
-                  <Link
+                <button onClick={regenerateOtp} className="btn btn-gray-200 border mt-2 p-3 rounded-lg text-sm">
+                  Re-Generate OTP{" "}
+                  {/* <Link
                     to="/register"
                     className=" cursor-pointer font-bold text-blue-700"
                   >
                     Sign up
-                  </Link> 
-                </p> */}
+                  </Link>  */}
+                </button>
               </div>
             </div>
           </div>

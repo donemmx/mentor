@@ -51,6 +51,8 @@ import ClientRequestNewPassword from "./views/client/ClientRequestNewPassword";
 import UserOnboardFour from "./views/usersOnboard/UserOnboardFour";
 import Success from "./component/successful/Success";
 import OtpVerification from "./views/OtpVerification";
+import UserPricingEmail from "./views/UserPricingEmail";
+import UserPricingOtp from "./views/UserPricingOtp";
 
 const router = createBrowserRouter([
   {
@@ -173,6 +175,19 @@ const router = createBrowserRouter([
         path: "/landing",
         element: <ClientLanding />,
       },
+      {
+        path: "/user-email",
+        element: <UserPricingEmail />,
+      },
+      {
+        path: "/user-otp",
+        element: <UserPricingOtp />,
+      },
+      {
+        path: "/user-otp",
+        element: <UserPricingOtp />,
+      },
+
      
     ],
   },

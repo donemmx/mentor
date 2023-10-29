@@ -6,7 +6,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
-import { checkIfUserExist } from "../../utils/api";
+import {
+  checkIfUserExist,
+  generateOtp,
+  checkUser,
+} from "../../utils/api";
 import { data } from "autoprefixer";
 import { toast } from "react-toastify";
 
@@ -24,16 +28,33 @@ export default function ClientSignup() {
         ...values,
       },
     };
-    const data = {
+    setReg(payload)
+    const emailData = {
       email: values.email,
     };
-    checkIfUserExist(data).then((res) => {
+    const checkEmail = {
+      id: values.email,
+    };
+
+    checkUser(checkEmail).then((res) => {
       setLoading(false);
-      if (res.payload.length === 1) {
-        toast.error("User already exists. Please login");
+
+      if (res?.payload.length === 0 || res.payload[0].isVerified === false) {
+        generateOtp(emailData).then((res) => {
+          navigate("/otpverification");
+        });
+        
       } else {
-        setReg(payload);
-        navigate(`/pricing`);
+        checkIfUserExist({email:values.email}).then((res) => {
+          setLoading(false);
+          if (res.payload.length === 1) {
+            toast.error("User already exists. Please login");
+          } else {
+            navigate(`/pricing`);
+          }
+        }).catch((err)=>{
+          console.log(err)
+        });
       }
     });
   };
@@ -50,8 +71,8 @@ export default function ClientSignup() {
     validateOnMount: true,
     initialValues: {
       email: "",
-      password: "",
-      confirmPassword: "",
+      // password: "",
+      // confirmPassword: "",
     },
     validationSchema: registerUser,
     onSubmit,
@@ -87,7 +108,7 @@ export default function ClientSignup() {
                 {errors.email && touched.email && (
                   <p className="error">{errors.email}</p>
                 )}
-                <span className="p-float-label">
+                {/* <span className="p-float-label">
                   <Password
                     id="username"
                     name="password"
@@ -115,7 +136,7 @@ export default function ClientSignup() {
                 </span>
                 {errors.confirmPassword && touched.confirmPassword && (
                   <p className="error">{errors.confirmPassword}</p>
-                )}
+                )} */}
                 <button
                   className="primary__btn mt-5"
                   disabled={!isValid || isSubmitting || loading}

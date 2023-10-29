@@ -11,9 +11,17 @@ const checkIfUserExist = async (payload) => await api.structure('WebUser').getDa
 
 const checkUserEmailByWorkspace = async (payload) => await api.structure('userByworkSpace').getData('checkUserEmailByWorkspace', payload)
 
-const generateOtp = async (payload) => await api.structure('uservalidation').setData('generateOtp', payload)
+const generateOtp = async (payload) => await api.structure('prespective_customers').setData('generateOtp', payload)
 
-const getOtpValidation = async (payload) => await api.structure('uservalidation').getData('getOtpValidation', payload)
+const generateOtp2 = async (payload) => await api.structure('uservalidation').getData('generateOtp2', payload)
+
+const checkUser = async (payload) => await api.structure('uservalidation').getData('checkUser', payload)
+
+const validateOtp = async (payload) => await api.structure('uservalidation').getData('validateOtp', payload)
+
+const validateUser = async (payload) => await api.structure('uservalidation').setData('validateOtp', payload)
+
+const checkUserForValidation = async (payload) => await api.structure('uservalidation').getData('checkUserForValidation', payload)
 
 const resetPassword = async (payload) => await api.structure('reset_password_inputs').setData('resetPassword', payload)
 
@@ -106,6 +114,10 @@ export {
     checkIfUserExist,
     checkUserEmailByWorkspace,
     generateOtp,
-    getOtpValidation,
+    generateOtp2,
+    checkUser,
+    validateOtp,
+    validateUser,
+    checkUserForValidation,
     getMentorProfile,
 }

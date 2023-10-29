@@ -4,55 +4,41 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { generateOtp, getOtpValidation, login, validateOtp } from "../../utils/api";
+import {
+  generateOtp,
+  generateOtp2,
+  getOtpValidation,
+  login,
+  validateOtp,
+} from "../../utils/api";
 import { useRecoilState } from "recoil";
 import { authState } from "../../atom/authAtom";
 import { useState } from "react";
+import { registerUserAtom } from "../../atom/registrationAtom";
 
 export default function ClientSignin() {
   const [auth, setAuth] = useRecoilState(authState);
   const [loading, setLoading] = useState(false);
+  const [details, setDetails] = useState({});
+  const [reg, setReg] = useRecoilState(registerUserAtom);
+  const otpV = false;
   const navigate = useNavigate();
   const onSubmit = async (values) => {
     setLoading(true);
     const { email, password } = values;
     login(email, password)
       .then((res) => {
-        console.log(res, "this is the sign in into response");
-        const resPayload = {
-          id: res.username,
+        const payload = {
+          // id: res.username,
           sessionID: res.sessionID,
-          role: res.role,
+          // role: res.role,
           email: res.username,
         };
+
         setAuth(res);
         setLoading(false);
         toast.success("Signin Successful");
         navigate("/list-workspace");
-        
-        // getOtpValidation(resPayload).then((OtpRes) => {
-        //   if (OtpRes.payload[0]?.email && OtpRes.payload[0]?.isVerified === true) {
-        //     setAuth(res);
-        //     setLoading(false);
-        //     toast.success("Signin Successful");
-        //     navigate("/list-workspace");
-        //     console.log(OtpRes, "this is the OTP2222");
-        //   } else if (OtpRes.payload[0]?.email !== null && OtpRes.payload[0]?.isVerified === false){
-        //     console.log("the res from else if");
-        //     navigate("/otpverification");
-        //     } else {
-        //     generateOtp({email:res.username, isVerified:false}).then((genRes) => {
-        //       console.log('the generate otp remaining');
-        //       console.log(genRes, "the res from validate");
-        //     });
-        //     console.log(OtpRes, "this is the OTP2222 in else");
-        //     console.log(
-        //       OtpRes?.payload[0]?.isVerified,
-        //       "this is verified the OTP2222 0 in else"
-        //     );
-        //     navigate("/otpverification");
-        //   }
-        // });
       })
       .catch((e) => {
         setLoading(false);
@@ -60,6 +46,7 @@ export default function ClientSignin() {
       });
   };
 
+  // Math.random().toString().substr(2, 4)
   const {
     values,
     errors,

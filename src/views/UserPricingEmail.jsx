@@ -3,34 +3,65 @@ import { InputText } from "primereact/inputtext";
 import ClientHeader from "./client/ClientHeader";
 import line from "../assets/bg/lines.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { stage1 } from "../utils/Validation";
+import { registerUser, stage1 } from "../utils/Validation";
 import { useFormik } from "formik";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../atom/registrationAtom";
 import Password from "antd/es/input/Password";
+import { checkIfUserExist, checkUser, generateOtp } from "../utils/api";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
-export default function PricingStageOne() {
+export default function UserPricingEmail() {
   const navigate = useNavigate();
-  const [ reg, setReg ] = useRecoilState(registerUserAtom)
+  const [reg, setReg] = useRecoilState(registerUserAtom);
+  const [loading, setLoading] = useState(false);
   const onSubmit = async (values) => {
-    const { user, ...others } = reg
+    setLoading(true);
     const payload = {
-      ...others,
-      user:{
+      user: {
         ...values,
-        ...user
-      }
-    }
-    setReg(payload)
-    navigate("/pricing-stage-2");
+      },
+    };
+    setReg(payload);
+    const emailData = {
+      email: values.email,
+    };
+    const checkEmail = {
+      id: values.email,
+    };
+
+    checkUser(checkEmail)
+      .then((res) => {
+        setLoading(false);
+
+        if (res?.payload.length === 0 || res.payload[0].isVerified === false) {
+          generateOtp(emailData).then((res) => {
+            navigate("/user-otp");
+          });
+        } else {
+          checkIfUserExist({ email: values.email })
+            .then((res) => {
+              setLoading(false);
+              if (res.payload.length === 1) {
+                toast.error("User already exists. Please login");
+              } else {
+                navigate("/user-otp");
+              }
+            })
+            .catch((err) => {
+              toast.error(err.response.data.msg);
+            });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.data.msg);
+      });
   };
 
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    password: "",
-    confirmPassword: ""
-    }
+    email: "",
+  };
 
   const {
     values,
@@ -43,22 +74,22 @@ export default function PricingStageOne() {
     handleSubmit,
   } = useFormik({
     validateOnMount: true,
-    initialValues:initialValues,
-    validationSchema:stage1,
+    initialValues: initialValues,
+    validationSchema: registerUser,
     onSubmit,
   });
   return (
     <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
-    <div className="grid h-full w-[90%] mx-auto ">
-     <ClientHeader/>
-     <div className=" flex">
+      <div className="grid h-full w-[90%] mx-auto ">
+        <ClientHeader />
+        <div className=" flex">
           <div className="">
             <div className=" mx-auto">
               <div className="absolute top-[15%] flex gap-3">
                 <div className="  line h-1 w-10 bg-white"></div>
                 <div className="line h-1 w-10 bg-gray-500"></div>
               </div>
-             
+
               <h3
                 data-aos="fade-down"
                 data-aos-duration="1500"
@@ -67,42 +98,23 @@ export default function PricingStageOne() {
                 👋 Let's start with basic information
               </h3>
               <form onSubmit={handleSubmit} className="space-y-6 w-[80%] pt-8">
-              <span
+                <span
                   data-aos="fade-down"
                   data-aos-duration="1000"
                   className="p-float-label"
                 >
                   <InputText
                     id="username"
-                    name="firstName"
-                    value={values.firstName}
+                    name="email"
+                    value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  <label htmlFor="username">First Name</label>
+                  <label htmlFor="username">Email</label>
                 </span>
-                {errors.firstName && touched.firstName && (
-                  <p className="error">{errors.firstName}</p>
+                {errors.email && touched.email && (
+                  <p className="error">{errors.email}</p>
                 )}
-              <span
-                  data-aos="fade-down"
-                  data-aos-duration="1000"
-                  className="p-float-label"
-                >
-                  <InputText
-                    id="username"
-                    name="lastName"
-                    value={values.lastName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <label htmlFor="username">Last Name</label>
-                </span>
-                {errors.lastName && touched.lastName && (
-                  <p className="error">{errors.lastName}</p>
-                )}
-                
-
                 <button
                   data-aos="fade-down"
                   data-aos-duration="800"
@@ -129,7 +141,7 @@ export default function PricingStageOne() {
             </Link>
           </div>
         </div>
+      </div>
     </div>
-  </div>
-  )
+  );
 }

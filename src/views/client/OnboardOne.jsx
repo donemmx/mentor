@@ -7,6 +7,7 @@ import line from "../../assets/bg/lines.svg";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { stage1 } from "../../utils/Validation";
+import Password from "antd/es/input/Password";
 
 export default function OnboardOne() {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ export default function OnboardOne() {
   const initialValues = {
     firstName: "",
     lastName: "",
+    password: "",
+    confirmPassword: ""
   }
 
   const {
@@ -105,6 +108,37 @@ export default function OnboardOne() {
                 {errors.lastName && touched.lastName && (
                   <p className="error">{errors.lastName}</p>
                 )}
+
+
+                <span className="p-float-label">
+                  <Password
+                    id="username"
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    toggleMask
+                  />
+                  <label htmlFor="username">Password</label>
+                </span>
+                {errors.password && touched.password && (
+                  <p className="error">{errors.password}</p>
+                )}
+                <span className="p-float-label">
+                  <Password
+                    id="username"
+                    name="confirmPassword"
+                    feedback={false}
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    toggleMask
+                  />
+                  <label htmlFor="username">Confirm Password</label>
+                </span>
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <p className="error">{errors.confirmPassword}</p>
+                )} 
 
                 <button
                   data-aos="fade-down"
