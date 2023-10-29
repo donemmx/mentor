@@ -23,7 +23,7 @@ export default function MentorSignin() {
 
     const data = {
       id: params.id,
-      email: values.email,
+      email: values.email.toLowerCase(),
     };
 
     checkUserEmailByWorkspace(data)
@@ -33,7 +33,7 @@ export default function MentorSignin() {
           if (res.payload[0].userByworkSpaceStatusId === "ban") {
             toast.error("User has been banned. Please contact admin");
           } else {
-            login(email, password)
+            login(email.toLowerCase(), password)
               .then((res) => {
                 setAuth(res);
                 navigate('/mentor-dashboard');

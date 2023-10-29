@@ -26,7 +26,7 @@ export default function ClientSignin() {
   const onSubmit = async (values) => {
     setLoading(true);
     const { email, password } = values;
-    login(email, password)
+    login(email.toLowerCase(), password)
       .then((res) => {
         const payload = {
           // id: res.username,

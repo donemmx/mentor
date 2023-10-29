@@ -25,7 +25,7 @@ export default function MenteeSignin() {
 
     const data = {
       id: params.id,
-      email: values.email,
+      email: values.email.toLowerCase(),
     };
 
     checkUserEmailByWorkspace(data)
@@ -35,7 +35,7 @@ export default function MenteeSignin() {
           if (res?.payload?.userByworkSpaceStatusId === "ban") {
             toast.error("User has been banned. Please contact admin");
           } else  {
-            login(email, password)
+            login(email.toLowerCase(), password)
               .then((res) => {
                 setAuth(res);
                 navigate('/mentee-dashboard');
