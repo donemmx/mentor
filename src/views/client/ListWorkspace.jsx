@@ -8,6 +8,7 @@ import { user } from "../../atom/userAtom";
 import { useNavigate } from "react-router-dom";
 import WorkspaceListCard from '../../component/workspaceCard/WorkspaceListCard'
 import { workspaceStore } from "../../atom/workspaceAtom";
+import { toast } from "react-toastify";
 
 export default function ListWorkspace() {
   const auth = useRecoilValue(authState);
@@ -26,10 +27,14 @@ export default function ListWorkspace() {
         setWorkspaceData(res.payload[0]);
         navigate("/dashboard");
       }
+    }).catch((err)=> {
+      toast.error(err.response.data.msg);
     });
     getProfile(payload).then((res) => {
       setUserData(res.payload[0]);
-    });
+    }).catch((err)=> {
+      toast.error(err.response.data.msg);
+    })
   };
 
 

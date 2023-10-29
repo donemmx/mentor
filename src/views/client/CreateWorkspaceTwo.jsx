@@ -40,6 +40,8 @@ export default function CreateWorkspaceTwo() {
       maxMentees: reg.workspace.maxMentees,
       workspaceLogo: fileDataURL,
       color: color.split('#')[1],
+      invoice: reg.id,
+      description: '',
       lastName: reg.user.lastName,
       firstame: reg.user.firstName,
       newMail: reg.user.email,

@@ -32,11 +32,13 @@ export default function OtpVerification() {
           }
           validateUser(userPayload).then((res)=>{
             toast.success("OTP validation successful")
-            navigate("/pricing-stage-1");
+            navigate("/pricing");
           })
         }
       setLoading(false)
     
+  }).catch((err)=> {
+    toast.error(err.response.data.msg);
   })};
   const regenerateOtp = ()=>{
     setLoading(true);
@@ -46,7 +48,10 @@ export default function OtpVerification() {
     generateOtp(payload).then((res) => {
       toast.success('Check your email for new OTP')
       // navigate("/otpverification");
-    });
+    }).catch((err)=> {
+      toast.error(err.response.data.msg);
+
+    })
     setLoading(false);
   }
 

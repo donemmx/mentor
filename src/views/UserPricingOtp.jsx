@@ -20,7 +20,7 @@ export default function UserPricingOtp() {
     setLoading(true);
     const payload = {
       otp: values.otp,
-      id: reg.user.email,
+      id: reg.user.email.toLowerCase(),
     };
 
     validateOtp(payload)
@@ -31,7 +31,7 @@ export default function UserPricingOtp() {
           
         } else {
           const userPayload = {
-            id: reg.user.email,
+            id: reg.user.email.toLowerCase(),
           };
           validateUser(userPayload)
             .then((res) => {
