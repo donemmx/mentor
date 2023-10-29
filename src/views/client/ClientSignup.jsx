@@ -6,11 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
-import {
-  checkIfUserExist,
-  generateOtp,
-  checkUser,
-} from "../../utils/api";
+import { checkIfUserExist, generateOtp, checkUser } from "../../utils/api";
 import { data } from "autoprefixer";
 import { toast } from "react-toastify";
 
@@ -28,12 +24,12 @@ export default function ClientSignup() {
         ...values,
       },
     };
-    setReg(payload)
+    setReg(payload);
     const emailData = {
-      email: values.email,
+      email: values.email.toLowerCase(),
     };
     const checkEmail = {
-      id: values.email,
+      id: values.email.toLowerCase(),
     };
 
     checkUser(checkEmail).then((res) => {
@@ -43,18 +39,19 @@ export default function ClientSignup() {
         generateOtp(emailData).then((res) => {
           navigate("/otpverification");
         });
-        
       } else {
-        checkIfUserExist({email:values.email}).then((res) => {
-          setLoading(false);
-          if (res.payload.length === 1) {
-            toast.error("User already exists. Please login");
-          } else {
-            navigate(`/pricing`);
-          }
-        }).catch((err)=>{
-          console.log(err)
-        });
+        checkIfUserExist({ email: values.email })
+          .then((res) => {
+            setLoading(false);
+            if (res.payload.length === 1) {
+              toast.error("User already exists. Please login");
+            } else {
+              navigate(`/pricing`);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };

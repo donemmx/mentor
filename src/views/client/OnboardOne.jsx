@@ -7,8 +7,8 @@ import line from "../../assets/bg/lines.svg";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
 import { stage1 } from "../../utils/Validation";
-import Password from "antd/es/input/Password";
-
+import { Password } from 'primereact/password';
+        
 export default function OnboardOne() {
   const navigate = useNavigate();
   const [ reg, setReg ] = useRecoilState(registerUserAtom)
@@ -116,6 +116,7 @@ export default function OnboardOne() {
                     name="password"
                     value={values.password}
                     onChange={handleChange}
+                    className=""
                     onBlur={handleBlur}
                     toggleMask
                   />
@@ -141,8 +142,6 @@ export default function OnboardOne() {
                 )} 
 
                 <button
-                  data-aos="fade-down"
-                  data-aos-duration="800"
                   className="primary__btn"
                   disabled={!isValid || isSubmitting}
                 >

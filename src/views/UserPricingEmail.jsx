@@ -25,10 +25,10 @@ export default function UserPricingEmail() {
     };
     setReg(payload);
     const emailData = {
-      email: values.email,
+      email: values.email.toLowerCase(),
     };
     const checkEmail = {
-      id: values.email,
+      id: values.email.toLowerCase(),
     };
 
     checkUser(checkEmail)

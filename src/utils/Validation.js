@@ -33,7 +33,6 @@ const requestNewPassword = yup.object().shape({
 const stage1 = yup.object().shape({
     firstName: yup.string().required("Required"),
     lastName: yup.string().required("Required"),
-    
     password: yup.string().min(5).max(25).matches(passwordRule, {message: "Please create a stronger password"}).required("Required"),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], "Passwords must match").required("Required")
 })
