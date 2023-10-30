@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { generateOtp, validateUser } from '../../utils/api';
-import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { generateOtp, validateOtp, validateUser } from '../../utils/api';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { authState } from '../../atom/authAtom';
 import { registerUserAtom } from '../../atom/registrationAtom';
 import { toast } from 'react-toastify';
@@ -9,12 +9,15 @@ import { useFormik } from 'formik';
 import { otpverification } from '../../utils/Validation';
 import Logo from '../../component/logo/Logo';
 import { InputText } from 'primereact/inputtext';
+import { workspaceStore } from '../../atom/workspaceAtom';
 
 export default function MenteeOtp() {
     const auth = useRecoilValue(authState);
     const reg = useRecoilValue(registerUserAtom)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
+    const params = useParams();
+    const [workspace, setWorkspace] = useRecoilState(workspaceStore);
   
     const onSubmit = async (values) => {
       setLoading(true)

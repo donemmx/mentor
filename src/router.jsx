@@ -53,6 +53,8 @@ import Success from "./component/successful/Success";
 import OtpVerification from "./views/OtpVerification";
 import UserPricingEmail from "./views/UserPricingEmail";
 import UserPricingOtp from "./views/UserPricingOtp";
+import MentorOtp from "./views/mentor/MentorOtp";
+import MenteeOtp from "./views/mentee/MenteeOtp";
 
 const router = createBrowserRouter([
   {
@@ -129,7 +131,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/mentee-otp/:id",
-        element: <MenteeSignin />,
+        element: <MenteeOtp />,
       },
       {
         path: "/mentor-signup/:id",
@@ -137,7 +139,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/mentor-otp/:id",
-        element: <MentorSignup />,
+        element: <MentorOtp />,
       },
       {
         path: "/mentee-signup/:id",
