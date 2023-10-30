@@ -44,6 +44,7 @@ export default function UserPricingEmail() {
             .then((res) => {
               setLoading(false);
               if (res.payload.length === 1) {
+                navigate("/signin");
                 toast.error("User already exists. Please login");
               } else {
                 navigate("/pricing");
