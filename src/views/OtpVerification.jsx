@@ -4,56 +4,59 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { generateOtp,  validateOtp, validateUser } from "../utils/api";
-import {  useRecoilValue } from "recoil";
+import { generateOtp, validateOtp, validateUser } from "../utils/api";
+import { useRecoilValue } from "recoil";
 import { authState } from "../atom/authAtom";
-import {  useState } from "react";
+import { useState } from "react";
 import { registerUserAtom } from "../atom/registrationAtom";
 
 export default function OtpVerification() {
   const auth = useRecoilValue(authState);
-  const reg = useRecoilValue(registerUserAtom)
-  const [loading, setLoading] = useState(false)
+  const reg = useRecoilValue(registerUserAtom);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
-    setLoading(true)
-    const payload = {
-        otp: values.otp,
-        id: reg.user.email
-      }
-
-      validateOtp(payload).then((res)=>{
-        if (res.payload.length === 0 ){
-          toast.error('Invalid OTP')
-        } else {
-          const userPayload = {
-        id: reg.user.email
-          }
-          validateUser(userPayload).then((res)=>{
-            toast.success("OTP validation successful")
-            navigate("/pricing");
-          })
-        }
-      setLoading(false)
-    
-  }).catch((err)=> {
-    toast.error(err.response.data.msg);
-  })};
-  const regenerateOtp = ()=>{
     setLoading(true);
     const payload = {
-      email:reg.user.email
-    }
-    generateOtp(payload).then((res) => {
-      toast.success('Check your email for new OTP')
-      // navigate("/otpverification");
-    }).catch((err)=> {
-      toast.error(err.response.data.msg);
+      otp: values.otp,
+      id: reg.user.email,
+    };
 
-    })
+    validateOtp(payload)
+      .then((res) => {
+        if (res.payload.length === 0) {
+          toast.error("Invalid OTP");
+        } else {
+          const userPayload = {
+            id: reg.user.email,
+          };
+          validateUser(userPayload).then((res) => {
+            toast.success("OTP validation successful");
+            navigate("/pricing");
+          });
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.msg);
+      });
+  };
+  const regenerateOtp = () => {
+    setLoading(true);
+    const payload = {
+      email: reg.user.email,
+    };
+    generateOtp(payload)
+      .then((res) => {
+        toast.success("Check your email for new OTP");
+        // navigate("/otpverification");
+      })
+      .catch((err) => {
+        toast.error(err.response.data.msg);
+      });
     setLoading(false);
-  }
+  };
 
   const {
     values,
@@ -73,13 +76,12 @@ export default function OtpVerification() {
     onSubmit,
   });
 
-
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
       <div className="grid md:grid-cols-2 h-full w-full ">
         <div className=" p-5 flex items-center justify-center">
           <div className="w-full flex flex-col justify-center">
-            <Link to='/' className="absolute top-6 font-black  text-[16px]">
+            <Link to="/" className="absolute top-6 font-black  text-[16px]">
               <span className=" bg-black text-white px-3 py-2 rounded mr-2">
                 M
               </span>
@@ -88,13 +90,12 @@ export default function OtpVerification() {
 
             <div className="w-[95%] md:w-[90%] lg:w-[60%] mx-auto">
               <h3 className=" font-black text-[20px] lg:text-[30px] leading-[1.1]">
-              OTP - Verification page
+                OTP - Verification page
               </h3>
               {/* <p className="pt-3 text-2x font-bold">OTP - Verification page</p> */}
               <p className="pt-2">Check your email for OTP sent. </p>
               <form onSubmit={handleSubmit} className="space-y-2  pt-10">
-              
-              <span
+                <span
                   data-aos="fade-down"
                   data-aos-duration="1000"
                   className="p-float-label"
@@ -102,7 +103,7 @@ export default function OtpVerification() {
                   <InputText
                     id="username"
                     name="otp"
-                    keyfilter="int" 
+                    keyfilter="int"
                     className=" !tracking-[20px] !text-center !font-bold !text-4xl"
                     value={values.otp}
                     maxLength={4}
@@ -136,7 +137,10 @@ export default function OtpVerification() {
                     Sign In?
                   </Link>
                 </p>
-                <button onClick={regenerateOtp} className="btn btn-gray-200 border mt-2 p-3 rounded-lg text-sm">
+                <button
+                  onClick={regenerateOtp}
+                  className="btn btn-gray-200 border mt-2 p-3 rounded-lg text-sm"
+                >
                   Re-Generate OTP{" "}
                   {/* <Link
                     to="/register"
