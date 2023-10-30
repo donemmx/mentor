@@ -144,7 +144,7 @@ export default function ClientSignup() {
                   ) : (
                     ""
                   )}
-                  Register
+                  Proceed
                 </button>
               </form>
               <p className=" pt-5 text-sm">
