@@ -46,7 +46,7 @@ export default function UserPricingEmail() {
               if (res.payload.length === 1) {
                 toast.error("User already exists. Please login");
               } else {
-                navigate("/user-otp");
+                navigate("/pricing");
               }
             })
             .catch((err) => {
