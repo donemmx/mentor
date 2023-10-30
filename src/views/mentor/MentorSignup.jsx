@@ -6,7 +6,7 @@ import Logo from "../../component/logo/Logo";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
-import { checkUserEmailByWorkspace, getUserWorkspace } from "../../utils/api";
+import { checkUser, checkUserEmailByWorkspace, generateOtp, getUserWorkspace } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { workspaceStore } from "../../atom/workspaceAtom";
@@ -30,21 +30,39 @@ export default function MentorSignup() {
 
     const data = {
       id: params.id,
-      email: values.email,
+      email: values.email.toLowerCase(),
     };
-    
-    checkUserEmailByWorkspace(data).then((res) => {
+
+    const emailData = {
+      email: values.email.toLowerCase(),
+    };
+
+    const checkEmail = {
+      id: values.email.toLowerCase(),
+    };
+    checkUser(checkEmail).then((res) => {
       setLoading(false);
-      if (res.payload.length === 1) {
-        toast.error("User already exists. Please login");
+
+      if (res?.payload.length === 0 || res.payload[0].isVerified === false) {
+        generateOtp(emailData).then((res) => {
+          navigate(`/mentor-otp/${params.id}`);
+        });
       } else {
-        setReg(payload);
-        navigate(`/user-onboard-1/${params.id}`);
+        checkUserEmailByWorkspace(data).then((res) => {
+          setLoading(false);
+          if (res.payload.length === 1) {
+            toast.error("User already exists. Please login");
+          } else {
+            setReg(payload);
+            navigate(`/user-onboard-1/${params.id}`);
+          }
+        }).catch((e)=> {
+          setLoading(false)
+          toast.error(e.response.data.msg);
+        })
       }
-    }).catch((e)=> {
-      setLoading(false)
-      toast.error(e.response.data.msg);
-    })
+    });
+    
 };
   const {
     values,

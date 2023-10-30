@@ -4,10 +4,10 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { generateOtp, generateOtp2, login, validateOtp, validateUser } from "../utils/api";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { generateOtp,  validateOtp, validateUser } from "../utils/api";
+import {  useRecoilValue } from "recoil";
 import { authState } from "../atom/authAtom";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { registerUserAtom } from "../atom/registrationAtom";
 
 export default function OtpVerification() {
@@ -73,12 +73,7 @@ export default function OtpVerification() {
     onSubmit,
   });
 
-  useEffect(()=>{
-    // generateOtp2(auth.username).then((res)=>{
-    //     console.log(res, 'the res from validate')
-    // })
 
-  }, [])
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
       <div className="grid md:grid-cols-2 h-full w-full ">
@@ -98,30 +93,23 @@ export default function OtpVerification() {
               {/* <p className="pt-3 text-2x font-bold">OTP - Verification page</p> */}
               <p className="pt-2">Check your email for OTP sent. </p>
               <form onSubmit={handleSubmit} className="space-y-2  pt-10">
-                {/* <span className="p-float-label">
+              
+              <span
+                  data-aos="fade-down"
+                  data-aos-duration="1000"
+                  className="p-float-label"
+                >
                   <InputText
                     id="username"
-                    name="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <label htmlFor="username">Email</label>
-                </span>
-                {errors.email && touched.email && (
-                  <p className="error">{errors.email}</p>
-                )} */}
-                <span className="p-float-label">
-                  <Password
-                    id="username"
                     name="otp"
-                    feedback={false}
+                    keyfilter="int" 
+                    className=" !tracking-[20px] !text-center !font-bold !text-4xl"
                     value={values.otp}
+                    maxLength={4}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    toggleMask
                   />
-                  <label htmlFor="username">Enter OTP</label>
+                  <label htmlFor="username">OTP</label>
                 </span>
                 {errors.otp && touched.otp && (
                   <p className="error">{errors.otp}</p>

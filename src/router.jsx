@@ -128,7 +128,15 @@ const router = createBrowserRouter([
         element: <MenteeSignin />,
       },
       {
+        path: "/mentee-otp/:id",
+        element: <MenteeSignin />,
+      },
+      {
         path: "/mentor-signup/:id",
+        element: <MentorSignup />,
+      },
+      {
+        path: "/mentor-otp/:id",
         element: <MentorSignup />,
       },
       {
