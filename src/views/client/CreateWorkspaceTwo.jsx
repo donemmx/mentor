@@ -43,7 +43,7 @@ export default function CreateWorkspaceTwo() {
       workspaceLogo: fileDataURL,
       color: color.split('#')[1],
       invoice: reg.id,
-      description: 'test',
+      description: '',
       lastName: reg.user.lastName,
       firstame: reg.user.firstName,
       newMail: reg.user.email,
