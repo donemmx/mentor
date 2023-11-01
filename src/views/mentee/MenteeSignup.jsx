@@ -23,7 +23,7 @@ export default function MenteeSignup() {
     const payload = {
       user: {
         ...values,
-        role: 'mentor'
+        role: 'mentee'
       }
     }
 
