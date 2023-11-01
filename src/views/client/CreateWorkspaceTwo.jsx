@@ -112,7 +112,7 @@ export default function CreateWorkspaceTwo() {
     <div className="w-full h-[100vh] bg-[var(--primary)] text-white ">
       <div className="grid h-full w-[90%] mx-auto ">
         <ClientHeader />
-        <form encType="multipart/form-data" className=" flex">
+        <div className=" flex">
           <div className="">
             <div className=" mx-auto">
               <div className="absolute top-[15%] flex gap-3">
@@ -206,7 +206,7 @@ export default function CreateWorkspaceTwo() {
               <img className=" h-full w-full object-cover" src={line} alt="" />
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
