@@ -33,24 +33,45 @@ export default function UserOnboardThree() {
         ...user,
       },
     };
-    const newPayload = {
-      _password: reg.user.confirmPassword,
-      _phone: reg.user.phone,
-      _postalcode: reg.user.postalcode,
-      _provinceId: reg.user.province,
-      _role_input: reg.user.role === "mentor" ? true : false,
-      _url: window.location.href,
-      _city: reg.user.city,
-      _yearsofprofessionalinterest: values.yearsOfExperience,
-      firstame: reg.user.firstName,
-      gender: values.gender,
-      lastName: reg.user.lastName,
-      mentee__profAreaIds: reg.user.professionalArea,
-      mentor__profAreaIds: reg.user.professionalArea,
-      mail: reg.user.email,
-      workspaceId: params.id,
-      // acceptanceCriteria : reg.form,
-    };
+    let newPayload
+    if(reg.user.role === "mentor"){
+      newPayload = {
+       _password: reg.user.confirmPassword,
+       _phone: reg.user.phone,
+       _postalcode: reg.user.postalcode,
+       _provinceId: reg.user.province,
+       _role_input:  true,
+       _url: window.location.href,
+       _city: values.city,
+       _yearsofprofessionalinterest: values.yearsOfExperience.split(' ').join(''),
+       firstame: reg.user.firstName,
+       gender: values.gender,
+       lastName: reg.user.lastName,
+       mentor__profAreaIds: reg.user.professionalArea,
+       mail: reg.user.email,
+       workspaceId: params.id,
+       // acceptanceCriteria : reg.form,
+     }
+    }
+     else{
+      newPayload = {
+        _password: reg.user.confirmPassword,
+        _phone: reg.user.phone,
+        _postalcode: reg.user.postalcode,
+        _provinceId: reg.user.province,
+        _role_input:  false,
+        _url: window.location.href,
+        _city: values.city,
+        _yearsofprofessionalinterest: values.yearsOfExperience.split(' ').join(''),
+        firstame: reg.user.firstName,
+        gender: values.gender,
+        lastName: reg.user.lastName,
+        mentee__profAreaIds: reg.user.professionalArea,
+        mail: reg.user.email,
+        workspaceId: params.id,
+        // acceptanceCriteria : reg.form,
+     }
+    }
 
     createWorkspaceUser(newPayload).then((res) => {
       toast.success("successful");
