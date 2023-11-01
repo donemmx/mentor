@@ -47,7 +47,6 @@ export default function CreateWorkspaceTwo() {
       lastName: reg.user.lastName,
       firstame: reg.user.firstName,
       newMail: reg.user.email,
-      workspaceStatusId: 'active',
       mail: reg.user.email,
       _fiirstProfArea: reg.workspace.professionalArea,
       _password: reg.user.confirmPassword,
