@@ -40,6 +40,7 @@ export default function MentorSignup() {
     const checkEmail = {
       id: values.email.toLowerCase(),
     };
+    setReg(payload);
     checkUser(checkEmail).then((res) => {
       setLoading(false);
 
@@ -53,7 +54,6 @@ export default function MentorSignup() {
           if (res.payload.length === 1) {
             toast.error("User already exists. Please login");
           } else {
-            setReg(payload);
             navigate(`/user-onboard-1/${params.id}`);
           }
         }).catch((e)=> {
@@ -77,8 +77,6 @@ export default function MentorSignup() {
     validateOnMount: true,
     initialValues: {
       email: "",
-      password: "",
-      confirmPassword: "",
     },
     validationSchema: registerUser,
     onSubmit,
@@ -117,36 +115,7 @@ export default function MentorSignup() {
                 {errors.email && touched.email && (
                   <p className="error">{errors.email}</p>
                 )}
-                <span className="p-float-label">
-                  <Password
-                    id="username"
-                    name="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    toggleMask
-                  />
-                  <label htmlFor="username">Password</label>
-                </span>
-                {errors.password && touched.password && (
-                  <p className="error">{errors.password}</p>
-                )}
-                <span className="p-float-label">
-                  <Password
-                    id="username"
-                    name="confirmPassword"
-                    feedback={false}
-                    value={values.confirmPassword}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    toggleMask
-
-                  />
-                  <label htmlFor="username">Confirm Password</label>
-                </span>
-                {errors.confirmPassword && touched.confirmPassword && (
-                  <p className="error">{errors.confirmPassword}</p>
-                )}
+               
               <button
                 className="primary__btn mt-5"
                 disabled={!isValid || loading}
@@ -156,7 +125,7 @@ export default function MentorSignup() {
                 ) : (
                   ""
                 )}
-                Register
+                Proceed
               </button>
               </form>
               <p className=" pt-5 text-sm">
