@@ -46,6 +46,7 @@ const stage2 = yup.object().shape({
 const userOnboard3 = yup.object().shape({
     yearsOfExperience: yup.string().required("Required"),
     gender: yup.string().required("Required"),
+    city: yup.string().required("Required"),
 })
 
 
