@@ -60,7 +60,6 @@ export default function ClientAccount() {
       if(allInvoices?.length > 0){
         setLoading(false);
         setInvoices(allInvoices);
-        console.log(allInvoices);
       }
     }).catch((res)=> {
       console.log(res);
@@ -86,7 +85,6 @@ export default function ClientAccount() {
     }
     editOwnerProfile(payload).then((res)=>{
       setUserData(res.payload)
-      console.log(res, 'the response from posting');
     })
   };
 
