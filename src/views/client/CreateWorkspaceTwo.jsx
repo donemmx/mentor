@@ -55,7 +55,6 @@ export default function CreateWorkspaceTwo() {
       _provinceId: reg.user.province,
       _postalcode: reg.user.postalcode,
       _action: "createWithPayment",
-      _actionType_input: true,
       _url: `${window.location.origin}/payments/${reg.workspace.id}`,
     };
 
