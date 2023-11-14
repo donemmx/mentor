@@ -38,8 +38,6 @@ export default function CreateWorkspaceTwo() {
     setLoading(true);
     const userPayload = {
       name: reg.workspace.workspace,
-      maxMentors: reg.workspace.maxMentors,
-      maxMentees: reg.workspace.maxMentees,
       workspaceLogo: fileDataURL,
       color: color.split('#')[1],
       invoice: reg.id,
