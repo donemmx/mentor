@@ -39,9 +39,9 @@ export default function MenteeSignup() {
     const checkEmail = {
       id: values.email.toLowerCase(),
     };
-    setReg(payload);
     checkUser(checkEmail).then((res) => {
       setLoading(false);
+      setReg(payload);
 
       if (res?.payload.length === 0 || res.payload[0].isVerified === false) {
         generateOtp(emailData).then((res) => {
