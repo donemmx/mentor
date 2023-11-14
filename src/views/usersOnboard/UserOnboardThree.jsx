@@ -42,7 +42,7 @@ export default function UserOnboardThree() {
        lastName: reg.user.lastName,
        mentor__profAreaIds: reg.user.professionalArea,
        mail: reg.user.email,
-       _linkedin: 'https://www.linkedin.com/',
+       _linkedin: 'https://www.linkedin.com/in/',
        workspaceId: params.id,
        // acceptanceCriteria : reg.form,
      }
@@ -62,7 +62,7 @@ export default function UserOnboardThree() {
         lastName: reg.user.lastName,
         mentee__profAreaIds: reg.user.professionalArea,
         mail: reg.user.email,
-       _linkedin: 'https://www.linkedin.com/',
+        _linkedin: 'https://www.linkedin.com/in/',
         workspaceId: params.id,
         // acceptanceCriteria : reg.form,
      }
@@ -80,8 +80,6 @@ export default function UserOnboardThree() {
         navigate(`/${reg.user.role}-signin/${params.id}`);
       });
     });
-    setReg(newPayload);
-    console.log(newPayload);
   };
 
   const initialValues = {

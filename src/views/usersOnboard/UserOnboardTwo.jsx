@@ -26,7 +26,6 @@ export default function UserOnboardTwo() {
         user:{
           ...values,
           // professionalAreaIds: professionalArea,
-          // newProfessionalArea: professionalArea,
           ...user
         }
       }  
