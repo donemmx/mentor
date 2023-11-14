@@ -22,7 +22,7 @@ export default function UserOnboardFour() {
       form: selectedValues[0],
       ...reg,
     };
-    setReg(payload);
+    // setReg(payload);
     navigate(`/user-onboard-2/${params.id}`)
     console.log(selectedValues);
   };
