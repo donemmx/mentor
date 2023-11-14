@@ -1,17 +1,9 @@
 import React from 'react'
-import { registerUser } from '../../utils/Validation'
 import { useRecoilState } from 'recoil'
-import { registerUserAtom } from '../../atom/registrationAtom'
-import { useEffect } from 'react'
 import { user } from '../../atom/userAtom'
 
 export default function ProfileAccount() {
   const [ userData ] = useRecoilState(user)
-
-  useEffect(() => {
-    console.log('Hello world')
-    console.log(userData)
-  }, [])
 
   return (
     <div>

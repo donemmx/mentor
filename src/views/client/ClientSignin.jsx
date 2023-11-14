@@ -46,7 +46,6 @@ export default function ClientSignin() {
       });
   };
 
-  // Math.random().toString().substr(2, 4)
   const {
     values,
     errors,
