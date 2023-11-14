@@ -37,6 +37,13 @@ const stage1 = yup.object().shape({
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], "Passwords must match").required("Required")
 })
 
+const userOnboardOneValidation = yup.object().shape({
+    firstName: yup.string().required("Required"),
+    lastName: yup.string().required("Required"),
+})
+
+
+
 const stage2 = yup.object().shape({
     province: yup.string().required("Required"),
     postalcode: yup.string().required("Required"),
@@ -95,5 +102,6 @@ export {
     userDynamicForm,
     userOnboard3,
     profile,
+    userOnboardOneValidation,
     editWorkspace
 }

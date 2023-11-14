@@ -45,6 +45,7 @@ export default function MentorSignup() {
 
       if (res?.payload.length === 0 || res.payload[0].isVerified === false) {
         generateOtp(emailData).then((res) => {
+          setReg(payload);
           navigate(`/mentor-otp/${params.id}`);
         });
       } else {

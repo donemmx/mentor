@@ -4,7 +4,7 @@ import { InputText } from "primereact/inputtext";
 import line from "../../assets/bg/lines.svg";
 import { useRecoilState } from "recoil";
 import { registerUserAtom } from "../../atom/registrationAtom";
-import { stage1 } from "../../utils/Validation";
+import { stage1, userOnboardOneValidation } from "../../utils/Validation";
 import UserHeader from "./UserHeader";
 
 export default function UserOnboardOne() {
@@ -41,7 +41,7 @@ export default function UserOnboardOne() {
     } = useFormik({
       validateOnMount: true,
       initialValues:initialValues,
-      validationSchema:stage1,
+      validationSchema:userOnboardOneValidation,
       onSubmit,
     });
 
