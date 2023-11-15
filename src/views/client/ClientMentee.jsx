@@ -7,7 +7,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { authState } from "../../atom/authAtom";
-import { banUserByWorkspace, getMenteesByWorkspaceId, getUserGenericForm } from "../../utils/api";
+import {
+  banUserByWorkspace,
+  getMenteesByWorkspaceId,
+  getUserGenericForm,
+  inviteUsers,
+} from "../../utils/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useNavigate } from "react-router-dom";
@@ -27,25 +32,37 @@ export default function ClientMentee() {
   const [banned, setBanned] = useState();
   const [unBanUser, setUnbanUser] = useState(false);
   const [loading, setLoaded] = useState(false);
-  const [ userForm, setUserForm] = useState({})
-
+  const [userForm, setUserForm] = useState({});
+  const [email, setEmail] = useState("");
   const [menteeUsers, setMenteeUsers] = useState([]);
   const workspaceData = useRecoilValue(workspaceStore);
   let inviteLink = `${window.location.origin}/mentee-signup/${workspaceData?.id}`;
 
   const getUserForm = () => {
     const payload = {
-      id : workspaceData.id
-    }
-    getUserGenericForm(payload).then((res)=>{
-      if (res?.payload[0]['generic_forms']) {
-        setUserForm(JSON.parse(res?.payload[0]['generic_forms']))
-      }
-    }).catch((err)=> console.log(err))
-  }
+      id: workspaceData.id,
+    };
+    getUserGenericForm(payload)
+      .then((res) => {
+        if (res?.payload[0]["generic_forms"]) {
+          setUserForm(JSON.parse(res?.payload[0]["generic_forms"]));
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   const sendInvite = () => {
-    if (userForm.length > 0 ){
-      setVisible(!visible);
+    if (userForm.length > 0) {
+      const payload = {
+        email: email,
+        url: inviteLink,
+        workspaceName: workspaceData.name,
+      };
+      inviteUsers(payload).then((res) => {
+        setVisible(!visible);
+        toast.error(
+          "Invite has been sent successfully"
+        );
+      });
     } else {
       toast.error("Please create acceptance criteria form in workspace first");
     }
@@ -266,7 +283,12 @@ export default function ClientMentee() {
         </div>
         <div className="w-[80%] mx-auto py-5">
           <span className="p-float-label">
-            <InputText id="username" name="email" />
+            <InputText
+              id="username"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <label htmlFor="username">Email</label>
           </span>
           <button className="primary__btn text-sm mt-5" onClick={sendInvite}>

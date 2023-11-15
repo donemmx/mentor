@@ -87,6 +87,8 @@ const getMatchingByMentor = async (payload) => await api.structure('matching').g
 
 const getUserByWorkspace = async (payload) => await api.structure('userByworkSpace').getData('getUserByWorkspace', payload)
 
+const inviteUsers = async (payload) => await api.structure('invites').setData('inviteUsers', payload)
+
 
 
 export {
@@ -129,5 +131,6 @@ export {
     getMentorProfile,
     getMatchingByMentee,
     getMatchingByMentor,
-    getUserByWorkspace
+    getUserByWorkspace,
+    inviteUsers
 }
