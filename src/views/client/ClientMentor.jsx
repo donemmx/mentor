@@ -72,6 +72,7 @@ export default function ClientMentor() {
       };
       inviteUsers(payload).then((res) => {
         setVisible(!visible);
+        setEmail('')
         toast.error(
           "Invite has been sent successfully"
         );
