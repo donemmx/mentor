@@ -17,14 +17,14 @@ export default function MenteeDashboard() {
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
   const navigate = useNavigate();
 
-  const getWorkspace = () => {
-    const payload = {
-      sessionID: auth?.sessionID,
-    };
-    getProfile(payload).then((res) => {
-      setUserData(res.payload[0]);
-    });
-  };
+  // const getWorkspace = () => {
+  //   const payload = {
+  //     sessionID: auth?.sessionID,
+  //   };
+  //   getProfile(payload).then((res) => {
+  //     setUserData(res.payload[0]);
+  //   });
+  // };
 
   // useEffect(() => {
   //   getWorkspace();
@@ -46,7 +46,7 @@ export default function MenteeDashboard() {
   // const workspace = useRecoilValue(workspaceStore)
   useEffect(()=> {
     const payload = {
-      sessionID: auth?.sessionID,
+      sessionID: auth,
     } 
     getProfile(auth).then((res) => { 
       setUserData(res.payload[0])
@@ -56,8 +56,8 @@ export default function MenteeDashboard() {
   return (
     <div>
       <MenteeSidebar 
-      firstname={userData.firstName}
-      lastname={userData.lastName}
+      firstname={userData?.firstName}
+      lastname={userData?.lastName}
       />
       <div className="w-[90%] mx-auto flex gap-10">
         <div className=" mt-5 space-y-7 border broder-gray-100 p-6 w-fit rounded">
