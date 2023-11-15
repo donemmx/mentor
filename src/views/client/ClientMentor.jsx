@@ -14,6 +14,7 @@ import {
   banUserByWorkspace,
   getMentorsByWorkspaceId,
   getUserGenericForm,
+  inviteUsers,
 } from "../../utils/api";
 import { authState } from "../../atom/authAtom";
 import { useNavigate, useParams } from "react-router-dom";
@@ -38,6 +39,7 @@ export default function ClientMentor() {
   const [userPass, setUserPass] = useState({});
   const [loading, setLoaded] = useState(false);
   const [ userForm, setUserForm] = useState({})
+  const [email, setEmail] = useState("");
 
   let inviteLink = `${window.location.origin}/mentor-signup/${workspaceData?.id}`;
 
@@ -54,15 +56,28 @@ export default function ClientMentor() {
     }).catch((err)=> console.log(err))
   }
 
-  const sendInvite = () => {
-    if (userForm.length > 0 ){
-      setVisible(!visible);
+  const openInvite = () => {
+    if (userForm.length > 0) {
+     
+        setVisible(!visible);
     } else {
       toast.error("Please create acceptance criteria form in workspace first");
-      
     }
   };
-
+  const sendInvite = () => {
+      const payload = {
+        email: email,
+        url: inviteLink,
+        workspaceName: workspaceData.name,
+      };
+      inviteUsers(payload).then((res) => {
+        setVisible(!visible);
+        toast.error(
+          "Invite has been sent successfully"
+        );
+      });
+   
+  };
 
   const listMyMentorsUser = () => {
     setLoaded(true);
@@ -209,7 +224,7 @@ export default function ClientMentor() {
       <div className="w-[80%] mx-auto mt-5 p-6">
         <div className="buttons flex items-cente justify-end gap-6 py-5">
           <button
-            onClick={sendInvite}
+            onClick={openInvite}
             className="h-[40px] w-[118px] bg-[#F56B3F] rounded text-white text-xs"
           >
             Invite user
@@ -280,10 +295,15 @@ export default function ClientMentor() {
         </div>
         <div className="w-[80%] mx-auto py-5">
           <span className="p-float-label">
-            <InputText id="username" name="email" />
+          <InputText
+              id="username"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <label htmlFor="username">Email</label>
           </span>
-          <button className="primary__btn  mt-5" onClick={sendInvite}>
+          <button className="primary__btn text-sm mt-5" onClick={sendInvite} disabled={!email}>
             Send Invite
           </button>
         </div>

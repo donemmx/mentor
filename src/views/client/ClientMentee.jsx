@@ -50,8 +50,15 @@ export default function ClientMentee() {
       })
       .catch((err) => console.log(err));
   };
-  const sendInvite = () => {
+  const openInvite = () => {
     if (userForm.length > 0) {
+     
+        setVisible(!visible);
+    } else {
+      toast.error("Please create acceptance criteria form in workspace first");
+    }
+  };
+  const sendInvite = () => {
       const payload = {
         email: email,
         url: inviteLink,
@@ -63,9 +70,7 @@ export default function ClientMentee() {
           "Invite has been sent successfully"
         );
       });
-    } else {
-      toast.error("Please create acceptance criteria form in workspace first");
-    }
+   
   };
 
   const listMyMenteesUser = () => {
@@ -212,7 +217,7 @@ export default function ClientMentee() {
       <div className="w-[80%] mx-auto mt-5 p-6">
         <div className="buttons flex items-cente justify-end gap-6 py-5">
           <button
-            onClick={sendInvite}
+            onClick={openInvite}
             className="h-[40px] w-[118px] bg-[#FF9900] rounded text-white text-xs"
           >
             {/* F56B3F */}
@@ -291,7 +296,7 @@ export default function ClientMentee() {
             />
             <label htmlFor="username">Email</label>
           </span>
-          <button className="primary__btn text-sm mt-5" onClick={sendInvite}>
+          <button className="primary__btn text-sm mt-5" onClick={sendInvite} disabled={!email}>
             Send Invite
           </button>
         </div>
