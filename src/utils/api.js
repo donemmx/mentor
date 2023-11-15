@@ -81,6 +81,13 @@ const workspaceGenericForm = async (payload) => await api.structure('workspace')
 
 const getUserGenericForm = async (payload) => await api.structure('workspace').getData('getUserGenericForm', payload)
 
+const getMatchingByMentee = async (payload) => await api.structure('matching').getData('getMatchingByMentee_copy', payload)
+
+const getMatchingByMentor = async (payload) => await api.structure('matching').getData('getMatchingByMentor', payload)
+
+const getUserByWorkspace = async (payload) => await api.structure('userByworkSpace').getData('getUserByWorkspace', payload)
+
+
 
 export {
     login,
@@ -120,4 +127,7 @@ export {
     validateUser,
     checkUserForValidation,
     getMentorProfile,
+    getMatchingByMentee,
+    getMatchingByMentor,
+    getUserByWorkspace
 }
