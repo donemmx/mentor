@@ -10,23 +10,12 @@ import { workspaceStore } from "../../atom/workspaceAtom";
 import { getMentorProfile, getProfile } from "../../utils/api";
 
 export default function MentorDashboard() {
-  const [users, setUsers] = useState([]);
-
   const auth = useRecoilValue(authState);
   const [userData, setUserData] = useRecoilState(user);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
-  const navigate = useNavigate();
-  const sessionIdFromAuth = auth.sessionID
 
 
   useEffect(() => {
-    const payload = {
-      // id: auth.username,
-      // role: "mentor",
-      // email: auth.username,
-      sessionId: auth
-    }; 
-    console.log(payload, "the payload 00");
     getProfile(auth).then((res) => {
       setUserData(res.payload[0]);
     });

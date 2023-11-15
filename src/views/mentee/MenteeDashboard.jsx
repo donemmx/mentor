@@ -10,40 +10,12 @@ import { workspaceStore } from '../../atom/workspaceAtom';
 import { useNavigate } from 'react-router-dom';
 
 export default function MenteeDashboard() {
-  const [users, setUsers] = useState([]);
 
   const auth = useRecoilValue(authState);
   const [userData, setUserData] = useRecoilState(user);
   const [workspace, setWorkspace] = useRecoilState(workspaceStore);
-  const navigate = useNavigate();
 
-  // const getWorkspace = () => {
-  //   const payload = {
-  //     sessionID: auth?.sessionID,
-  //   };
-  //   getProfile(payload).then((res) => {
-  //     setUserData(res.payload[0]);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getWorkspace();
-  //   const payload = {
-  //     id: workspace
-  //   };
-  //   getUserWorkspace(payload).then((res) => {
-  //     const data ={
-  //       ...res.payload[0], workspace, 
-  //     }
-  //     setWorkspace(data)
-  //   });
-  // }, []);
   
-  
-  
-  // const [users, setUsers] = useState([]);
-  // const auth = useRecoilValue(authState)
-  // const workspace = useRecoilValue(workspaceStore)
   useEffect(()=> {
     const payload = {
       sessionID: auth,
