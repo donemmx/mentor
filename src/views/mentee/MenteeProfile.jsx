@@ -7,7 +7,7 @@ import { Password } from "primereact/password";
 import { useState } from "react";
 
 export default function MenteeProfile() {
-  const mylinks = ["matches", "message", "profile"];
+  const mylinks = ["matches", "requests", "connection", "profile"];
 
   const isLoggedin = useRecoilValue(user);
   const [open, setOpen] = useState(false);

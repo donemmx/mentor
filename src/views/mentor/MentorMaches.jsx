@@ -8,7 +8,7 @@ import { workspaceStore } from "../../atom/workspaceAtom";
 import { Avatar } from "primereact/avatar";
 
 export default function MentorMaches() {
-  const mylinks = ["matches", "message", "profile"];
+  const mylinks = ["matches", "requests", "connection", "profile"];;
   const auth = useRecoilValue(authState);
   const workspace = useRecoilValue(workspaceStore)
   const [matches, setMatches] = useState([]);
@@ -54,7 +54,7 @@ export default function MentorMaches() {
                <p className="text-sm">Wants to connect with you as a mentor</p>
                <div className="flex items-center justify-center gap-3">
                  <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">
-                   Accept Request{" "}
+                   Send Request{" "}
                  </button>
                  <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">
                    View{" "}

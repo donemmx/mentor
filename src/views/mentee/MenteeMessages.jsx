@@ -1,17 +1,17 @@
 import TopCard from "../../component/TopCard";
 
 export default function MenteeMessages() {
-  const mylinks = ["matches", "message", "profile"];
+  const mylinks = ["matches", "requests", "connection", "profile"];
 
   return (
     <div>
       <TopCard
         links={mylinks}
         homeLink={"/mentee-dashboard"}
-        title={"My Messages"}
+        title={"My Connections"}
         type='mentee'
         base={"/mentee-signin"}
-        subtitle={"Manage your account"}
+        subtitle={"Manage your connections"}
       />
     </div>
   );

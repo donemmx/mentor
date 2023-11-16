@@ -55,6 +55,8 @@ import UserPricingEmail from "./views/UserPricingEmail";
 import UserPricingOtp from "./views/UserPricingOtp";
 import MentorOtp from "./views/mentor/MentorOtp";
 import MenteeOtp from "./views/mentee/MenteeOtp";
+import MenteeRequests from "./views/mentee/MenteeRequests";
+import MentorRequests from "./views/mentor/MentorRequests";
 
 const router = createBrowserRouter([
   {
@@ -220,8 +222,12 @@ const router = createBrowserRouter([
       },
      
       {
-        path: "/mentee-message",
+        path: "/mentee-connection",
         element: <MenteeMessages />,
+      },
+      {
+        path: "/mentee-requests",
+        element: <MenteeRequests />,
       },
     ],
   },
@@ -243,8 +249,12 @@ const router = createBrowserRouter([
         element: <MentorMaches />,
       },
       {
-        path: "/mentor-message",
+        path: "/mentor-connection",
         element: <MentorMessages />,
+      },
+      {
+        path: "/mentor-requests",
+        element: <MentorRequests />,
       },
      
     ],

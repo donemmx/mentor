@@ -1,7 +1,7 @@
 import MainTopCard from "../../component/MainTopCard";
 
 export default function MenteeSidebar({firstname, lastname}) {
-  const mylinks = ["matches", "message", "profile"];
+  const mylinks = ["matches", "requests", "connection", "profile"];
   const name = "Welcome Back" + ' ' + firstname  + ' ' + lastname
   return (
     <div>

@@ -8,7 +8,7 @@ import { useState } from "react";
 
 
 export default function MentorProfile() {
-  const mylinks = ["matches", "message", "profile"];
+  const mylinks = ["matches", "requests", "connection", "profile"];
 
   const isLoggedin = useRecoilValue(user);
   const [open, setOpen] = useState(false);
