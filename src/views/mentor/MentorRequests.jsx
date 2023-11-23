@@ -71,10 +71,14 @@ export default function MentorRequests() {
           <div className=" font-bold text-lg">{res?.mentee_firstName + ' ' +  res?.mentee_lastName}</div>
           <p className="text-sm">Wants to connect with you as a mentor</p>
           <div className="flex items-center justify-center gap-3">
-            <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">
+            <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out"
+               onClick={() => accept(res)}
+            >
               Accept
             </button>
-            <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">
+            <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out"
+               onClick={() => reject(res)}
+            >
               Reject
             </button>
           </div>
