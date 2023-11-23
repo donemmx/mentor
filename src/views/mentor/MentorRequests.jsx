@@ -14,7 +14,7 @@ export default function MentorRequests() {
 
     const reject = (data) => {
       const payload = {
-        _action: "cancelledByMentee",
+        _action: "cancelledByMentor",
         _creatorId: auth?.username,
         _matchingId: data.id,
       };
@@ -22,7 +22,7 @@ export default function MentorRequests() {
     };
     const accept = (data) => {
       const payload = {
-        _action: "activatedByMentee",
+        _action: "activatedByMentor",
         _creatorId: auth?.username,
         _matchingId: data.id,
       };
