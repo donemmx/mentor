@@ -3,7 +3,7 @@ import TopCard from "../../component/TopCard";
 import RequestCard from "../../component/requestCard/RequestCard";
 import { useRecoilValue } from "recoil";
 import { authState } from "../../atom/authAtom";
-import { getMatchingByMentee, getUserByWorkspace } from "../../utils/api";
+import { editMatching, getMatchingByMentee, getUserByWorkspace } from "../../utils/api";
 import { workspaceStore } from "../../atom/workspaceAtom";
 import { Avatar } from "primereact/avatar";
 
@@ -13,6 +13,15 @@ export default function MenteeMatches() {
   const workspace = useRecoilValue(workspaceStore)
   const [matches, setMatches] = useState([]);
 
+  const sendRequest = (data) => {
+    const payload = {
+      _action: "approveByMentee",
+      _creatorId: auth?.username,
+      _matchingId: data.id
+    };
+    editMatching(payload).then((res) => console.log(res));
+  };
+  
   useEffect(()=> {
     const payload = {
         sessionID: auth?.sessionID,

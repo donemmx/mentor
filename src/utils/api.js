@@ -89,6 +89,8 @@ const getUserByWorkspace = async (payload) => await api.structure('userByworkSpa
 
 const inviteUsers = async (payload) => await api.structure('invites').setData('inviteUsers', payload)
 
+const editMatching = async (payload) => await api.structure('_matching').setData('editMatching', payload)
+
 
 
 export {
@@ -132,5 +134,6 @@ export {
     getMatchingByMentee,
     getMatchingByMentor,
     getUserByWorkspace,
-    inviteUsers
+    inviteUsers,
+    editMatching
 }
