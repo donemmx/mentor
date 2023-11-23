@@ -4,7 +4,7 @@ import mentor from "../assets/icons/account/mentor.svg";
 import mentee from "../assets/icons/account/mentee.svg";
 import time from "../assets/icons/account/time.svg";
 import line from "../assets/bg/lines.svg";
-import { logout } from "../utils/api";
+import { allNotificationByUserWorkspaceId, logout } from "../utils/api";
 import { toast } from "react-toastify";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "../atom/authAtom";
@@ -12,6 +12,7 @@ import { user } from "../atom/userAtom";
 import { registerUserAtom } from "../atom/registrationAtom";
 import { workspaceStore } from "../atom/workspaceAtom";
 import { addWorkSpaceStore } from "../atom/addWorkspace";
+import { useEffect, useState } from "react";
 
 export default function MainTopCard({
   links,
@@ -23,14 +24,15 @@ export default function MainTopCard({
   workspaceColor,
   invites,
   mentorsCount,
-  menteeCount
+  menteeCount,
 }) {
   const [auth, setAuth] = useRecoilState(authState);
   const [userData, setUserData] = useRecoilState(user);
   const [reg, setReg] = useRecoilState(registerUserAtom);
   const [addWorkspace, setAddWorkspace] = useRecoilState(addWorkSpaceStore);
   const [workspaceData, setWorkspaceData] = useRecoilState(workspaceStore);
-
+  const [notification, setNotification] = useState();
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const signout = () => {
     logout().then((res) => {
@@ -47,6 +49,20 @@ export default function MainTopCard({
 
       toast.success("user logged out successfully");
     });
+  };
+
+  useEffect(() => {
+    const payload = {
+      ...auth,
+      id: workspaceData?.workspace,
+    };
+    allNotificationByUserWorkspaceId(payload).then((res) => {
+      setNotification(res.payload);
+    });
+  }, []);
+
+  const openNotification = () => {
+    setOpen(!open);
   };
   return (
     <div
@@ -75,7 +91,7 @@ export default function MainTopCard({
                 </Link>
               )
             )}
-            <i className="pi pi-bell"></i>
+            <i className="pi pi-bell" onClick={openNotification}></i>
             <button
               onClick={signout}
               className="bg-[#FF9900] p-3 text-xs rounded"

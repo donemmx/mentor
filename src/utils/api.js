@@ -87,6 +87,8 @@ const getMatchingByMentor = async (payload) => await api.structure('matching').g
 
 const getUserByWorkspace = async (payload) => await api.structure('userByworkSpace').getData('getUserByWorkspace', payload)
 
+const allNotificationByUserWorkspaceId = async (payload) => await api.structure('notification').getData('allNotificationByUserWorkspaceId', payload)
+
 const inviteUsers = async (payload) => await api.structure('invites').setData('inviteUsers', payload)
 
 const editMatching = async (payload) => await api.structure('_matching').setData('editMatching', payload)
@@ -135,5 +137,6 @@ export {
     getMatchingByMentor,
     getUserByWorkspace,
     inviteUsers,
-    editMatching
+    editMatching,
+    allNotificationByUserWorkspaceId
 }

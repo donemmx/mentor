@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../atom/authAtom';
 import { workspaceStore } from '../../atom/workspaceAtom';
-import { getUserByWorkspace } from '../../utils/api';
+import { getMatchingByMentor, getUserByWorkspace } from '../../utils/api';
 import TopCard from '../../component/TopCard';
 import { Avatar } from 'primereact/avatar';
 
@@ -24,9 +24,11 @@ export default function MentorRequests() {
           const newPayload = {
             sessionID: auth?.sessionID,
             id: res.payload[0].id,
-            status: 'new',
+            status: 'requested_by_mentee',
           }
-        
+          getMatchingByMentor(newPayload).then((res) => {
+            setRequests(res.payload);
+          });
         })
       }, [])
   return (

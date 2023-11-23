@@ -12,6 +12,7 @@ export default function MenteeMatches() {
   const auth = useRecoilValue(authState);
   const workspace = useRecoilValue(workspaceStore)
   const [matches, setMatches] = useState([]);
+  const [requested, setRequested] = useState([]);
 
   const sendRequest = (data) => {
     const payload = {
@@ -19,27 +20,51 @@ export default function MenteeMatches() {
       _creatorId: auth?.username,
       _matchingId: data.id
     };
-    editMatching(payload).then((res) => console.log(res));
+    editMatching(payload).then((res) =>  getMatches());
   };
-  
-  useEffect(()=> {
-    const payload = {
-        sessionID: auth?.sessionID,
-        userId: auth?.username,
-        status: 'new',
-        workspaceId: workspace?.id
-    }
 
-    getUserByWorkspace(payload).then((res)=> {
+  const cancelRequest = (data) => {
+    const payload = {
+      _action: "cancelledByMentee",
+      _creatorId: auth?.username,
+      _matchingId: data.id
+    };
+    editMatching(payload).then((res) => getMatches());
+  };
+
+  const getMatches = () => {
+    const payload = {
+      sessionID: auth?.sessionID,
+      userId: auth?.username,
+      status: 'new',
+      workspaceId: workspace?.id
+  }
+
+  getUserByWorkspace(payload).then((res)=> {
+    const newPayload = {
+      sessionID: auth?.sessionID,
+      id: res.payload[0].id,
+      status: 'new',
+    }
+    getMatchingByMentee(newPayload).then((res)=> {
+     setMatches(res.payload)
+    })
+
+    getUserByWorkspace(payload).then((res) => {
       const newPayload = {
         sessionID: auth?.sessionID,
         id: res.payload[0].id,
-        status: 'new',
-      }
-      getMatchingByMentee(newPayload).then((res)=> {
-       setMatches(res.payload)
-      })
-    })
+        status: "requested_by_mentee" ,
+      };
+      getMatchingByMentee(newPayload).then((res) => {
+        setRequested(res.payload);
+      });
+    });
+  })
+  }
+  
+  useEffect(()=> {
+   getMatches()
   }, [])
   return (
     <div>
@@ -63,7 +88,7 @@ export default function MenteeMatches() {
                <div className=" font-bold text-lg">{res.mentor_firstName + ' ' +  res.mentor_lastName}</div>
                <p className="text-sm">Wants to connect with you as a mentor</p>
                <div className="flex items-center justify-center gap-3">
-                 <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">
+                 <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out" onClick={sendRequest}>
                    Send Request{" "}
                  </button>
                  <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">
@@ -73,7 +98,27 @@ export default function MenteeMatches() {
              </div>
            </div>
         )) }
+         {requested.map((res, i)=> (
+             <div key={i}>
+             <div className=" flex flex-col gap-2 border w-[230px] h-[230px] p-5 rounded">
+               <div className="">
+                 <Avatar label={`${res.mentor_firstName.toUpperCase().slice(0, 1)}${res.mentor_lastName.toUpperCase().slice(0, 1)}`} size="large" className="!bg-green-200" />
+               </div>
+               <div className=" font-bold text-lg">{res.mentor_firstName + ' ' +  res.mentor_lastName}</div>
+               <p className="text-sm">Wants to connect with you as a mentor</p>
+               <div className="flex items-center justify-center gap-3">
+                 <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out" onClick={cancelRequest}>
+                   Cancel Request{" "}
+                 </button>
+                 <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">
+                   View{" "}
+                 </button>
+               </div>
+             </div>
+           </div>
+        )) }
         </div>
+        
       </div>
     </div>
   );
