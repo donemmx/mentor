@@ -22,7 +22,7 @@ export default function MenteeRequests() {
       _creatorId: auth?.username,
       _matchingId: data.id,
     };
-    editMatching(payload).then((res) => console.log(res));
+    editMatching(payload).then((res) =>  getRequests());
   };
   const accept = (data) => {
     const payload = {
@@ -30,9 +30,12 @@ export default function MenteeRequests() {
       _creatorId: auth?.username,
       _matchingId: data.id,
     };
-    editMatching(payload).then((res) => console.log(res));
+    editMatching(payload).then((res) => {
+      getRequests()
+    });
   };
-  useEffect(() => {
+
+  const getRequests = () => {
     const payload = {
       sessionID: auth?.sessionID,
       userId: auth?.username,
@@ -50,6 +53,9 @@ export default function MenteeRequests() {
         setRequests(res.payload);
       });
     });
+  }
+  useEffect(() => {
+    getRequests()
   }, []);
   return (
     <div>

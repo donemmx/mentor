@@ -88,7 +88,7 @@ export default function MenteeMatches() {
                <div className=" font-bold text-lg">{res.mentor_firstName + ' ' +  res.mentor_lastName}</div>
                <p className="text-sm">Wants to connect with you as a mentor</p>
                <div className="flex items-center justify-center gap-3">
-                 <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out" onClick={sendRequest}>
+                 <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out"  onClick={() => sendRequest(res)}>
                    Send Request{" "}
                  </button>
                  <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">
@@ -107,7 +107,7 @@ export default function MenteeMatches() {
                <div className=" font-bold text-lg">{res.mentor_firstName + ' ' +  res.mentor_lastName}</div>
                <p className="text-sm">Wants to connect with you as a mentor</p>
                <div className="flex items-center justify-center gap-3">
-                 <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out" onClick={cancelRequest}>
+                 <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out"  onClick={() => cancelRequest(res)}>
                    Cancel Request{" "}
                  </button>
                  <button className="border p-3 text-xs rounded mt-auto hover:bg-black hover:text-white transition-all ease-in-out">

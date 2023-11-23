@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../atom/authAtom';
 import { workspaceStore } from '../../atom/workspaceAtom';
-import { getMatchingByMentor, getUserByWorkspace } from '../../utils/api';
+import { editMatching, getMatchingByMentor, getUserByWorkspace } from '../../utils/api';
 import TopCard from '../../component/TopCard';
 import { Avatar } from 'primereact/avatar';
 
@@ -12,24 +12,43 @@ export default function MentorRequests() {
     const workspace = useRecoilValue(workspaceStore)
     const [requests, setRequests] = useState([]);
 
+    const reject = (data) => {
+      const payload = {
+        _action: "cancelledByMentee",
+        _creatorId: auth?.username,
+        _matchingId: data.id,
+      };
+      editMatching(payload).then((res) => getRequests());
+    };
+    const accept = (data) => {
+      const payload = {
+        _action: "activatedByMentee",
+        _creatorId: auth?.username,
+        _matchingId: data.id,
+      };
+      editMatching(payload).then((res) => getRequests());
+    };
+    const  getRequests = () => {
+      const payload = {
+        sessionID: auth?.sessionID,
+        userId: auth?.username,
+        status: 'new',
+        workspaceId: workspace?.id
+    }
+
+    getUserByWorkspace(payload).then((res)=> {
+      const newPayload = {
+        sessionID: auth?.sessionID,
+        id: res.payload[0].id,
+        status: 'requested_by_mentee',
+      }
+      getMatchingByMentor(newPayload).then((res) => {
+        setRequests(res.payload);
+      });
+    })
+    }
     useEffect(()=> {
-        const payload = {
-            sessionID: auth?.sessionID,
-            userId: auth?.username,
-            status: 'new',
-            workspaceId: workspace?.id
-        }
-    
-        getUserByWorkspace(payload).then((res)=> {
-          const newPayload = {
-            sessionID: auth?.sessionID,
-            id: res.payload[0].id,
-            status: 'requested_by_mentee',
-          }
-          getMatchingByMentor(newPayload).then((res) => {
-            setRequests(res.payload);
-          });
-        })
+       getRequests()
       }, [])
   return (
     <div>
